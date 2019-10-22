@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养 | Autumn-Cat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="cuda,cudnn,Anaconda历险记在装好ubuntu18.04后，作为一个新晋人工智障，怎么能不来一发cuda，cudnn和Anacode呢。而此文仅以纪念踩过的坑。附：电脑系统为ubuntu18.04，显卡为gtx1050ti。其他显卡需要自行查询是否支持cuda。 CUDAcuda是Nvidia的一个并行计算的平台，tensorflow等框架的GPU加速都需要CUDA支持。所以怎么能">
+<meta name="keywords" content="linux,环境配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;10&#x2F;20&#x2F;ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB&#x2F;index.html">
+<meta property="og:site_name" content="Autumn-Cat">
+<meta property="og:description" content="cuda,cudnn,Anaconda历险记在装好ubuntu18.04后，作为一个新晋人工智障，怎么能不来一发cuda，cudnn和Anacode呢。而此文仅以纪念踩过的坑。附：电脑系统为ubuntu18.04，显卡为gtx1050ti。其他显卡需要自行查询是否支持cuda。 CUDAcuda是Nvidia的一个并行计算的平台，tensorflow等框架的GPU加速都需要CUDA支持。所以怎么能">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-22T08:50:00.272Z">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Autumn-Cat</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ubuntu18-04-cuda-cudnn-Anaconda-一个人工智障的自我修养" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" class="article-date">
+  <time datetime="2018-10-20T07:18:04.000Z" itemprop="datePublished">2018-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="cuda-cudnn-Anaconda历险记"><a href="#cuda-cudnn-Anaconda历险记" class="headerlink" title="cuda,cudnn,Anaconda历险记"></a>cuda,cudnn,Anaconda历险记</h1><p>在装好ubuntu18.04后，作为一个新晋人工智障，怎么能不来一发cuda，cudnn和Anacode呢。而此文仅以纪念踩过的坑。<br>附：电脑系统为ubuntu18.04，显卡为gtx1050ti。其他显卡需要自行查询是否支持cuda。</p>
+<h2 id="CUDA"><a href="#CUDA" class="headerlink" title="CUDA"></a>CUDA</h2><p>cuda是Nvidia的一个并行计算的平台，tensorflow等框架的GPU加速都需要CUDA支持。所以怎么能不安装CUDA。</p>
+<h3 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h3><p>CUDA需要Nvidia的驱动，而ubuntu的驱动不一定是原装驱动，所以要重新安装驱动</p>
+<h4 id="卸载老驱动"><a href="#卸载老驱动" class="headerlink" title="卸载老驱动"></a>卸载老驱动</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get purge nvidia*</span><br></pre></td></tr></table></figure>
+<h4 id="禁止自带的nouveau-nvidia驱动"><a href="#禁止自带的nouveau-nvidia驱动" class="headerlink" title="禁止自带的nouveau nvidia驱动"></a>禁止自带的nouveau nvidia驱动</h4><ol>
+<li>为了禁止自带的驱动，要代开blacklist-nouveau.conf：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/modprobe.d/blacklist-nouveau.conf</span><br></pre></td></tr></table></figure></li>
+<li>在文件中添加止配置的内容：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">options nouveau modeset=0</span><br></pre></td></tr></table></figure></li>
+<li>更新:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="安装新驱动"><a href="#安装新驱动" class="headerlink" title="安装新驱动"></a>安装新驱动</h4><p>在卸载了老的驱动之后需要重启，由于卸载了驱动，所以重启之后的电脑可能显示效果不佳，但是基本操作可以，如果不能进入图形化桌面，可以按 CTRL + ALT + F3/F4/F5/F6 键登录命令行模式，安装显卡驱动。</p>
+<ol>
+<li>确认之前的操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
+如果没有相应进程就表示禁用成功</li>
+<li>添加Graphic Drivers PPA<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:graphics-drivers/ppa</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure></li>
+<li>查看合适的驱动版本<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu-drivers devices</span><br></pre></td></tr></table></figure>
+  
+图中为输出结果，其中driver后便是驱动不同版本名称，选择最新的（recommended）安装  </li>
+<li>安装并重启<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nvidia-driver-410</span><br><span class="line">sudo reboot</span><br></pre></td></tr></table></figure></li>
+<li>确认<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
+通过这个命令你可以查看nvidia显卡的状态，包括进程、现存等信息。</li>
+</ol>
+<h3 id="GCC-版本问题"><a href="#GCC-版本问题" class="headerlink" title="GCC 版本问题"></a>GCC 版本问题</h3><p>CUDA9.0安装要求gcc/g++版本是5.x或者6.x，而ubuntu18.04的gcc/g++版本一般是7.0（可以通过gcc/g++ -v查看）。所以需要自己配置</p>
+<ol>
+<li>安装5.0<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gcc-5</span><br><span class="line">sudo apt-get install g++-5</span><br></pre></td></tr></table></figure></li>
+<li>替换<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 50</span><br><span class="line">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 50</span><br></pre></td></tr></table></figure>
+最后的50代表版本优先级，最后确认。</li>
+<li>还原<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config gcc</span><br><span class="line">sudo update-alternatives --config g++</span><br></pre></td></tr></table></figure>
+这个命令可以看到可选的gcc/g++版本。之后想要还原可以选择相应的序号。</li>
+</ol>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev</span><br></pre></td></tr></table></figure>
+<h3 id="安装cuda9-0"><a href="#安装cuda9-0" class="headerlink" title="安装cuda9.0"></a>安装cuda9.0</h3><p>在官网<a href="https://developer.nvidia.com/cuda-90-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1704&target_type=runfilelocal" target="_blank" rel="noopener">cuda下载</a>选择Ubuntu,17.04(写文章时还没有18.04，以17.04替换，可以工作)，runfile（local），base installer下载。<br>然后安装（具体版本号可能会有不同）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh cuda_9.0.176_384.81_linux.run</span><br></pre></td></tr></table></figure>
+<p>注：安装前一定装好依赖，在安装时，前三个选项注意<br>第一个问题read EULA：选accept<br>第二个问题install on an unsupported configuration：选y（默认是no！！！）<br>第三个问题install Nvdia accelerated Graphics Driver：选no（之前已经装好）<br>其他的都可以default，y</p>
+<h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>打开bashrc文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>添加路径：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda-9.0/bin<span class="variable">$&#123;PATH:+:$&#123;PATH&#125;</span>&#125;  </span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda-9.0/lib64<span class="variable">$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>激活</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>一个绿色（？？？？）的流体模拟软件,注意这里要求gcc/g++ 版本不能高于6</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/NVIDIA_CUDA-9.0_Samples/5_Simulations/fluidsGL</span><br><span class="line">make clean &amp;&amp; make</span><br><span class="line">./fluidsGL</span><br></pre></td></tr></table></figure>
+<p>然后你就可以看见一潭绿色污水，用鼠标在上面滑动可以扰动这潭死水  </p>
+  
+<h2 id="CUDNN"><a href="#CUDNN" class="headerlink" title="CUDNN"></a>CUDNN</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装CUDNN非常简单，进入<a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">官网</a>（官网需要注册,要填写一堆东西后，登陆后才能下载）<br>选择下载(因为没有18.04 所以下16.04的，不过也能用)  </p>
+<blockquote>
+<p>cuDNN v7.3.1 Runtime Library for Ubuntu16.04 (Deb)<br>cuDNN v7.3.1 Developer Library for Ubuntu16.04 (Deb)<br>cuDNN v7.3.1 Code Samples and User Guide for Ubuntu16.04 (Deb)</p>
+</blockquote>
+<p>下载后可以直接安装deb文件</p>
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp -r /usr/src/cudnn_samples_v7/ <span class="variable">$HOME</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$HOME</span>/cudnn_samples_v7/mnistCUDNN</span><br><span class="line">make clean &amp;&amp; make</span><br><span class="line">./mnistCUDNN</span><br></pre></td></tr></table></figure>
+<p>这里cudnn版本不同对应文件夹名称也不同,最后出现test passed代表通过</p>
+<h2 id="ANACONDA"><a href="#ANACONDA" class="headerlink" title="ANACONDA"></a>ANACONDA</h2><p>anaconda包含了一些数据处理的必要包</p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><p>由于tensorflow目前只支持python3.6，故这里更推荐下载python3.6的anaconda版本，即为Python 3.6 (Anaconda 5.2.0).另外由于不可抗力，清华镜像下载更快。  </p>
+<ul>
+<li>官网下载为<a href="https://www.anaconda.com/download/#linux" target="_blank" rel="noopener">anaconda官网下载</a>。  </li>
+<li>清华镜像下载地址为<a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/" target="_blank" rel="noopener">清华镜像下载</a></li>
+</ul>
+<p>下载后</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash Anaconda3-5.2.0-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
+<p>附：最后一个选项是安装VScode，一个很好用的编辑器。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" data-id="ck21ppygj0007k4qnd2ljcvpq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          0-1背包问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ubuntu18.04----基本配置与美化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Autumn-Cat<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

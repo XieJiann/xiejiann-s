@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>0-1背包问题 | Autumn-Cat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="0-1 背包问题问题简述有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。 例子数据如下  贪婪算法反例如下  动态规划初始思路定义一个子问题P(i,w)：在前i个物体（物体按照体积排序）挑选重量不超过W的物体，使得总价值最大，记为m(i,w)。 现在只考虑第i个物体，则可能有两种情况  选第i个物体，则问题变为P(i-1,w)">
+<meta name="keywords" content="dp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0-1背包问题">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;23&#x2F;0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98&#x2F;index.html">
+<meta property="og:site_name" content="Autumn-Cat">
+<meta property="og:description" content="0-1 背包问题问题简述有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。 例子数据如下  贪婪算法反例如下  动态规划初始思路定义一个子问题P(i,w)：在前i个物体（物体按照体积排序）挑选重量不超过W的物体，使得总价值最大，记为m(i,w)。 现在只考虑第i个物体，则可能有两种情况  选第i个物体，则问题变为P(i-1,w)">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic1.zhimg.com&#x2F;80&#x2F;v2-85236598e4e35b7efa3ea3f69a5ca8ec_hd.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic1.zhimg.com&#x2F;80&#x2F;v2-a5b61fdcb98cf9653effba39ba9a4ccc_hd.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic1.zhimg.com&#x2F;80&#x2F;v2-1d8090c991ca13cee3cb43c027b72304_hd.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic1.zhimg.com&#x2F;80&#x2F;v2-b24e97b8043a02c12313c3143e4dca20_hd.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic1.zhimg.com&#x2F;80&#x2F;v2-29d1a004c395ebe53e4161dad64a785c_hd.jpg">
+<meta property="og:updated_time" content="2019-10-22T08:50:09.275Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic1.zhimg.com&#x2F;80&#x2F;v2-85236598e4e35b7efa3ea3f69a5ca8ec_hd.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Autumn-Cat</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-0-1背包问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2019-06-23T12:47:01.000Z" itemprop="datePublished">2019-06-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      0-1背包问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="0-1-背包问题"><a href="#0-1-背包问题" class="headerlink" title="0-1 背包问题"></a>0-1 背包问题</h1><h2 id="问题简述"><a href="#问题简述" class="headerlink" title="问题简述"></a>问题简述</h2><p>有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>数据如下</p>
+<p><img src="https://pic1.zhimg.com/80/v2-85236598e4e35b7efa3ea3f69a5ca8ec_hd.jpg" alt="img"></p>
+<h2 id="贪婪算法"><a href="#贪婪算法" class="headerlink" title="贪婪算法"></a>贪婪算法</h2><p>反例如下</p>
+<p><img src="https://pic1.zhimg.com/80/v2-a5b61fdcb98cf9653effba39ba9a4ccc_hd.jpg" alt="img"></p>
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><h3 id="初始思路"><a href="#初始思路" class="headerlink" title="初始思路"></a>初始思路</h3><p>定义一个子问题P(i,w)：在前i个物体（物体按照体积排序）挑选重量不超过W的物体，使得总价值最大，记为m(i,w)。</p>
+<p>现在只考虑第i个物体，则可能有两种情况</p>
+<ul>
+<li><p>选第i个物体，则问题变为P(i-1,w)</p>
+</li>
+<li><p>不选第i个问题，则问题变为P(i-1.W-wi)</p>
+</li>
+</ul>
+<p>即递推公式为：<br>$$<br>  m(i,w) = max{m(i-1,W),(m(i-1,W-wi)+vi)}<br>$$<br>  如图所示：<br>  <img src="https://pic1.zhimg.com/80/v2-1d8090c991ca13cee3cb43c027b72304_hd.jpg" alt="img"></p>
+<p>则按照上例，结果为：<br><img src="https://pic1.zhimg.com/80/v2-b24e97b8043a02c12313c3143e4dca20_hd.jpg" alt="img"></p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>考虑到上述表格，我们可以发现表格一些关键点特别重要，即新选了物体进入背包的关键点。</p>
+<p>例如下图边缘处节点，之后都是边缘处节点的重复</p>
+<p><img src="https://pic1.zhimg.com/80/v2-29d1a004c395ebe53e4161dad64a785c_hd.jpg" alt="img"></p>
+<p>由此我们得到新的递推公式：<br>$$<br>dp(W) = max{dp(W),dp(W-wi)+vi}<br>$$</p>
+<h3 id="初始化细节"><a href="#初始化细节" class="headerlink" title="初始化细节"></a>初始化细节</h3><p>常见的0-1背包问题可能又分两种</p>
+<ul>
+<li><p>要求背包必须装满</p>
+</li>
+<li><p>不一定背包必须装满</p>
+</li>
+</ul>
+<p>对于这两种，分别有两种初始化</p>
+<ul>
+<li><p>将dp数组初始化为0</p>
+</li>
+<li><p>将dp数组初始化为-$\infty$</p>
+</li>
+</ul>
+<p>解释：$-\infty$对空的惩罚更大，所以当初始化为$-\infty$会使得完全装满</p>
+<h2 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" data-id="ck21ppyg60000k4qngod5379n" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/10/22/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Autumn-Cat<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

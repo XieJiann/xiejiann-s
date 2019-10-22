@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Batch Normlization | Autumn-Cat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Batch NormalizationBatch NormalizationBatch Normalization由2015年论文《Batch Normalization: Accelerating Deep Network Training by  Reducing Internal Covariate Shift》提出，之后被广泛应用于各种网络。 问题：Internal Covariate S">
+<meta name="keywords" content="神经网络,cv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Batch Normlization">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;Batch%20Normalization&#x2F;index.html">
+<meta property="og:site_name" content="Autumn-Cat">
+<meta property="og:description" content="Batch NormalizationBatch NormalizationBatch Normalization由2015年论文《Batch Normalization: Accelerating Deep Network Training by  Reducing Internal Covariate Shift》提出，之后被广泛应用于各种网络。 问题：Internal Covariate S">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-22T08:40:43.514Z">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Autumn-Cat</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Batch Normalization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/30/Batch%20Normalization/" class="article-date">
+  <time datetime="2018-09-30T03:28:43.000Z" itemprop="datePublished">2018-09-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Batch Normlization
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h1><h2 id="Batch-Normalization-1"><a href="#Batch-Normalization-1" class="headerlink" title="Batch Normalization"></a><strong>Batch Normalization</strong></h2><p>Batch Normalization由2015年论文<a href="https://arxiv.org/abs/1502.03167" target="_blank" rel="noopener">《Batch Normalization: Accelerating Deep Network Training by  Reducing Internal Covariate Shift》</a>提出，之后被广泛应用于各种网络。</p>
+<h3 id="问题：Internal-Covariate-Shift"><a href="#问题：Internal-Covariate-Shift" class="headerlink" title="问题：Internal Covariate Shift"></a>问题：Internal Covariate Shift</h3><h4 id="Internal-Covariate-Shift的危害是什么"><a href="#Internal-Covariate-Shift的危害是什么" class="headerlink" title="Internal Covariate Shift的危害是什么"></a>Internal Covariate Shift的危害是什么</h4><p>在深层网络的训练中，由于网络参数的变化，内部节点的数据的分布也会随着发生变化，这个过程叫做Internal Covariate Shift。</p>
+<p>简而言之，对于网络F，F(x)的分布为A，但是当F的参数发生改变，F(x)的便不一定服从A的分布。</p>
+<h4 id="Internal-Covariate-Shift的危害"><a href="#Internal-Covariate-Shift的危害" class="headerlink" title="Internal Covariate Shift的危害"></a>Internal Covariate Shift的危害</h4><ol>
+<li><strong>梯度消失</strong>：当我们在网络中使用饱和激励函数（saturated activation function），如sigmoid，不合理的x分布可能会位于饱和激励函数的饱和区，而这会导致梯度消失问题。</li>
+<li><strong>上层网络不适应新的分布</strong>：神经网络学习过程本质就是为了学习数据分布（？？从贝叶斯的角度思考）当训练数据的分布发生变化，那么网络就要在每次迭代都去学习适应不同的分布，这样将会大大降低网络的训练速度。</li>
+</ol>
+<h3 id="Batch-Normalization做法"><a href="#Batch-Normalization做法" class="headerlink" title="Batch Normalization做法"></a>Batch Normalization做法</h3><h4 id="减缓Internal-Covariate-Shift"><a href="#减缓Internal-Covariate-Shift" class="headerlink" title="减缓Internal Covariate Shift"></a>减缓Internal Covariate Shift</h4><p>Internal Covariate Shift的主要问题在于分布会改变，那么对每一层输入的每个批次的特征做归一化处理，使得他们服从同一个分布。<br>归一化公式：<br>$$Norm(x) = \frac{x-mean(x)}{\sqrt{Var(x)+\epsilon}}$$<br>其中x包含一个batch的所有图片的某个特征点。</p>
+<h4 id="维护数据的本来的表达能力"><a href="#维护数据的本来的表达能力" class="headerlink" title="维护数据的本来的表达能力"></a>维护数据的本来的表达能力</h4><p>正则化虽然可以保证数据的分布，但他也可能破坏原数据的表达能力，即神经网络通过训练学习将特征提取出来，然而正则化却将其破坏。</p>
+<p>作者通过平移放缩来保证信息不会被丢失：<br>$$x = \gamma<em>Norm(x) + \beta = \gamma</em>\frac{x-mean(x)}{\sqrt{Var(x)+\epsilon}} + \beta$$</p>
+<p>尤其是当<br>$\gamma = \sqrt{Var(x)+\epsilon} , \beta = mean(x)$ ,Batch Normalization不改变原来的值</p>
+<h3 id="测试时的BN"><a href="#测试时的BN" class="headerlink" title="测试时的BN"></a>测试时的BN</h3><p>在测试时，往往一个batch只有一张图片，无法求出均值和方差。</p>
+<p>这里我们在训练时得到训练样本的均值，其具体的更新的方式为：<br>$$ mean(All) = mean(batch) + mean(All) * (1-momentum)$$<br>$$ Var(All) = Var(batch) + Var(All) * (1-momentum)$$<br>每训练完一个batch，对$mean(All),Var(all)$更新一次（注：在正则化时使用的依旧是对应batch计算出的均值方差:$mean(batch),Var(batch)$）。当训练完成之后，我们将最后更新完的$mean(All),Var(all)$作为整体样本均值方差的估计。在测试，使用估计均值、方差来进行Batch normalization。</p>
+<h2 id="Layer-Normlization、Group-Normlization"><a href="#Layer-Normlization、Group-Normlization" class="headerlink" title="Layer Normlization、Group Normlization"></a><strong>Layer Normlization、Group Normlization</strong></h2><p>LN和GN是BN的变种，其主要差别便是归一化的样本集不同。顾名思义BN的样本集是一个batch，LN是一个layer，GN是一个group。</p>
+<p>由于后面两种正则化方式感觉用的不多，这里就不再赘述，详情可参考其他博客或是原论文。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/30/Batch%20Normalization/" data-id="ck21ppygd0002k4qn6s0gbf9s" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ubuntu18.04----基本配置与美化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">卷积神经网络及其结构</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Autumn-Cat<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

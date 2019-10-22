@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>卷积神经网络及其结构 | Autumn-Cat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="卷积神经网络及其结构卷积全连接神经网络有一个最大的缺点，就是它需要大量的参数，对于一个 $n1$ 个值输入 $n2$ 个值输出的一层网络，它需要的参数量是$n1*n2$，大量的参数使得模型变得更复杂，也更难训练 。 卷积操作利用权值共享来解决参数过多这个问题。卷积就是通过一个二维卷积核来卷积整个输入矩阵。卷积操作的过程这里不再赘述（可以参考其他博客或者CS231N或是参考文献【1】）。这里讨论一些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷积神经网络及其结构">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;index.html">
+<meta property="og:site_name" content="Autumn-Cat">
+<meta property="og:description" content="卷积神经网络及其结构卷积全连接神经网络有一个最大的缺点，就是它需要大量的参数，对于一个 $n1$ 个值输入 $n2$ 个值输出的一层网络，它需要的参数量是$n1*n2$，大量的参数使得模型变得更复杂，也更难训练 。 卷积操作利用权值共享来解决参数过多这个问题。卷积就是通过一个二维卷积核来卷积整个输入矩阵。卷积操作的过程这里不再赘述（可以参考其他博客或者CS231N或是参考文献【1】）。这里讨论一些">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1566892088518.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1566893766501.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1567063624101.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1567064251681.png">
+<meta property="og:updated_time" content="2019-10-22T09:02:41.103Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1566892088518.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Autumn-Cat</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-卷积神经网络及其结构" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/" class="article-date">
+  <time datetime="2018-09-30T03:28:43.000Z" itemprop="datePublished">2018-09-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      卷积神经网络及其结构
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="卷积神经网络及其结构"><a href="#卷积神经网络及其结构" class="headerlink" title="卷积神经网络及其结构"></a>卷积神经网络及其结构</h1><h2 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h2><p>全连接神经网络有一个最大的缺点，就是它需要大量的参数，对于一个 $n1$ 个值输入 $n2$ 个值输出的一层网络，它需要的参数量是$n1*n2$，大量的参数使得模型变得更复杂，也更难训练 。</p>
+<p>卷积操作利用权值共享来解决参数过多这个问题。卷积就是通过一个二维卷积核来卷积整个输入矩阵。卷积操作的过程这里不再赘述（可以参考其他博客或者CS231N或是参考文献【1】）。这里讨论一些更细节的东西。</p>
+<h3 id="输入输出尺寸"><a href="#输入输出尺寸" class="headerlink" title="输入输出尺寸"></a>输入输出尺寸</h3><p>对于卷积操作一个重要问题是已知输入尺寸为$n<em>n$ ，卷积核的尺寸为 $k</em>k$ ，卷积步幅为$stride$，那么输出的尺寸是多少？</p>
+<p>这里我的思路将卷积核的最左边的数作为哨兵，那么在初始情况这个哨兵的索引为$k$，每一次卷积，哨兵的索引加$stride$，那么我们可以得到如下公式：<br>$$<br>k+cnt<em>stride &lt; n<br>$$<br>即我们就可以得到最大的卷积次数：<br>$$<br>cnt = \frac{n-k}{stride}<br>$$<br>在卷积的时候，为了使得图片尺寸大小不变等原因，我们会在图像的周围填充0，这个就是padding操作。在padding之后，输入的尺寸就变成了$n+2</em>padding$，这时候卷积次数为：<br>$$<br>cnt = \frac{n-k+2*padding}{stride}<br>$$</p>
+<p>则加上最开始的一次，我们就可以得到输出的尺寸为：$(cnt+1)*(cnt+1)$。</p>
+<p>如果我们要使输入输出尺寸一致，这时候:<br>$$<br>padding = \frac{(n-1)*stride - n + k}{2}<br>$$<br> 对于常见的步幅1的卷积而言：<br>$$<br>padding = \frac{k-1}{2}<br>$$</p>
+<h3 id="实现卷积"><a href="#实现卷积" class="headerlink" title="实现卷积"></a>实现卷积</h3><p>在Pytorch等框架中，卷积是通过矩阵乘法实现的：</p>
+<p><img src="%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1566892088518.png" alt="1566892088518"></p>
+<ul>
+<li>input转成input matrix（img2col）：按照卷积核的卷积顺序，将被卷积的部分拉长作为行，这样一行行组成input matrix</li>
+<li>kernel转成kernel matrix（sum）：将kernel拉长作为列，和对应input matrix的行相乘</li>
+<li>将结果转化为标准形式（col2img）</li>
+</ul>
+<h3 id="一些卷积的变种："><a href="#一些卷积的变种：" class="headerlink" title="一些卷积的变种："></a>一些卷积的变种：</h3><ol>
+<li>空洞卷积：它可以使得参数相同时，感受野更大。但是粒度也更加粗糙。</li>
+</ol>
+<p><img src="%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1566893766501.png" alt="1566893766501"></p>
+<ol start="2">
+<li><p>一横一竖卷积（？？？）：将$k<em>k$的卷积核，变成两个$(k</em>1)(1*k)$的卷积核。这样使得参数更小</p>
+</li>
+<li><p>可变行卷积：可变性卷积我认为是在空洞卷积的基础上拓展而来，可变性卷积希望通过训练改变卷积的形状，使其更适应物体的形状。</p>
+<p>其具体的实现是通过给输入图片加上相应的偏移值$\Delta p$，来完成可变形卷积。（偏移值是可以训练改变的）</p>
+</li>
+<li><p>并行卷积结构：多个卷积层并列，并把它们的结果拼接输出(google inception结构)</p>
+</li>
+<li><p>残差链接：残差链接在反向传播的时候多加了一个传播通道（在链式法则项中加上恒等项1）；可以环境梯度消失问题，使得深层神经网络的训练更有效。另一种思考就是残差层使得深层神经网络可以退化成浅层神经网络，其实就是将多种层次的神经组合起来，形成了一种boostting。</p>
+<p><img src="%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1567063624101.png" alt="1567063624101"></p>
+</li>
+</ol>
+<h3 id="反卷积"><a href="#反卷积" class="headerlink" title="反卷积"></a>反卷积</h3><p>反卷积是一种上采样的方式（反向传播也是利用这种方式传播梯度的）。</p>
+<p>卷积的过程就是图像中对应块（按一定步幅选取）和 filter 对应元素相乘并求和（这是一个缩小的过程，即将对应块的多个值加权为一个值）</p>
+<p>反卷积和卷积相反，它将图片的一个值和 filter 相乘，按一定步幅组合成新的特征图。如下图所示：</p>
+<p><img src="%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84%5C1567064251681.png" alt="1567064251681"></p>
+<h2 id="池化"><a href="#池化" class="headerlink" title="池化"></a>池化</h2><p>池化分为平均池化和最大池化，池化的操作是很简单的。（此处略）</p>
+<p>池化的作用如下：</p>
+<ul>
+<li><p>使感受野更大，池化使的特征图更小，相应的感受野更大</p>
+</li>
+<li><p>平移不变性，池化将不断抽象某个区域（通过最大或是平均），破坏了位置关系</p>
+</li>
+</ul>
+<p>然而由于池化是对空间信息的破坏，所以Hinton认为池化的有效是一种灾难。然而池化对于细粒度的任务（检测？分割）会不会造成影响，这个目前我并不知道有没有相关论文做过描述。</p>
+<h2 id="批量归一化"><a href="#批量归一化" class="headerlink" title="批量归一化"></a>批量归一化</h2><h3 id="Internal-Covariate-Shift"><a href="#Internal-Covariate-Shift" class="headerlink" title="Internal Covariate Shift"></a>Internal Covariate Shift</h3><p>深度神经网络作为一个系统，我们认为其上一层与下一层的耦合关系是十分紧密的。这种耦合关系BN作者认为主要是：上一层的输出是一种分布，那么训练好的下一层的函数往往会在这种分布下表现最好。（例如sigmoid函数在过大的数或过小的数就会出现饱和情况）</p>
+<p>但是在训练过程中每一层的参数会被改变，这样就会导致每一层的输出的分布也会不断改变，这种改变被称为Internal Covariate Shift。ICS会带来以下问题：</p>
+<ul>
+<li><p>由于上层网络不断调整带来数据分布的变化，下一层也需要不断的调整自己，这使得学习速率更低。</p>
+</li>
+<li><p>数据的分布可能会陷入梯度饱和区，增大的训练的难度。</p>
+</li>
+</ul>
+<h3 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h3><p>ICS的核心问题就是参数的改变会引起分布的变化，那么解决思路便是对每一层的输出进行重新归一化，改变它的分布。</p>
+<p>归一化公式如下：<br>$$<br>\hat{x} = \frac{x-E(x)}{\sqrt{Var(x)}+\epsilon}<br>$$<br>然而下一层所适应的归一化并不一定是 均值为0，方差为1 的分布，所以这里添加两个学习参数$\gamma,\beta$使得网络能够自己学习调整分布，归一化的公式就变为：<br>$$<br>y = \gamma*\hat{x}+\beta<br>$$<br>由此变得到了一个归一化的公式。</p>
+<h3 id="训练与测试的BN"><a href="#训练与测试的BN" class="headerlink" title="训练与测试的BN"></a>训练与测试的BN</h3><p>在训练时，是对每一批训练数据进行归一化，即用的是每一批数据的均值和方差。</p>
+<p>但是在测试的过程中，一个batch就是一张。所以这里有两种方法来估计测试的均值和方差：</p>
+<ul>
+<li><p>保存所有batch的方差$\mu_{bacth}$和方差$\sigma^2_{batch}$，然后再求出它们的无偏估计<br>$$<br>\mu_{test} = E(\mu_{batch})\<br>\sigma^2_{test} = \frac{m}{m-1}E(\sigma^2_{batch})<br>$$</p>
+</li>
+<li><p>对所有的batch的均值和方差进行移动加权平均来估计<br>$$<br>\mu_{test}=\mu_{batch}+\mu_{test}∗(1−momentum)\<br>\sigma^2_{test}=\sigma^2_{batch}+\sigma^2_{test}∗(1−momentum)<br>$$</p>
+</li>
+</ul>
+<h2 id="训练trick"><a href="#训练trick" class="headerlink" title="训练trick"></a>训练trick</h2><h3 id="Data-Augmentation"><a href="#Data-Augmentation" class="headerlink" title="Data Augmentation"></a>Data Augmentation</h3><p>对于深度学习最重要的是数据，当数据量有限的时候可以通过一些trick来做数据增强，这里常用的有（主要针对图像）：</p>
+<ul>
+<li>图像裁剪：这里主要有随机裁剪和中心裁剪</li>
+<li>图像翻转：水平/垂直/镜像翻转</li>
+<li>尺度变化：放大和缩小</li>
+<li>图像旋转：将图像旋转$15^o$等</li>
+</ul>
+<h3 id="防止过拟合"><a href="#防止过拟合" class="headerlink" title="防止过拟合"></a>防止过拟合</h3><p>防止过拟合基本的方法就是加入正则项（一阶正则 / 二阶正则）。</p>
+<p>对于神经网络，Hinton提出一种方法叫Dropout。Dropout的做法是将神经元按照概率$p$失活（即设置为0）来训练。另外在失活之后，还要将权重乘上$\frac{1}{1-p}$来修正失活对输出的影响。如果没有该操作，那么在测试的时候（测试不需要失活），需要将权重乘上$p$。</p>
+<p>Dropout的可能工作原理有解释如下：</p>
+<p>Dropout相当于将多个模型结合起来。而这类似于   <em>生物遗传进化</em>（？？？），比一个要好。类似于boosting方法？？？？</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>虽然有时候网络中有BN来解决数据的分布问题，但是一个好的初始化往往直接决定了一个模型最终的表现效果（陷入哪个局部最优点）。这里一般介绍几种可能的参数初始化，一般用Xavier，然而总可以多试几个，说不定会有惊喜。。。</p>
+<ul>
+<li><p><strong>全零初始化</strong></p>
+<p>全零初始化使得梯度为0，所以不可能会有好结果的。</p>
+</li>
+<li><p><strong>随机正态分布</strong></p>
+<p>正态分布的均值为0，然而决定方差的时候需要谨慎。方差太小，就成了全零；方差太大，梯度容易爆炸。</p>
+<p>而且随机初始化有一个缺陷就是它使得输入输出分布不一致。</p>
+<p>假设输入$X \in N(0,1)$，那么输出为$Y = W<em>X$，这里W，N独立同分布，那么输出方差为：<br>$$<br>\begin{equation}<br>\begin{aligned}<br>Var(y)<br>&amp;=Var(w_1</em>x_1+w_2<em>x_2…+w_1</em>x_n)\<br>&amp;=Var(w_1)<em>Var(x_1)+Var(w_2)</em>Var(x_2)+…+Var(wn)*Var(x_n)\<br>\end{aligned}<br>\end{equation}<br>$$</p>
+<p>由于$w_i,x_i$线性无关，所以：<br>$$<br>Var(w_i<em>x_i) = Var(w_i)</em>Var(x_i)<br>$$<br>由此输出的方差如下，其中n是输入节点的数量<br>$$<br>\begin{equation}<br>\begin{aligned}<br>Var(y) &amp;= \sum_{i=1}^nVar(w_i)Var(x_i)\<br>&amp;= n*Var(w_i)Var(x_i)\space\space\space\space\space同分布<br>\end{aligned}<br>\end{equation}<br>$$</p>
+</li>
+<li><p><strong>Xavier</strong></p>
+<p>Xavier即是为了使输入输出分布相同提出的：<br>$$<br>Var(y) = Var(x)<br>$$<br>由上述推导得到：<br>$$<br>Var(y) = n<em>Var(w_i)</em>Var(x_i) = Var(x)\<br>Var(w_i) = 1/n<br>$$<br>在神经网络中，有前向和后向两个过程，所以我们需要综合考虑输入的节点数$n_{in}$和输出节点数$n_{out}$：<br>$$<br>Var(w_i) = \frac{2}{n_{in}+n_{out}}<br>$$<br>这里Xavier采用的是均匀分布（是否可以使用相应的正态分布？），由概率论知识，对于一个均匀分布$U(a,b)$，其方差为：<br>$$<br>Var = \frac{(b-a)^2}{12}<br>$$<br>解得应参数a，b得到：<br>$$<br>w \sim U(-\sqrt\frac{6}{n_{in}+n_{out}},\sqrt\frac{6}{n_{in}+n_{out}})<br>$$</p>
+</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>【1】A guide to convolution arithmetic for deep learning</p>
+<p>【2】<a href="https://arxiv.org/abs/1502.03167" target="_blank" rel="noopener">《Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift》</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/" data-id="ck21ppygo000dk4qnhstshn10" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/30/Batch%20Normalization/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Batch Normlization
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Batch Normlization 、Layer Normlization、Group Normlization</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Autumn-Cat<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

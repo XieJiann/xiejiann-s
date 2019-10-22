@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>ubuntu18.04----基本配置与美化 | Autumn-Cat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ubuntu18.04—-基本配置与美化最近看ubuntu18.04发布，想着尝试一波，然而在配置环境的时候遇到了很多坑，先记录下来，以供参考。 进入ubnuntu18.04由于ubuntu18.04.1的驱动问题，所以你在关ubutnu的时候可能会卡死，非常正常，只要断电重启就行。重启后如果运气不好，可能你会卡在logo界面，不要担心。这时要重启，在grub界面进入ubuntu advance那">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu18.04----基本配置与美化">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;10&#x2F;19&#x2F;ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96&#x2F;index.html">
+<meta property="og:site_name" content="Autumn-Cat">
+<meta property="og:description" content="ubuntu18.04—-基本配置与美化最近看ubuntu18.04发布，想着尝试一波，然而在配置环境的时候遇到了很多坑，先记录下来，以供参考。 进入ubnuntu18.04由于ubuntu18.04.1的驱动问题，所以你在关ubutnu的时候可能会卡死，非常正常，只要断电重启就行。重启后如果运气不好，可能你会卡在logo界面，不要担心。这时要重启，在grub界面进入ubuntu advance那">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-22T08:55:57.793Z">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Autumn-Cat</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ubuntu18-04-基本安装与美化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/" class="article-date">
+  <time datetime="2018-10-19T14:26:30.000Z" itemprop="datePublished">2018-10-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ubuntu18.04----基本配置与美化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ubuntu18-04—-基本配置与美化"><a href="#ubuntu18-04—-基本配置与美化" class="headerlink" title="ubuntu18.04—-基本配置与美化"></a>ubuntu18.04—-基本配置与美化</h1><p>最近看ubuntu18.04发布，想着尝试一波，然而在配置环境的时候遇到了很多坑，先记录下来，以供参考。</p>
+<h2 id="进入ubnuntu18-04"><a href="#进入ubnuntu18-04" class="headerlink" title="进入ubnuntu18.04"></a>进入ubnuntu18.04</h2><p>由于ubuntu18.04.1的驱动问题，所以你在关ubutnu的时候可能会卡死，非常正常，只要断电重启就行。<br>重启后如果运气不好，可能你会卡在logo界面，不要担心。这时要重启，在grub界面进入ubuntu advance那个选项，选择recovery，在里面选择resume选项就可以进入系统了。<br>等打好驱动后就不会这么卡。</p>
+<h2 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h2><p>装好ubuntu18.04的第一件事就是换源，不然你在安装一些软件时可能会遇到各种找不到库的情况。<br>换源需要修改的配置文件为sources.list，在/etc/apt下  </p>
+<ol>
+<li>打开sources.list文件：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/apt/sources.list</span><br></pre></td></tr></table></figure></li>
+<li>在文件末尾添加源，这里列一些常见的源<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#网易163更新服务器（广东广州电信/联通千兆双线接入），包含其他开源镜像：</span></span><br><span class="line">deb http://mirrors.163.com/ubuntu/ wily main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ wily-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ wily-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ wily-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.163.com/ubuntu/ wily-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ wily main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ wily-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ wily-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ wily-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.163.com/ubuntu/ wily-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"><span class="comment">#阿里云更新服务器（北京万网/浙江杭州阿里云服务器双线接入），包含其他开源镜像：</span></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"><span class="comment">#清华大学更新服务器，（教育网核心节点百兆接入，已计划提高到千兆）由清华大学学生网管会维护。包含其他开源镜像：</span></span><br><span class="line"><span class="comment"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse</span></span><br></pre></td></tr></table></figure>
+然后更新<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrate</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h2><p>一开始进入系统时可能会非常卡，甚至与打开设置都会卡死。这一般都是驱动的问题，现在换源后让系统帮你自动装好驱动。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu-drivers autoinstall</span><br></pre></td></tr></table></figure>
+<p>执行完这个命令后，ubuntu18.04，应该就比较流畅了。</p>
+<h2 id="中文输入法"><a href="#中文输入法" class="headerlink" title="中文输入法"></a>中文输入法</h2><p>ubuntu18.04配置中文输入法比较简单，只需要在设置里配置就行。</p>
+<ol>
+<li>首先进入设置，打开语言选项  </li>
+<li>点击manage installed languages，安装必要的软件</li>
+<li>在keyboard input method system中选择ibus或着xim。然后apply sysytem-wide</li>
+<li>重启，进入设置语言选项，在input sources选择Chinese(intelligent pinyin)  </li>
+</ol>
+<p>然后就可以在top bar的语言选项中看到Chinese(intelligent pinyin) 选项了</p>
+<h2 id="解决时间问题"><a href="#解决时间问题" class="headerlink" title="解决时间问题"></a>解决时间问题</h2><p>win-ubuntu双系统的电脑可能会出现时间问题，解决方案如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ntpdate</span><br><span class="line">sudo ntpdate time.windows.com</span><br><span class="line">sudo hwclock --localtime --systohc</span><br></pre></td></tr></table></figure>
+
+<h2 id="ss-可选"><a href="#ss-可选" class="headerlink" title="ss(可选)"></a>ss(可选)</h2><p>介绍略</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install shadowsocks-libev</span><br><span class="line">sudo gedit /etc/shadowsocks-libev/config.json（配置文件）</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> shadowsocks-libev-local@config.service</span><br><span class="line">sudo systemctl start shadowsocks-libev-local@config.service（开机自启）</span><br></pre></td></tr></table></figure>
+
+<h2 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h2><p>由于ubuntu18.04 桌面系统是gnome，所以美化起来非常容易。</p>
+<h3 id="gnome-tweak-tools"><a href="#gnome-tweak-tools" class="headerlink" title="gnome-tweak-tools"></a>gnome-tweak-tools</h3><p>gnome-tweak-tool是一个美化gnome桌面的gui软件，这个软件使选择主题变得非常容易  </p>
+<h4 id="安装gnome-tweak-tools"><a href="#安装gnome-tweak-tools" class="headerlink" title="安装gnome-tweak-tools"></a>安装gnome-tweak-tools</h4><p>先输入以下命令安装软件  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gnome-tweak-tool</span><br></pre></td></tr></table></figure>
+<p>然后就可以在软件列表中看到Tweaks<br>打开软件，在appearance中有就可以配置相关主题。</p>
+<h3 id="解除shell的封印"><a href="#解除shell的封印" class="headerlink" title="解除shell的封印"></a>解除shell的封印</h3><p>在apperance中有一个选项shell是锁住的，想要解除这个选项的封印需要额外配置：</p>
+<ol>
+<li>安装chrome-gnome-shell，虽然有chrome之名，但是这个软件并不要求chrome，火狐也可以<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install chrome-gnome-shell</span><br></pre></td></tr></table></figure></li>
+<li>浏览器（chrome or firefox）需要安装扩展，打开<a href="https://extensions.gnome.org/，" target="_blank" rel="noopener">https://extensions.gnome.org/，</a> 然后点击其中的Click here to install browser extension.然后就可以安装logo是脚丫子的GNOME Shell integration（附：或者直接在扩展商店中搜索）</li>
+<li>如果你之前两步都完成了的话就可以打开<a href="https://extensions.gnome.org/，" target="_blank" rel="noopener">https://extensions.gnome.org/，</a> 选择安装User Themes：在extensions中搜索User Themes，点击进入User Themes，然后拨动开关到on就可以  </li>
+</ol>
+<p>这样tweaks的shell就可以用了<br>另外除了user themes，推荐另外几个不错的扩展  </p>
+<ul>
+<li>Dash to Dock：将dock放在中间，类似于mac的布局</li>
+<li>Hide Top Bar：自动隐藏top bar</li>
+</ul>
+<p>其他的扩展可以依据个人喜好添加</p>
+<h3 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h3><p>gnome-tweak-tools已经安装好，然而还却一个漂亮的主题。这里可以在<a href="https://www.gnome-look.org" target="_blank" rel="noopener">https://www.gnome-look.org</a>  下载自己喜欢的主题，shells，图标等相关的美化内容，然后解压复制到/usr/share/themes/文件夹下，重新打开Tweak就可以选择相应的主题来美化了</p>
+<h2 id="作者自己的美化选择"><a href="#作者自己的美化选择" class="headerlink" title="作者自己的美化选择"></a>作者自己的美化选择</h2><p>经过一下午的甄别选择，作者本人选择了一套自认为比较简洁且漂亮的美化方案，以供参考  </p>
+<h3 id="Tweaks"><a href="#Tweaks" class="headerlink" title="Tweaks"></a>Tweaks</h3><p>在Tweaks如下选择  </p>
+<h4 id="applications"><a href="#applications" class="headerlink" title="applications"></a>applications</h4><p>打开<a href="https://www.gnome-look.org" target="_blank" rel="noopener">https://www.gnome-look.org</a> ，搜索McOS-themes，进入主页，点击download，选择一个主题。个人比较喜欢黑色，所以选择McOS-MJV-Dark-mode-Gnome下载。下载解压复制到/usr/share/themes/下，在Tweaks选择McOS-MJV-Dark-mode-Gnome</p>
+<h4 id="Cursor"><a href="#Cursor" class="headerlink" title="Cursor"></a>Cursor</h4><p>选择自带的DMZ-White  </p>
+<h4 id="ICons"><a href="#ICons" class="headerlink" title="ICons"></a>ICons</h4><p>选择自带的Ubuntu-mono-light，如果有需要可以选择下载图标包到/usr/share/icon中</p>
+<h4 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h4><p>打开<a href="https://www.gnome-look.org" target="_blank" rel="noopener">https://www.gnome-look.org</a> ，搜索Flat Remix GNOME theme，点击进入Flat Remix GNOME theme主页，点击download选择Flat-Remix最新版本（个人选择3.30）下载，解压复制到/usr/share/themes/下，在Tweaks选择Flat-Remix</p>
+<h3 id="gnome-extensions"><a href="#gnome-extensions" class="headerlink" title="gnome-extensions"></a>gnome-extensions</h3><p>在<a href="https://extensions.gnome.org/" target="_blank" rel="noopener">https://extensions.gnome.org/</a> 选择Dash to Dock，Hide Top Bar打开。</p>
+<h3 id="终端"><a href="#终端" class="headerlink" title="终端"></a>终端</h3><p>打开Terminal，选择edit的perferences，可以在Use transparent background中调节终端透明度。<br>如果没办法调节的话，可以看看有没有先把Use colors from System theme的那个勾去掉。</p>
+<h3 id="美化成果"><a href="#美化成果" class="headerlink" title="美化成果"></a>美化成果</h3>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/" data-id="ck21ppygi0006k4qn3f361xi1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/30/Batch%20Normalization/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Batch Normlization</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Autumn-Cat<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>动态规划及其两种方法 | Autumn-Cat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="动态规划及其两种方法在今天刷leetcode时遇到一个问题：  Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.    首先我想到迪杰斯特拉算法，然而">
+<meta name="keywords" content="dp,leetcode总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划及其两种方法">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;07&#x2F;26&#x2F;%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%8F%8A%E5%85%B6%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95&#x2F;index.html">
+<meta property="og:site_name" content="Autumn-Cat">
+<meta property="og:description" content="动态规划及其两种方法在今天刷leetcode时遇到一个问题：  Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.    首先我想到迪杰斯特拉算法，然而">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-22T08:41:57.443Z">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Autumn-Cat</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-动态规划及其两种方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/26/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%8F%8A%E5%85%B6%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2018-07-26T11:40:24.000Z" itemprop="datePublished">2018-07-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      动态规划及其两种方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="动态规划及其两种方法"><a href="#动态规划及其两种方法" class="headerlink" title="动态规划及其两种方法"></a>动态规划及其两种方法</h1><p>在今天刷leetcode时遇到一个问题：</p>
+<blockquote>
+<p>Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.</p>
+</blockquote>
+<p>  首先我想到迪杰斯特拉算法，然而这算法时间复杂度太高。遂求解于Google，发现可以用动态规划方法求解，于是便复习了一波动态规划，并记录下来一些东西。</p>
+<h2 id="动态规划的基本原理"><a href="#动态规划的基本原理" class="headerlink" title="动态规划的基本原理"></a>动态规划的基本原理</h2><h3 id="什么是动态规划"><a href="#什么是动态规划" class="headerlink" title="什么是动态规划"></a>什么是动态规划</h3><p>什么是动态规划，动态规划（下称dp）本质上是一个通过将问题分解为数个子问题的方式来求解问题的方法。即对于一个复杂的问题，我们求解不出来，可以将他分解为简单的子问题来单独求解。</p>
+<h3 id="动态规划的适用情况"><a href="#动态规划的适用情况" class="headerlink" title="动态规划的适用情况"></a>动态规划的适用情况</h3><blockquote>
+<ul>
+<li>最优子结构性质。如果问题的最优解所包含的子问题的解也是最优的，我们就称该问题具有最优子结构性质（即满足最优化原理）。最优子结构性质为动态规划算法解决问题提供了重要线索。</li>
+<li>无后效性。即子问题的解一旦确定，就不再改变，不受在这之后、包含它的更大的问题的求解决策影响。</li>
+<li>子问题重叠性质。子问题重叠性质是指在用递归算法自顶向下对问题进行求解时，每次产生的子问题并不总是新问题，有些子问题会被重复计算多次。动态规划算法正是利用了这种子问题的重叠性质，对每一个子问题只计算一次，然后将其计算结果保存在一个表格中，当再次需要计算已经计算过的子问题时，只是在表格中简单地查看一下结果，从而获得较高的效率。</li>
+</ul>
+</blockquote>
+<p>  上述是wiki上的描述，比较复杂。简单点说就是可以将总问题分解成一些子问题，并可以通过子问题的解来得到总问题的最优解。</p>
+<h3 id="动态规划的实际使用"><a href="#动态规划的实际使用" class="headerlink" title="动态规划的实际使用"></a>动态规划的实际使用</h3><p>这里我们使用斐波拉契数列作为例子来求解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   function fib（n）</span><br><span class="line">       <span class="keyword">if</span> n = <span class="number">0</span> <span class="keyword">or</span> n = <span class="number">1</span></span><br><span class="line">           <span class="keyword">return</span> n</span><br><span class="line">       <span class="keyword">return</span> fib(n − <span class="number">1</span>) + fib（n − <span class="number">2</span>）</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+
+
+
+<p>  由上图可知，对于斐波拉契的求解，我们可以将其分解为几个子问题求解。并且其中还有几个重复的子问题，为了提高性能，有两种方法可以避免子问题的重复求解</p>
+<ul>
+<li><p><strong>自顶向下的备忘录法</strong></p>
+</li>
+<li><p><strong>自底向上的动态规划</strong></p>
+</li>
+</ul>
+<h3 id="自顶向下的备忘录法"><a href="#自顶向下的备忘录法" class="headerlink" title="自顶向下的备忘录法"></a>自顶向下的备忘录法</h3><p>自顶向下的备忘录发就是在求解动态规划问题时设置一个备忘录，将所有求解过的子问题结果存储下来。在之后遇到1同样的问题时便可以避免重复求解。</p>
+<h3 id="自底向上的动态规划"><a href="#自底向上的动态规划" class="headerlink" title="自底向上的动态规划"></a>自底向上的动态规划</h3><p>自底向上就是要合理安排子问题的求解顺序，使的子问题不会被重复提出。例如上面的斐波拉契问题，就可以</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static int fib(int n)</span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">if</span>(n&lt;=<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> n;</span><br><span class="line">        int []Memo=new int[n+<span class="number">1</span>];</span><br><span class="line">        Memo[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">        Memo[<span class="number">1</span>]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(int i=<span class="number">2</span>;i&lt;=n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            Memo[i]=Memo[i<span class="number">-1</span>]+Memo[i<span class="number">-2</span>];</span><br><span class="line">        &#125;       </span><br><span class="line">        <span class="keyword">return</span> Memo[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来求解leetcode原题：</p>
+<blockquote>
+<p>Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.<br>You can only move either down or right at any point in time.</p>
+</blockquote>
+<p>  思路：在ij点的长度len[i][j] = matrix[i][j]+min{len[i-1][j],len[i][j-1]}，我们使用第二种方法来合理的安排求解len[i][j]的顺序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minPathSum</span><span class="params">(self, grid)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type grid: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        width = len(grid[<span class="number">0</span>])</span><br><span class="line">        length = len(grid)</span><br><span class="line">        n_dp = min(width,length)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,width):</span><br><span class="line">              grid[<span class="number">0</span>][i] = grid[<span class="number">0</span>][i]+grid[<span class="number">0</span>][i<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,length):</span><br><span class="line">              grid[i][<span class="number">0</span>] = grid[i][<span class="number">0</span>]+grid[i<span class="number">-1</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n_dp):</span><br><span class="line">            grid[i][i] += min(grid[i][i<span class="number">-1</span>],grid[i<span class="number">-1</span>][i])</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,width):</span><br><span class="line">                grid[i][j] += min(grid[i<span class="number">-1</span>][j],grid[i][j<span class="number">-1</span>])</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,length):</span><br><span class="line">                grid[j][i] += min(grid[j<span class="number">-1</span>][i],grid[j][i<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> grid[<span class="number">-1</span>][<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/07/26/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%8F%8A%E5%85%B6%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/" data-id="ck21ppygn000ck4qndpw718xr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          关于局部最优解和全局最优解的dp问题
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Autumn-Cat<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

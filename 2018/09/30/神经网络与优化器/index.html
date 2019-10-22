@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>神经网络与优化器 | Autumn-Cat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="神经网络与优化器神经网络神经网络的结构神经网络的结构可以用下图展示：  上图结构表明，一个神经网络由三个部分构成：  输入层：x1 x2 x3，即黄色节点 隐藏层：蓝色节点 输出层：y1 y2 y3，即蓝色节点  这里的节点用于存储值（一般存储前向的计算值和反向的梯度），节点之间的连线被赋予相应的权重，代表着一个节点的值通过对应线（即乘以该线的权重）汇聚到下一层的节点，该节点的值即为所有通过链接到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神经网络与优化器">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8&#x2F;index.html">
+<meta property="og:site_name" content="Autumn-Cat">
+<meta property="og:description" content="神经网络与优化器神经网络神经网络的结构神经网络的结构可以用下图展示：  上图结构表明，一个神经网络由三个部分构成：  输入层：x1 x2 x3，即黄色节点 隐藏层：蓝色节点 输出层：y1 y2 y3，即蓝色节点  这里的节点用于存储值（一般存储前向的计算值和反向的梯度），节点之间的连线被赋予相应的权重，代表着一个节点的值通过对应线（即乘以该线的权重）汇聚到下一层的节点，该节点的值即为所有通过链接到">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C02.png">
+<meta property="og:image" content="d:%5Cblog%5Csource_posts%5C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C041033589217526.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5Cwebp">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C1566725249985.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C1566725389294.png">
+<meta property="og:updated_time" content="2019-10-22T09:00:02.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8&#x2F;%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C02.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Autumn-Cat</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-神经网络与优化器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8/" class="article-date">
+  <time datetime="2018-09-30T03:28:43.000Z" itemprop="datePublished">2018-09-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      神经网络与优化器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="神经网络与优化器"><a href="#神经网络与优化器" class="headerlink" title="神经网络与优化器"></a>神经网络与优化器</h1><h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h3 id="神经网络的结构"><a href="#神经网络的结构" class="headerlink" title="神经网络的结构"></a>神经网络的结构</h3><p>神经网络的结构可以用下图展示：</p>
+<p><img src="%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C02.png" alt="img"></p>
+<p>上图结构表明，一个神经网络由三个部分构成：</p>
+<ul>
+<li>输入层：x1 x2 x3，即黄色节点</li>
+<li>隐藏层：蓝色节点</li>
+<li>输出层：y1 y2 y3，即蓝色节点</li>
+</ul>
+<p>这里的节点用于存储值（一般存储前向的计算值和反向的梯度），节点之间的连线被赋予相应的权重，代表着一个节点的值通过对应线（即乘以该线的权重）汇聚到下一层的节点，该节点的值即为所有通过链接到该节点的线值之和。</p>
+<p>这里可以用矩阵乘法表达出来：</p>
+<ul>
+<li><p>输入X = [x1,x2,x3,x4]</p>
+</li>
+<li><p>输入层到第一层连线的权重为W:<br>$$<br>\begin{matrix}<br>w11 &amp; w12 &amp; w13 &amp; w14\<br>w21 &amp; w22 &amp; w23 &amp; w24\<br>w31 &amp; w32 &amp; w33 &amp; w34\<br>w41 &amp; w42 &amp; w43 &amp; w44\<br>\end{matrix}<br>$$</p>
+</li>
+<li><p>则第一层的值 $X‘ = X*W$ （附：这里没有用到 b）</p>
+</li>
+</ul>
+<p>故神经网络可以用矩阵乘法表示：$Y = W_n<em>W_{n-1}</em>…<em>W_1</em>X$，这里Y就是神经网络的输出</p>
+<h3 id="反向传播与梯度下降"><a href="#反向传播与梯度下降" class="headerlink" title="反向传播与梯度下降"></a>反向传播与梯度下降</h3><p>机器学习（深度学习）的过程可以用如下的图表示：<img src="D:%5Cblog%5Csource_posts%5C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C041033589217526.png" alt="img"></p>
+<p>在特征集$X$和输出结果$Y$之间有一个关系，这个关系可以通过目标函数$f$，深度学习就是通过深度神经网络以及训练样本去拟合这个函数。其中拟合的过程可以描述为，我们确定一个损失函数$L$，来度量我们模型输出$Y’$和实际结果$Y$的差异，其中$L$越小即说明差异越小，即代表我们的模型越接近于目标函数$f$（至少是在训练集上接近，而只要训练集足够大，那么训练集的目标函数和总体样本的目标函数就越小，所以我们可以认为我们拟合的模型有足够的普适性）。</p>
+<p>对于深度学习而言，学习目标可以描述为寻找到合适的参数使得神经网络的损失函数最小，而该神经网络即为我们需要的模型：<br>$$<br>min_wLoss(Y,Y’,w)<br>$$</p>
+<h4 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h4><p>在学习的过程中，减小损失函数$L$的方法就是梯度下降。</p>
+<p>梯度下降可以用小人下山等易理解的方法阐述，其他博客说的已经很详细。在这里，我使用一个更公理化的方法来描述它（泰勒展开式）</p>
+<p>我们知道，任意一个函数可以一阶展开为如下形式：<br>$$<br>f(x) = f(x_0)+f’(x_0)(x-x_0)+R<br>$$<br>而我们的目标是使得$f(x)$变得更小：<br>$$<br>f(x_1)-f(x_0) &lt; 0<br>$$<br>即可以看成：<br>$$<br>f’(x_0)(x_1-x_0)+R &lt; 0<br>$$<br>忽略R，可以得到$f’(x_0)(x_1-x_0) &lt; 0$，即$(x1 - x0)$和$f’(x)$成钝角（一般设为$180^o$）即：<br>$$<br>x_1-x_0 = -\alpha*f’(x0)<br>$$<br>其中$\alpha$调节下降速率。</p>
+<p>对于损失函数而言，更新过程即为：<br>$$<br>w_{k+1} = w_k-\alpha*L’(w_k,Y,Y’)<br>$$</p>
+<h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><p>梯度下降的过程就是不断的迭代求梯度，更新权重w。而对于神经网络而言，如何求出每一个权重的梯度是一个很大的难题。</p>
+<p>反向传播是一种利用链式法则求出梯度的过程，其中反向传播的描述其它博客叙述的很详尽了。这里就不更详细的描述了。</p>
+<h4 id="一些更智慧的学习方法"><a href="#一些更智慧的学习方法" class="headerlink" title="一些更智慧的学习方法"></a>一些更智慧的学习方法</h4><ol>
+<li><p>batch不同</p>
+<p>梯度下降就是不断求梯度，更新参数w的过程。那么这个求梯度的损失函数的输入是什么？</p>
+<p>其中批量梯度下降（BGD），就是求所有训练样本的的梯度，然后更新w。但是这有一个缺点，就是训练样本往往数据量很大，所以求一次全部损失之和然后再求梯度会很慢，其公式如下：<br>$$<br>w = w-\alpha<em>\nabla_w\sum_{i\in Trainning}{loss(Y_i,Y’_i,w)}<br>$$<br>所以有人提出了随机梯度下降（SGD），即每次以一个样本来更新参数。这样会很快，但是由于样本的分布问题会使得损失函数不停的震荡。<br>$$<br>w = w-\alpha</em>\nabla_wloss(Yi,Yi’,w)<br>$$<br>小批量梯度下降是BGD和SGD的折中办法，它每次迭代以一个固定batch_size的样本数量来更新参数。</p>
+</li>
+<li><p>对计算梯度的改进</p>
+<p>SGD的一大问题是不停震荡，即梯度方向不停变化，不是一直朝着谷底。这里有研究者提出一种称为动量的技术（Momentum）的技术来对梯度中相关方向进行优化以及无关方向的弱化。在这种方法中，更新的梯度$v(t)$是：<br>$$<br>v_{t} = \gamma*v_{t-1}+\nabla loss(w_{t-1})<br>$$<br>即反复梯度中反复震荡的方向被消减，而梯度一直不变的方向通过累加不断增强。</p>
+</li>
+</ol>
+<p>   Nesterov梯度下降法是一种针对动量的改进方法。其主要改进思路是：动量法利用当前梯度和历史梯度来生成梯度，而该方法是利用历史梯度和下一次的梯度来生成梯度。其更新的公式为：<br>   $$<br>   v_t = \gamma<em>v_{t-1}+\nabla loss(w - \alpha</em>\gamma*v_{t-1})<br>   $$</p>
+<ol start="3">
+<li><p>对设定学习率的改进</p>
+<p>Adagrad 算法能够在算法训练中自适应的调整各个参数的学习率。其调整策略为：对于那些出现次数较高的参数，lr 更小；出现次数较低的参数，lr更大。</p>
+<p>其具体的步骤是，设置一个矩阵G，对每次更新的梯度进行累加，公式为：<br>$$<br>G = G + gra \cdot gra<br>$$<br>更新公式如下，其中 i 表示 w 中第 i 个参数，矩阵G中索引为 ii 的数。<br>$$<br>w_{t,i} = w_{t-1,i} - \frac{lr}{\sqrt{G_{t,ii}+\epsilon}}*gra<br>$$<br>Adagrad有一个缺陷就是累加矩阵G总是会变大的，所以造成学习速率总会下降。如果多次累加后导致最好学习率接近0，会使得训练提前结束。</p>
+</li>
+</ol>
+<p>   RMSprop是Hinton 提出的另一种自适应学习率的方法。Adagrad是对所有历史梯度进行累加，而RMSprop则是计算梯度的平均值。</p>
+<p>   平均值的求取公式为：<br>   $$<br>   E(g^2)<em>t = 0.9*E(g^2)</em>{t-1}+0.1<em>g_t^2<br>   $$<br>   更新公式为：<br>   $$<br>   w_t = w_{t-1}-\frac{lr}{\sqrt{E[g^2]_t+\epsilon}}</em>gt<br>   $$</p>
+<ol start="4">
+<li><p>Adam-集大成者</p>
+<p>Adam集合了动量和自适应学习率的全部优点。</p>
+<p>Adam种梯度的更新方式如下，和动量法很像，其中更新后的梯度用m表示<br>$$<br>m_t = \beta1<em>m_{t-1}+(1-\beta1)</em>g_t<br>$$<br>Adam用v表示历史梯度平均值，其更新公式如下：<br>$$<br>v_t = \beta2<em>v_{t-1}+(1-beta2)</em>g_t^2<br>$$<br>修正$m_t$和$v_t$，使其变成无偏估计量：<br>$$<br>\hat{m_t} = \frac{m_t}{1-\beta1^t}\<br>\hat{v_t} = \frac{v_t}{1-\beta2^t}<br>$$<br>更新参数：<br>$$<br>w_{t+1} = w_t - \frac{lr}{\sqrt{\hat{v_t}}+\epsilon}<br>$$</p>
+</li>
+</ol>
+<h3 id="激励函数"><a href="#激励函数" class="headerlink" title="激励函数"></a>激励函数</h3><p>上一节得到神经网络可以用如下数学公式表示：$Y = W_n<em>W_{n-1}</em>…<em>W_1</em>X$。然而很明显的是这个公式中只有矩阵乘法，即它只能描述线性关系。</p>
+<p>而激励函数就是为了解决这一问题提出的。在加入了激励函数的神经网络中，隐含层的节点中的值并不会直接输出，而是通过激励函数之后再输出，即数学公式变成了：</p>
+<p>$$<br>Y = active(W_n<em>active(W_{n-1}</em>…<em>active(W_1</em>X)…))<br>$$<br>激励函数一般不是简单的线性函数，所以改进后的神经网络描述关系的能力更加强大。常见的激励函数有sigmoid函数，tanh函数和relu系列函数</p>
+<h4 id="Sigmoid"><a href="#Sigmoid" class="headerlink" title="Sigmoid"></a>Sigmoid</h4><p>Sigmoid函数是<br>$$<br>f(x) = \frac{1}{1+e^{-x}}<br>$$</p>
+<p>其函数图像为：</p>
+<p><img src="%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5Cwebp" alt="img"></p>
+<p>Sigmoid 函数有三个缺点：</p>
+<ul>
+<li>sigmoid函数的两级的梯度为0，容易造成梯度消失的情况</li>
+<li>不以0为中心，这样对w而言的求导要么全负，要么全正，所以会导致zig zag path更新（$w_k$的局部梯度是$x_k*gra_{k+1}$，而$x_k$是由上一层的sig函数输出，全大于0）</li>
+<li>反向传播计算梯度复杂</li>
+</ul>
+<h4 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h4><p>tanh函数是：<br>$$<br>tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}<br>$$<br>其函数图像为：</p>
+<p><img src="%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C1566725249985.png" alt="1566725249985"></p>
+<p>tanh函数解决了zero-centered的输出问题，然而还是有梯度消失和反向传播复杂的问题</p>
+<h4 id="Relu系列"><a href="#Relu系列" class="headerlink" title="Relu系列"></a>Relu系列</h4><p>Relu的初始函数：<br>$$<br>Relu = max{0,x}<br>$$<br>其函数图像为：</p>
+<p><img src="%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8%5C1566725389294.png" alt="1566725389294"></p>
+<p>Relu函数最大的好处就在于它的简洁，这使得它在前向和后向传播的时候非常快。同时它也避免了梯度消失的问题。但是Relu也有一些缺点：</p>
+<ul>
+<li>不是zero-centered</li>
+<li>ReLU函数将小于0的值提高到0，这使得一些小于0的节点失活</li>
+</ul>
+<p>Leaky ReLU就是为了解决节点失活的问题，它设小于0部分的斜率为$\alpha$,而不是直接等于0。其函数表达式为：<br>$$<br>f(x) = max(\alpha*x,x)<br>$$</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8/" data-id="ck21ppygv000nk4qn6wfm9utx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Batch Normlization 、Layer Normlization、Group Normlization
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">关于局部最优解和全局最优解的dp问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Autumn-Cat<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
