@@ -7,22 +7,22 @@
   
   <title>Batch Normlization 、Layer Normlization、Group Normlization | Autumn-Cat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="目标检测的任务（Problem Settings）目标检测的有两个任务：  检测出该图片中物体的类别 检测出对应物体的位置（用一个框表示，即左上坐标和右下坐标）  为了达成我们的目标我们需要一些度量（metric）来作为衡量标准，在目标检测一般使用如下度量：  IoU ：IoU是计算预测位置和目标位置的相差程度的一种度量，其优点是对大框和小框都有很好的适应性。它的计算公式如下：$$IoU = \f">
+  <meta name="description" content="&amp;#x76EE;&amp;#x6807;&amp;#x68C0;&amp;#x6D4B;&amp;#x7684;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF08;Problem Settings&amp;#xFF09;&amp;#x76EE;&amp;#x6807;&amp;#x68C0;&amp;#x6D4B;&amp;#x7684;&amp;#x6709;&amp;#x4E24;&amp;#x4E2A;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF1A;  &amp;#x68C0;&amp;#x6D4B;&amp;#x51F">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Batch Normlization 、Layer Normlization、Group Normlization">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;index.html">
 <meta property="og:site_name" content="Autumn-Cat">
-<meta property="og:description" content="目标检测的任务（Problem Settings）目标检测的有两个任务：  检测出该图片中物体的类别 检测出对应物体的位置（用一个框表示，即左上坐标和右下坐标）  为了达成我们的目标我们需要一些度量（metric）来作为衡量标准，在目标检测一般使用如下度量：  IoU ：IoU是计算预测位置和目标位置的相差程度的一种度量，其优点是对大框和小框都有很好的适应性。它的计算公式如下：$$IoU = \f">
+<meta property="og:description" content="&amp;#x76EE;&amp;#x6807;&amp;#x68C0;&amp;#x6D4B;&amp;#x7684;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF08;Problem Settings&amp;#xFF09;&amp;#x76EE;&amp;#x6807;&amp;#x68C0;&amp;#x6D4B;&amp;#x7684;&amp;#x6709;&amp;#x4E24;&amp;#x4E2A;&amp;#x4EFB;&amp;#x52A1;&amp;#xFF1A;  &amp;#x68C0;&amp;#x6D4B;&amp;#x51F">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567155538247.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567241120527.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567323883396.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567324588539.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567501439402.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567499632449.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;1567155538247.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;1567241120527.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;1567323883396.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;1567324588539.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;1567501439402.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;1567499632449.png">
 <meta property="og:updated_time" content="2019-10-22T08:59:54.386Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567155538247.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0&#x2F;1567155538247.png">
   
     <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
   
@@ -95,165 +95,165 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="目标检测的任务（Problem-Settings）"><a href="#目标检测的任务（Problem-Settings）" class="headerlink" title="目标检测的任务（Problem Settings）"></a>目标检测的任务（Problem Settings）</h2><p>目标检测的有两个任务：</p>
+        <h2 id="&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x7684;&#x4EFB;&#x52A1;&#xFF08;Problem-Settings&#xFF09;"><a href="#&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x7684;&#x4EFB;&#x52A1;&#xFF08;Problem-Settings&#xFF09;" class="headerlink" title="&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x7684;&#x4EFB;&#x52A1;&#xFF08;Problem Settings&#xFF09;"></a>&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x7684;&#x4EFB;&#x52A1;&#xFF08;Problem Settings&#xFF09;</h2><p>&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x7684;&#x6709;&#x4E24;&#x4E2A;&#x4EFB;&#x52A1;&#xFF1A;</p>
 <ul>
-<li>检测出该图片中物体的类别</li>
-<li>检测出对应物体的位置（用一个框表示，即左上坐标和右下坐标）</li>
+<li>&#x68C0;&#x6D4B;&#x51FA;&#x8BE5;&#x56FE;&#x7247;&#x4E2D;&#x7269;&#x4F53;&#x7684;&#x7C7B;&#x522B;</li>
+<li>&#x68C0;&#x6D4B;&#x51FA;&#x5BF9;&#x5E94;&#x7269;&#x4F53;&#x7684;&#x4F4D;&#x7F6E;&#xFF08;&#x7528;&#x4E00;&#x4E2A;&#x6846;&#x8868;&#x793A;&#xFF0C;&#x5373;&#x5DE6;&#x4E0A;&#x5750;&#x6807;&#x548C;&#x53F3;&#x4E0B;&#x5750;&#x6807;&#xFF09;</li>
 </ul>
-<p>为了达成我们的目标我们需要一些度量（metric）来作为衡量标准，在目标检测一般使用如下度量：</p>
+<p>&#x4E3A;&#x4E86;&#x8FBE;&#x6210;&#x6211;&#x4EEC;&#x7684;&#x76EE;&#x6807;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4E00;&#x4E9B;&#x5EA6;&#x91CF;&#xFF08;metric&#xFF09;&#x6765;&#x4F5C;&#x4E3A;&#x8861;&#x91CF;&#x6807;&#x51C6;&#xFF0C;&#x5728;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x4E00;&#x822C;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x5EA6;&#x91CF;&#xFF1A;</p>
 <ol>
-<li><p><strong>IoU</strong> ：IoU是计算预测位置和目标位置的相差程度的一种度量，其优点是对大框和小框都有很好的适应性。它的计算公式如下：<br>$$<br>IoU = \frac{Area(box_{pred}\cap box_{gt})}{Area(box_{pred}\cup box_{gt})}<br>$$<br>确定好其计算的伪代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">pred:(x1,x2),(x3,x4)</span></span><br><span class="line"><span class="string">gt:(y1,y2),(y3,y4)</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#求出交叉区域面积</span></span><br><span class="line">in_1 = max(x1,y1)</span><br><span class="line">in_2 = max(x2,y2)</span><br><span class="line">in_3 = min(x3,y3)</span><br><span class="line">in_4 = min(x4,y4)</span><br><span class="line">inArea = getArea([in_1,in_2],[in_3,in_4])</span><br><span class="line"><span class="comment">#求出并区域面积</span></span><br><span class="line">area1 = getArea([x1,x2],[x3,x4])</span><br><span class="line">area2 = getArea([y1,y2],[y3,y4])</span><br><span class="line">outArea = area1+area2-inArea</span><br><span class="line"><span class="comment">#计算IoU</span></span><br><span class="line">IoU = outArea/inArea</span><br></pre></td></tr></table></figure>
+<li><p><strong>IoU</strong> &#xFF1A;IoU&#x662F;&#x8BA1;&#x7B97;&#x9884;&#x6D4B;&#x4F4D;&#x7F6E;&#x548C;&#x76EE;&#x6807;&#x4F4D;&#x7F6E;&#x7684;&#x76F8;&#x5DEE;&#x7A0B;&#x5EA6;&#x7684;&#x4E00;&#x79CD;&#x5EA6;&#x91CF;&#xFF0C;&#x5176;&#x4F18;&#x70B9;&#x662F;&#x5BF9;&#x5927;&#x6846;&#x548C;&#x5C0F;&#x6846;&#x90FD;&#x6709;&#x5F88;&#x597D;&#x7684;&#x9002;&#x5E94;&#x6027;&#x3002;&#x5B83;&#x7684;&#x8BA1;&#x7B97;&#x516C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;<br>$$<br>IoU = \frac{Area(box_{pred}\cap box_{gt})}{Area(box_{pred}\cup box_{gt})}<br>$$<br>&#x786E;&#x5B9A;&#x597D;&#x5176;&#x8BA1;&#x7B97;&#x7684;&#x4F2A;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#xFF1A;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&apos;&apos;&apos;</span></span><br><span class="line"><span class="string">pred:(x1,x2),(x3,x4)</span></span><br><span class="line"><span class="string">gt:(y1,y2),(y3,y4)</span></span><br><span class="line"><span class="string">&apos;&apos;&apos;</span></span><br><span class="line"><span class="comment">#&#x6C42;&#x51FA;&#x4EA4;&#x53C9;&#x533A;&#x57DF;&#x9762;&#x79EF;</span></span><br><span class="line">in_1 = max(x1,y1)</span><br><span class="line">in_2 = max(x2,y2)</span><br><span class="line">in_3 = min(x3,y3)</span><br><span class="line">in_4 = min(x4,y4)</span><br><span class="line">inArea = getArea([in_1,in_2],[in_3,in_4])</span><br><span class="line"><span class="comment">#&#x6C42;&#x51FA;&#x5E76;&#x533A;&#x57DF;&#x9762;&#x79EF;</span></span><br><span class="line">area1 = getArea([x1,x2],[x3,x4])</span><br><span class="line">area2 = getArea([y1,y2],[y3,y4])</span><br><span class="line">outArea = area1+area2-inArea</span><br><span class="line"><span class="comment">#&#x8BA1;&#x7B97;IoU</span></span><br><span class="line">IoU = outArea/inArea</span><br></pre></td></tr></table></figure>
 </li>
-<li><p><strong>cross entropy</strong>：交叉熵是分类任务的常见损失函数</p>
+<li><p><strong>cross entropy</strong>&#xFF1A;&#x4EA4;&#x53C9;&#x71B5;&#x662F;&#x5206;&#x7C7B;&#x4EFB;&#x52A1;&#x7684;&#x5E38;&#x89C1;&#x635F;&#x5931;&#x51FD;&#x6570;</p>
 </li>
-<li><p><strong>mAP、AP</strong>：</p>
-<p>这一切要从precious和recall开始，其定义如下图所示：</p>
-<p><img src="%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567155538247.png" alt="1567155538247"></p>
-<p>简而言之，precision是针对预测的（猜的准确率如何）；recall是针对样本的（召回了多少正样本）。</p>
-<p>我们需要综合precision和recall，而这就得到了AP。在目标检测时，我们会根据confidence score将检测 n个结果 排序（从大到小）。然后将这n个结果逐个加入集合中得到n个precision和recall（即只有第一个结果的，有第一个第二个，有第一个第二个第三个……）。然后我们将precision组成纵坐标recall组成横坐标得到一个曲线，precision是从 1 逐步下降，recall是从 0 逐步上升，所以我们得到了一个下降的曲线（PR curves）。而PR曲线围成的面积即为AP。</p>
-<p>而针对计算面积的方式也有不同的方法，比较常用的是PASCAL和COCO的：</p>
+<li><p><strong>mAP&#x3001;AP</strong>&#xFF1A;</p>
+<p>&#x8FD9;&#x4E00;&#x5207;&#x8981;&#x4ECE;precious&#x548C;recall&#x5F00;&#x59CB;&#xFF0C;&#x5176;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
+<p><img src="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/1567155538247.png" alt="1567155538247"></p>
+<p>&#x7B80;&#x800C;&#x8A00;&#x4E4B;&#xFF0C;precision&#x662F;&#x9488;&#x5BF9;&#x9884;&#x6D4B;&#x7684;&#xFF08;&#x731C;&#x7684;&#x51C6;&#x786E;&#x7387;&#x5982;&#x4F55;&#xFF09;&#xFF1B;recall&#x662F;&#x9488;&#x5BF9;&#x6837;&#x672C;&#x7684;&#xFF08;&#x53EC;&#x56DE;&#x4E86;&#x591A;&#x5C11;&#x6B63;&#x6837;&#x672C;&#xFF09;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7EFC;&#x5408;precision&#x548C;recall&#xFF0C;&#x800C;&#x8FD9;&#x5C31;&#x5F97;&#x5230;&#x4E86;AP&#x3002;&#x5728;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x6839;&#x636E;confidence score&#x5C06;&#x68C0;&#x6D4B; n&#x4E2A;&#x7ED3;&#x679C; &#x6392;&#x5E8F;&#xFF08;&#x4ECE;&#x5927;&#x5230;&#x5C0F;&#xFF09;&#x3002;&#x7136;&#x540E;&#x5C06;&#x8FD9;n&#x4E2A;&#x7ED3;&#x679C;&#x9010;&#x4E2A;&#x52A0;&#x5165;&#x96C6;&#x5408;&#x4E2D;&#x5F97;&#x5230;n&#x4E2A;precision&#x548C;recall&#xFF08;&#x5373;&#x53EA;&#x6709;&#x7B2C;&#x4E00;&#x4E2A;&#x7ED3;&#x679C;&#x7684;&#xFF0C;&#x6709;&#x7B2C;&#x4E00;&#x4E2A;&#x7B2C;&#x4E8C;&#x4E2A;&#xFF0C;&#x6709;&#x7B2C;&#x4E00;&#x4E2A;&#x7B2C;&#x4E8C;&#x4E2A;&#x7B2C;&#x4E09;&#x4E2A;&#x2026;&#x2026;&#xFF09;&#x3002;&#x7136;&#x540E;&#x6211;&#x4EEC;&#x5C06;precision&#x7EC4;&#x6210;&#x7EB5;&#x5750;&#x6807;recall&#x7EC4;&#x6210;&#x6A2A;&#x5750;&#x6807;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x66F2;&#x7EBF;&#xFF0C;precision&#x662F;&#x4ECE; 1 &#x9010;&#x6B65;&#x4E0B;&#x964D;&#xFF0C;recall&#x662F;&#x4ECE; 0 &#x9010;&#x6B65;&#x4E0A;&#x5347;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x5F97;&#x5230;&#x4E86;&#x4E00;&#x4E2A;&#x4E0B;&#x964D;&#x7684;&#x66F2;&#x7EBF;&#xFF08;PR curves&#xFF09;&#x3002;&#x800C;PR&#x66F2;&#x7EBF;&#x56F4;&#x6210;&#x7684;&#x9762;&#x79EF;&#x5373;&#x4E3A;AP&#x3002;</p>
+<p>&#x800C;&#x9488;&#x5BF9;&#x8BA1;&#x7B97;&#x9762;&#x79EF;&#x7684;&#x65B9;&#x5F0F;&#x4E5F;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#x662F;PASCAL&#x548C;COCO&#x7684;&#xFF1A;</p>
 <ul>
-<li><p>PASCAL：2008年规则对precision进行平滑，平滑方法是对每一给precision，使用其右边最大的值，在实际使用中，常使用11点进行内插。后来2012改进了，直接求斜线面积（无数个点内插）</p>
-<p><img src="%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567241120527.png" alt="1567241120527"></p>
+<li><p>PASCAL&#xFF1A;2008&#x5E74;&#x89C4;&#x5219;&#x5BF9;precision&#x8FDB;&#x884C;&#x5E73;&#x6ED1;&#xFF0C;&#x5E73;&#x6ED1;&#x65B9;&#x6CD5;&#x662F;&#x5BF9;&#x6BCF;&#x4E00;&#x7ED9;precision&#xFF0C;&#x4F7F;&#x7528;&#x5176;&#x53F3;&#x8FB9;&#x6700;&#x5927;&#x7684;&#x503C;&#xFF0C;&#x5728;&#x5B9E;&#x9645;&#x4F7F;&#x7528;&#x4E2D;&#xFF0C;&#x5E38;&#x4F7F;&#x7528;11&#x70B9;&#x8FDB;&#x884C;&#x5185;&#x63D2;&#x3002;&#x540E;&#x6765;2012&#x6539;&#x8FDB;&#x4E86;&#xFF0C;&#x76F4;&#x63A5;&#x6C42;&#x659C;&#x7EBF;&#x9762;&#x79EF;&#xFF08;&#x65E0;&#x6570;&#x4E2A;&#x70B9;&#x5185;&#x63D2;&#xFF09;</p>
+<p><img src="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/1567241120527.png" alt="1567241120527"></p>
 </li>
-<li><p>COCO：COCO的mAP就是AP，每一对其进行区分，它使用101个点进行内插 mAP。</p>
+<li><p>COCO&#xFF1A;COCO&#x7684;mAP&#x5C31;&#x662F;AP&#xFF0C;&#x6BCF;&#x4E00;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x533A;&#x5206;&#xFF0C;&#x5B83;&#x4F7F;&#x7528;101&#x4E2A;&#x70B9;&#x8FDB;&#x884C;&#x5185;&#x63D2; mAP&#x3002;</p>
 </li>
 </ul>
 </li>
 </ol>
 <ol start="4">
-<li><strong>FPS</strong>：FPS对于一个实时的目标检测模型是非常重要的（在处理视频时）</li>
+<li><strong>FPS</strong>&#xFF1A;FPS&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x5B9E;&#x65F6;&#x7684;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x6A21;&#x578B;&#x662F;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#xFF08;&#x5728;&#x5904;&#x7406;&#x89C6;&#x9891;&#x65F6;&#xFF09;</li>
 </ol>
-<h2 id="模型思想"><a href="#模型思想" class="headerlink" title="模型思想"></a>模型思想</h2><p>神经网络虽然在分类任务表现出色，但是如果要移植到检测任务上，需要解决三个问题：</p>
+<h2 id="&#x6A21;&#x578B;&#x601D;&#x60F3;"><a href="#&#x6A21;&#x578B;&#x601D;&#x60F3;" class="headerlink" title="&#x6A21;&#x578B;&#x601D;&#x60F3;"></a>&#x6A21;&#x578B;&#x601D;&#x60F3;</h2><p>&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x867D;&#x7136;&#x5728;&#x5206;&#x7C7B;&#x4EFB;&#x52A1;&#x8868;&#x73B0;&#x51FA;&#x8272;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x8981;&#x79FB;&#x690D;&#x5230;&#x68C0;&#x6D4B;&#x4EFB;&#x52A1;&#x4E0A;&#xFF0C;&#x9700;&#x8981;&#x89E3;&#x51B3;&#x4E09;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;</p>
 <ol>
-<li>图片中有些地方有物体，有些地方没有物体。如何确定物体的位置</li>
-<li>图片中有多个物体，如何对多个物体进行检测</li>
-<li>图片中有些物体大，有些物体小，如何检测出这些多尺度的物体</li>
+<li>&#x56FE;&#x7247;&#x4E2D;&#x6709;&#x4E9B;&#x5730;&#x65B9;&#x6709;&#x7269;&#x4F53;&#xFF0C;&#x6709;&#x4E9B;&#x5730;&#x65B9;&#x6CA1;&#x6709;&#x7269;&#x4F53;&#x3002;&#x5982;&#x4F55;&#x786E;&#x5B9A;&#x7269;&#x4F53;&#x7684;&#x4F4D;&#x7F6E;</li>
+<li>&#x56FE;&#x7247;&#x4E2D;&#x6709;&#x591A;&#x4E2A;&#x7269;&#x4F53;&#xFF0C;&#x5982;&#x4F55;&#x5BF9;&#x591A;&#x4E2A;&#x7269;&#x4F53;&#x8FDB;&#x884C;&#x68C0;&#x6D4B;</li>
+<li>&#x56FE;&#x7247;&#x4E2D;&#x6709;&#x4E9B;&#x7269;&#x4F53;&#x5927;&#xFF0C;&#x6709;&#x4E9B;&#x7269;&#x4F53;&#x5C0F;&#xFF0C;&#x5982;&#x4F55;&#x68C0;&#x6D4B;&#x51FA;&#x8FD9;&#x4E9B;&#x591A;&#x5C3A;&#x5EA6;&#x7684;&#x7269;&#x4F53;</li>
 </ol>
-<p>针对如上问题，主要有两种解决思路，一种是one-stage的，还有一种是two-stage</p>
-<h3 id="two-stage"><a href="#two-stage" class="headerlink" title="two-stage"></a>two-stage</h3><p>two-stage的思想是将检测分为两步：</p>
+<p>&#x9488;&#x5BF9;&#x5982;&#x4E0A;&#x95EE;&#x9898;&#xFF0C;&#x4E3B;&#x8981;&#x6709;&#x4E24;&#x79CD;&#x89E3;&#x51B3;&#x601D;&#x8DEF;&#xFF0C;&#x4E00;&#x79CD;&#x662F;one-stage&#x7684;&#xFF0C;&#x8FD8;&#x6709;&#x4E00;&#x79CD;&#x662F;two-stage</p>
+<h3 id="two-stage"><a href="#two-stage" class="headerlink" title="two-stage"></a>two-stage</h3><p>two-stage&#x7684;&#x601D;&#x60F3;&#x662F;&#x5C06;&#x68C0;&#x6D4B;&#x5206;&#x4E3A;&#x4E24;&#x6B65;&#xFF1A;</p>
 <ul>
-<li>确定图片中有物体的部分</li>
-<li>将该部分送入神经网络中确定类别以及位置</li>
+<li>&#x786E;&#x5B9A;&#x56FE;&#x7247;&#x4E2D;&#x6709;&#x7269;&#x4F53;&#x7684;&#x90E8;&#x5206;</li>
+<li>&#x5C06;&#x8BE5;&#x90E8;&#x5206;&#x9001;&#x5165;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4E2D;&#x786E;&#x5B9A;&#x7C7B;&#x522B;&#x4EE5;&#x53CA;&#x4F4D;&#x7F6E;</li>
 </ul>
-<p>一开始的神经网络是暴力的，它就是用不同大小的框滑动选取图片的部分，然后再去做一个物体的分类和定位。然而这种思想太过简略，太没有利用到图片的信息来进行选框。</p>
+<p>&#x4E00;&#x5F00;&#x59CB;&#x7684;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x662F;&#x66B4;&#x529B;&#x7684;&#xFF0C;&#x5B83;&#x5C31;&#x662F;&#x7528;&#x4E0D;&#x540C;&#x5927;&#x5C0F;&#x7684;&#x6846;&#x6ED1;&#x52A8;&#x9009;&#x53D6;&#x56FE;&#x7247;&#x7684;&#x90E8;&#x5206;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x53BB;&#x505A;&#x4E00;&#x4E2A;&#x7269;&#x4F53;&#x7684;&#x5206;&#x7C7B;&#x548C;&#x5B9A;&#x4F4D;&#x3002;&#x7136;&#x800C;&#x8FD9;&#x79CD;&#x601D;&#x60F3;&#x592A;&#x8FC7;&#x7B80;&#x7565;&#xFF0C;&#x592A;&#x6CA1;&#x6709;&#x5229;&#x7528;&#x5230;&#x56FE;&#x7247;&#x7684;&#x4FE1;&#x606F;&#x6765;&#x8FDB;&#x884C;&#x9009;&#x6846;&#x3002;</p>
 <p><strong>R-CNN</strong></p>
-<p>R-CNN提出可以利用图片中的纹理、边缘、颜色等信息来粗粒度的选取物体可能出现的位置，即候选区域（Region Proposal）。</p>
-<p>然而R-CNN有如下问题：</p>
+<p>R-CNN&#x63D0;&#x51FA;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x56FE;&#x7247;&#x4E2D;&#x7684;&#x7EB9;&#x7406;&#x3001;&#x8FB9;&#x7F18;&#x3001;&#x989C;&#x8272;&#x7B49;&#x4FE1;&#x606F;&#x6765;&#x7C97;&#x7C92;&#x5EA6;&#x7684;&#x9009;&#x53D6;&#x7269;&#x4F53;&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5373;&#x5019;&#x9009;&#x533A;&#x57DF;&#xFF08;Region Proposal&#xFF09;&#x3002;</p>
+<p>&#x7136;&#x800C;R-CNN&#x6709;&#x5982;&#x4E0B;&#x95EE;&#x9898;&#xFF1A;</p>
 <ul>
-<li>将每一个区域都作为CNN的输入，时间开销很大</li>
-<li>由于CNN的输入是固定的，而候选区域的形状大小是不确定的。所以需要对候选区域进行形变，但这会造成失真。</li>
+<li>&#x5C06;&#x6BCF;&#x4E00;&#x4E2A;&#x533A;&#x57DF;&#x90FD;&#x4F5C;&#x4E3A;CNN&#x7684;&#x8F93;&#x5165;&#xFF0C;&#x65F6;&#x95F4;&#x5F00;&#x9500;&#x5F88;&#x5927;</li>
+<li>&#x7531;&#x4E8E;CNN&#x7684;&#x8F93;&#x5165;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF0C;&#x800C;&#x5019;&#x9009;&#x533A;&#x57DF;&#x7684;&#x5F62;&#x72B6;&#x5927;&#x5C0F;&#x662F;&#x4E0D;&#x786E;&#x5B9A;&#x7684;&#x3002;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x5BF9;&#x5019;&#x9009;&#x533A;&#x57DF;&#x8FDB;&#x884C;&#x5F62;&#x53D8;&#xFF0C;&#x4F46;&#x8FD9;&#x4F1A;&#x9020;&#x6210;&#x5931;&#x771F;&#x3002;</li>
 </ul>
 <p><strong>SPP-net</strong></p>
-<p>SPP-net解决了R-CNN的缺点。它首先将一整张图片输入CNN，提取得到特征图。然后将对应候选区域的特征图裁剪出来，这大大减小了时间开销。</p>
-<p>然而特征图之后的全连接网络的输入要求是一个固定的大小，所以SPP提出了 空间金字塔池化（Spatial Pyramid Pooling，SPP池化）。</p>
-<p>SPP池化的核心是改变的池化的大小（池化一般是$2<em>2$的格子中进行池化）。它将特征图分为$4</em>4$、$2<em>2$、$1</em>1$个格子，分别在这些格子中进行池化。得到一个固定的$16+4+1$的向量。</p>
-<p>SPP-net的过程是：单张图片+一次CNN+多个proposal region特征图+多个pooling+多次分类回归。它将多个proposal region特征图存放到磁盘中，然后再分布进行分类回归。这一过程有两个缺点：</p>
+<p>SPP-net&#x89E3;&#x51B3;&#x4E86;R-CNN&#x7684;&#x7F3A;&#x70B9;&#x3002;&#x5B83;&#x9996;&#x5148;&#x5C06;&#x4E00;&#x6574;&#x5F20;&#x56FE;&#x7247;&#x8F93;&#x5165;CNN&#xFF0C;&#x63D0;&#x53D6;&#x5F97;&#x5230;&#x7279;&#x5F81;&#x56FE;&#x3002;&#x7136;&#x540E;&#x5C06;&#x5BF9;&#x5E94;&#x5019;&#x9009;&#x533A;&#x57DF;&#x7684;&#x7279;&#x5F81;&#x56FE;&#x88C1;&#x526A;&#x51FA;&#x6765;&#xFF0C;&#x8FD9;&#x5927;&#x5927;&#x51CF;&#x5C0F;&#x4E86;&#x65F6;&#x95F4;&#x5F00;&#x9500;&#x3002;</p>
+<p>&#x7136;&#x800C;&#x7279;&#x5F81;&#x56FE;&#x4E4B;&#x540E;&#x7684;&#x5168;&#x8FDE;&#x63A5;&#x7F51;&#x7EDC;&#x7684;&#x8F93;&#x5165;&#x8981;&#x6C42;&#x662F;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x6240;&#x4EE5;SPP&#x63D0;&#x51FA;&#x4E86; &#x7A7A;&#x95F4;&#x91D1;&#x5B57;&#x5854;&#x6C60;&#x5316;&#xFF08;Spatial Pyramid Pooling&#xFF0C;SPP&#x6C60;&#x5316;&#xFF09;&#x3002;</p>
+<p>SPP&#x6C60;&#x5316;&#x7684;&#x6838;&#x5FC3;&#x662F;&#x6539;&#x53D8;&#x7684;&#x6C60;&#x5316;&#x7684;&#x5927;&#x5C0F;&#xFF08;&#x6C60;&#x5316;&#x4E00;&#x822C;&#x662F;$2<em>2$&#x7684;&#x683C;&#x5B50;&#x4E2D;&#x8FDB;&#x884C;&#x6C60;&#x5316;&#xFF09;&#x3002;&#x5B83;&#x5C06;&#x7279;&#x5F81;&#x56FE;&#x5206;&#x4E3A;$4</em>4$&#x3001;$2<em>2$&#x3001;$1</em>1$&#x4E2A;&#x683C;&#x5B50;&#xFF0C;&#x5206;&#x522B;&#x5728;&#x8FD9;&#x4E9B;&#x683C;&#x5B50;&#x4E2D;&#x8FDB;&#x884C;&#x6C60;&#x5316;&#x3002;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;&#x7684;$16+4+1$&#x7684;&#x5411;&#x91CF;&#x3002;</p>
+<p>SPP-net&#x7684;&#x8FC7;&#x7A0B;&#x662F;&#xFF1A;&#x5355;&#x5F20;&#x56FE;&#x7247;+&#x4E00;&#x6B21;CNN+&#x591A;&#x4E2A;proposal region&#x7279;&#x5F81;&#x56FE;+&#x591A;&#x4E2A;pooling+&#x591A;&#x6B21;&#x5206;&#x7C7B;&#x56DE;&#x5F52;&#x3002;&#x5B83;&#x5C06;&#x591A;&#x4E2A;proposal region&#x7279;&#x5F81;&#x56FE;&#x5B58;&#x653E;&#x5230;&#x78C1;&#x76D8;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5206;&#x5E03;&#x8FDB;&#x884C;&#x5206;&#x7C7B;&#x56DE;&#x5F52;&#x3002;&#x8FD9;&#x4E00;&#x8FC7;&#x7A0B;&#x6709;&#x4E24;&#x4E2A;&#x7F3A;&#x70B9;&#xFF1A;</p>
 <ul>
-<li>磁盘的多次读写的时间开销大</li>
-<li>这一过程不是端到端的。所以再训练的时候，需要训练好前面的特征提取网络，再固定参数，训练之后的全连接网络。</li>
+<li>&#x78C1;&#x76D8;&#x7684;&#x591A;&#x6B21;&#x8BFB;&#x5199;&#x7684;&#x65F6;&#x95F4;&#x5F00;&#x9500;&#x5927;</li>
+<li>&#x8FD9;&#x4E00;&#x8FC7;&#x7A0B;&#x4E0D;&#x662F;&#x7AEF;&#x5230;&#x7AEF;&#x7684;&#x3002;&#x6240;&#x4EE5;&#x518D;&#x8BAD;&#x7EC3;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x8BAD;&#x7EC3;&#x597D;&#x524D;&#x9762;&#x7684;&#x7279;&#x5F81;&#x63D0;&#x53D6;&#x7F51;&#x7EDC;&#xFF0C;&#x518D;&#x56FA;&#x5B9A;&#x53C2;&#x6570;&#xFF0C;&#x8BAD;&#x7EC3;&#x4E4B;&#x540E;&#x7684;&#x5168;&#x8FDE;&#x63A5;&#x7F51;&#x7EDC;&#x3002;</li>
 </ul>
 <p><strong>Fast-RCNN</strong></p>
-<p>Fast-RCNN修正了SPP-net。它最大的改进是不再将多个proposal region特征图 进行多次回归了。它在将多个特征图进行ROI pooling之后拼接为一个向量。然后直接做分类回归。</p>
-<p>ROI pooling是SPP的一个简化版，即它不再将特征图划分为$4<em>4,2</em>2,1<em>1$，而是直接划分为$n</em>n$份。</p>
-<p>ROI pooling有一个小缺点是有时候region proposal特征图不一定能够被n整除。所以后来的mask RCNN提出ROI align，当不能整除时，用双线性插值的方式求出浮点数坐标的特征值。</p>
+<p>Fast-RCNN&#x4FEE;&#x6B63;&#x4E86;SPP-net&#x3002;&#x5B83;&#x6700;&#x5927;&#x7684;&#x6539;&#x8FDB;&#x662F;&#x4E0D;&#x518D;&#x5C06;&#x591A;&#x4E2A;proposal region&#x7279;&#x5F81;&#x56FE; &#x8FDB;&#x884C;&#x591A;&#x6B21;&#x56DE;&#x5F52;&#x4E86;&#x3002;&#x5B83;&#x5728;&#x5C06;&#x591A;&#x4E2A;&#x7279;&#x5F81;&#x56FE;&#x8FDB;&#x884C;ROI pooling&#x4E4B;&#x540E;&#x62FC;&#x63A5;&#x4E3A;&#x4E00;&#x4E2A;&#x5411;&#x91CF;&#x3002;&#x7136;&#x540E;&#x76F4;&#x63A5;&#x505A;&#x5206;&#x7C7B;&#x56DE;&#x5F52;&#x3002;</p>
+<p>ROI pooling&#x662F;SPP&#x7684;&#x4E00;&#x4E2A;&#x7B80;&#x5316;&#x7248;&#xFF0C;&#x5373;&#x5B83;&#x4E0D;&#x518D;&#x5C06;&#x7279;&#x5F81;&#x56FE;&#x5212;&#x5206;&#x4E3A;$4<em>4,2</em>2,1<em>1$&#xFF0C;&#x800C;&#x662F;&#x76F4;&#x63A5;&#x5212;&#x5206;&#x4E3A;$n</em>n$&#x4EFD;&#x3002;</p>
+<p>ROI pooling&#x6709;&#x4E00;&#x4E2A;&#x5C0F;&#x7F3A;&#x70B9;&#x662F;&#x6709;&#x65F6;&#x5019;region proposal&#x7279;&#x5F81;&#x56FE;&#x4E0D;&#x4E00;&#x5B9A;&#x80FD;&#x591F;&#x88AB;n&#x6574;&#x9664;&#x3002;&#x6240;&#x4EE5;&#x540E;&#x6765;&#x7684;mask RCNN&#x63D0;&#x51FA;ROI align&#xFF0C;&#x5F53;&#x4E0D;&#x80FD;&#x6574;&#x9664;&#x65F6;&#xFF0C;&#x7528;&#x53CC;&#x7EBF;&#x6027;&#x63D2;&#x503C;&#x7684;&#x65B9;&#x5F0F;&#x6C42;&#x51FA;&#x6D6E;&#x70B9;&#x6570;&#x5750;&#x6807;&#x7684;&#x7279;&#x5F81;&#x503C;&#x3002;</p>
 <p><strong>Faster-RCNN</strong></p>
-<p>Faster-RCNN是two-stage算法的巅峰之作。它最大的贡献是提出了RPN（region proposal net）。使得选取ROI变成可以学习的。Faster-RCNN的大致流程如下：</p>
+<p>Faster-RCNN&#x662F;two-stage&#x7B97;&#x6CD5;&#x7684;&#x5DC5;&#x5CF0;&#x4E4B;&#x4F5C;&#x3002;&#x5B83;&#x6700;&#x5927;&#x7684;&#x8D21;&#x732E;&#x662F;&#x63D0;&#x51FA;&#x4E86;RPN&#xFF08;region proposal net&#xFF09;&#x3002;&#x4F7F;&#x5F97;&#x9009;&#x53D6;ROI&#x53D8;&#x6210;&#x53EF;&#x4EE5;&#x5B66;&#x4E60;&#x7684;&#x3002;Faster-RCNN&#x7684;&#x5927;&#x81F4;&#x6D41;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
 <ol>
-<li>back bone提取特征图</li>
-<li>RPN以特征图作为输入，得到ROI的坐标与第一次类别</li>
-<li>结合特征图以及ROI 坐标 得到region proposal特征图</li>
-<li>将region proposal特征图送入全连接网络做回归和分类</li>
+<li>back bone&#x63D0;&#x53D6;&#x7279;&#x5F81;&#x56FE;</li>
+<li>RPN&#x4EE5;&#x7279;&#x5F81;&#x56FE;&#x4F5C;&#x4E3A;&#x8F93;&#x5165;&#xFF0C;&#x5F97;&#x5230;ROI&#x7684;&#x5750;&#x6807;&#x4E0E;&#x7B2C;&#x4E00;&#x6B21;&#x7C7B;&#x522B;</li>
+<li>&#x7ED3;&#x5408;&#x7279;&#x5F81;&#x56FE;&#x4EE5;&#x53CA;ROI &#x5750;&#x6807; &#x5F97;&#x5230;region proposal&#x7279;&#x5F81;&#x56FE;</li>
+<li>&#x5C06;region proposal&#x7279;&#x5F81;&#x56FE;&#x9001;&#x5165;&#x5168;&#x8FDE;&#x63A5;&#x7F51;&#x7EDC;&#x505A;&#x56DE;&#x5F52;&#x548C;&#x5206;&#x7C7B;</li>
 </ol>
-<p><em>附：Faster-RCNN提出了anchor box，然而这个已经不局限于one-stage和two-stage了，所以我将其放在了优化思路中</em></p>
-<h3 id="one-stage"><a href="#one-stage" class="headerlink" title="one-stage"></a>one-stage</h3><p>目标的检测的源头都是滑动窗口（sliding windows）。two stage的演化思路方法是改进proposal region的选取方法以及使得将two stage尽量放在一个网络中（网络中的两个部分）。</p>
-<p>one-stage的想法更加激进，它认为卷积的操作实际就 可以对应了滑动窗口的滑动部分，卷积得到的特征图中的特征点，就是对应感受野提取出的结果，这里感受野可以类似于滑动剪切的窗口。</p>
-<p>YOLO v1是one-stage的开篇之作，他将图片分成$7<em>7$个格子。图片中的物体落在哪个格子中，哪个格子就负责预测该物体。最后输出的特征图是$7*7</em>(C+[confidence,location])$，相当于每个格子预测1个物体（实际上YOLO设计的要更加巧妙，每个格子预测2个物体，通过confidence来共享C），C为类别概率，location为位置信息。这里需要提醒的是，物体的大小可以远大于该格子，因为通过不断的卷积，最后提取的信息远大于那个格子。在损失函数的设计上，YOLO通过将 正样本损失、负样本损失、分类损失、回归损失 都乘以不同权重来调整样本不平衡问题。（优化思路中详细描述）</p>
-<p>无疑YOLO v1的设计现在看来是比较简陋的，它有如下问题：</p>
+<p><em>&#x9644;&#xFF1A;Faster-RCNN&#x63D0;&#x51FA;&#x4E86;anchor box&#xFF0C;&#x7136;&#x800C;&#x8FD9;&#x4E2A;&#x5DF2;&#x7ECF;&#x4E0D;&#x5C40;&#x9650;&#x4E8E;one-stage&#x548C;two-stage&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x5C06;&#x5176;&#x653E;&#x5728;&#x4E86;&#x4F18;&#x5316;&#x601D;&#x8DEF;&#x4E2D;</em></p>
+<h3 id="one-stage"><a href="#one-stage" class="headerlink" title="one-stage"></a>one-stage</h3><p>&#x76EE;&#x6807;&#x7684;&#x68C0;&#x6D4B;&#x7684;&#x6E90;&#x5934;&#x90FD;&#x662F;&#x6ED1;&#x52A8;&#x7A97;&#x53E3;&#xFF08;sliding windows&#xFF09;&#x3002;two stage&#x7684;&#x6F14;&#x5316;&#x601D;&#x8DEF;&#x65B9;&#x6CD5;&#x662F;&#x6539;&#x8FDB;proposal region&#x7684;&#x9009;&#x53D6;&#x65B9;&#x6CD5;&#x4EE5;&#x53CA;&#x4F7F;&#x5F97;&#x5C06;two stage&#x5C3D;&#x91CF;&#x653E;&#x5728;&#x4E00;&#x4E2A;&#x7F51;&#x7EDC;&#x4E2D;&#xFF08;&#x7F51;&#x7EDC;&#x4E2D;&#x7684;&#x4E24;&#x4E2A;&#x90E8;&#x5206;&#xFF09;&#x3002;</p>
+<p>one-stage&#x7684;&#x60F3;&#x6CD5;&#x66F4;&#x52A0;&#x6FC0;&#x8FDB;&#xFF0C;&#x5B83;&#x8BA4;&#x4E3A;&#x5377;&#x79EF;&#x7684;&#x64CD;&#x4F5C;&#x5B9E;&#x9645;&#x5C31; &#x53EF;&#x4EE5;&#x5BF9;&#x5E94;&#x4E86;&#x6ED1;&#x52A8;&#x7A97;&#x53E3;&#x7684;&#x6ED1;&#x52A8;&#x90E8;&#x5206;&#xFF0C;&#x5377;&#x79EF;&#x5F97;&#x5230;&#x7684;&#x7279;&#x5F81;&#x56FE;&#x4E2D;&#x7684;&#x7279;&#x5F81;&#x70B9;&#xFF0C;&#x5C31;&#x662F;&#x5BF9;&#x5E94;&#x611F;&#x53D7;&#x91CE;&#x63D0;&#x53D6;&#x51FA;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x8FD9;&#x91CC;&#x611F;&#x53D7;&#x91CE;&#x53EF;&#x4EE5;&#x7C7B;&#x4F3C;&#x4E8E;&#x6ED1;&#x52A8;&#x526A;&#x5207;&#x7684;&#x7A97;&#x53E3;&#x3002;</p>
+<p>YOLO v1&#x662F;one-stage&#x7684;&#x5F00;&#x7BC7;&#x4E4B;&#x4F5C;&#xFF0C;&#x4ED6;&#x5C06;&#x56FE;&#x7247;&#x5206;&#x6210;$7<em>7$&#x4E2A;&#x683C;&#x5B50;&#x3002;&#x56FE;&#x7247;&#x4E2D;&#x7684;&#x7269;&#x4F53;&#x843D;&#x5728;&#x54EA;&#x4E2A;&#x683C;&#x5B50;&#x4E2D;&#xFF0C;&#x54EA;&#x4E2A;&#x683C;&#x5B50;&#x5C31;&#x8D1F;&#x8D23;&#x9884;&#x6D4B;&#x8BE5;&#x7269;&#x4F53;&#x3002;&#x6700;&#x540E;&#x8F93;&#x51FA;&#x7684;&#x7279;&#x5F81;&#x56FE;&#x662F;$7*7</em>(C+[confidence,location])$&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x6BCF;&#x4E2A;&#x683C;&#x5B50;&#x9884;&#x6D4B;1&#x4E2A;&#x7269;&#x4F53;&#xFF08;&#x5B9E;&#x9645;&#x4E0A;YOLO&#x8BBE;&#x8BA1;&#x7684;&#x8981;&#x66F4;&#x52A0;&#x5DE7;&#x5999;&#xFF0C;&#x6BCF;&#x4E2A;&#x683C;&#x5B50;&#x9884;&#x6D4B;2&#x4E2A;&#x7269;&#x4F53;&#xFF0C;&#x901A;&#x8FC7;confidence&#x6765;&#x5171;&#x4EAB;C&#xFF09;&#xFF0C;C&#x4E3A;&#x7C7B;&#x522B;&#x6982;&#x7387;&#xFF0C;location&#x4E3A;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x3002;&#x8FD9;&#x91CC;&#x9700;&#x8981;&#x63D0;&#x9192;&#x7684;&#x662F;&#xFF0C;&#x7269;&#x4F53;&#x7684;&#x5927;&#x5C0F;&#x53EF;&#x4EE5;&#x8FDC;&#x5927;&#x4E8E;&#x8BE5;&#x683C;&#x5B50;&#xFF0C;&#x56E0;&#x4E3A;&#x901A;&#x8FC7;&#x4E0D;&#x65AD;&#x7684;&#x5377;&#x79EF;&#xFF0C;&#x6700;&#x540E;&#x63D0;&#x53D6;&#x7684;&#x4FE1;&#x606F;&#x8FDC;&#x5927;&#x4E8E;&#x90A3;&#x4E2A;&#x683C;&#x5B50;&#x3002;&#x5728;&#x635F;&#x5931;&#x51FD;&#x6570;&#x7684;&#x8BBE;&#x8BA1;&#x4E0A;&#xFF0C;YOLO&#x901A;&#x8FC7;&#x5C06; &#x6B63;&#x6837;&#x672C;&#x635F;&#x5931;&#x3001;&#x8D1F;&#x6837;&#x672C;&#x635F;&#x5931;&#x3001;&#x5206;&#x7C7B;&#x635F;&#x5931;&#x3001;&#x56DE;&#x5F52;&#x635F;&#x5931; &#x90FD;&#x4E58;&#x4EE5;&#x4E0D;&#x540C;&#x6743;&#x91CD;&#x6765;&#x8C03;&#x6574;&#x6837;&#x672C;&#x4E0D;&#x5E73;&#x8861;&#x95EE;&#x9898;&#x3002;&#xFF08;&#x4F18;&#x5316;&#x601D;&#x8DEF;&#x4E2D;&#x8BE6;&#x7EC6;&#x63CF;&#x8FF0;&#xFF09;</p>
+<p>&#x65E0;&#x7591;YOLO v1&#x7684;&#x8BBE;&#x8BA1;&#x73B0;&#x5728;&#x770B;&#x6765;&#x662F;&#x6BD4;&#x8F83;&#x7B80;&#x964B;&#x7684;&#xFF0C;&#x5B83;&#x6709;&#x5982;&#x4E0B;&#x95EE;&#x9898;&#xFF1A;</p>
 <ul>
-<li>最后输出的不同结果 对应原图的感受野都是相同的，这样对于不同尺度物体的匹配程度较差</li>
-<li>每一个格子只能预测1个物体（可以设置为多个物体，但v1作者只是设置了2个，由此看来更多可能有一些问题）</li>
-<li>YOLO v1是直接 对于坐标 的预测，而结果的感受野不是全图。（坐标肯定是要基于全图左上角作为基准才能得到）</li>
+<li>&#x6700;&#x540E;&#x8F93;&#x51FA;&#x7684;&#x4E0D;&#x540C;&#x7ED3;&#x679C; &#x5BF9;&#x5E94;&#x539F;&#x56FE;&#x7684;&#x611F;&#x53D7;&#x91CE;&#x90FD;&#x662F;&#x76F8;&#x540C;&#x7684;&#xFF0C;&#x8FD9;&#x6837;&#x5BF9;&#x4E8E;&#x4E0D;&#x540C;&#x5C3A;&#x5EA6;&#x7269;&#x4F53;&#x7684;&#x5339;&#x914D;&#x7A0B;&#x5EA6;&#x8F83;&#x5DEE;</li>
+<li>&#x6BCF;&#x4E00;&#x4E2A;&#x683C;&#x5B50;&#x53EA;&#x80FD;&#x9884;&#x6D4B;1&#x4E2A;&#x7269;&#x4F53;&#xFF08;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x4E3A;&#x591A;&#x4E2A;&#x7269;&#x4F53;&#xFF0C;&#x4F46;v1&#x4F5C;&#x8005;&#x53EA;&#x662F;&#x8BBE;&#x7F6E;&#x4E86;2&#x4E2A;&#xFF0C;&#x7531;&#x6B64;&#x770B;&#x6765;&#x66F4;&#x591A;&#x53EF;&#x80FD;&#x6709;&#x4E00;&#x4E9B;&#x95EE;&#x9898;&#xFF09;</li>
+<li>YOLO v1&#x662F;&#x76F4;&#x63A5; &#x5BF9;&#x4E8E;&#x5750;&#x6807; &#x7684;&#x9884;&#x6D4B;&#xFF0C;&#x800C;&#x7ED3;&#x679C;&#x7684;&#x611F;&#x53D7;&#x91CE;&#x4E0D;&#x662F;&#x5168;&#x56FE;&#x3002;&#xFF08;&#x5750;&#x6807;&#x80AF;&#x5B9A;&#x662F;&#x8981;&#x57FA;&#x4E8E;&#x5168;&#x56FE;&#x5DE6;&#x4E0A;&#x89D2;&#x4F5C;&#x4E3A;&#x57FA;&#x51C6;&#x624D;&#x80FD;&#x5F97;&#x5230;&#xFF09;</li>
 </ul>
-<p>针对如上问题，有很多巧妙的方法被提出。这里简单介绍一下SSD和YOLO v2的anchor思想。具体参见优化思路。</p>
-<p>SSD针对不同尺度的物体，使用最后五个特征图来预测。越深处的特征图的感受野越大，可以负责预测更大的物体，反之可以预测更小的物体。</p>
-<p>YOLO v2则借用了Faster RCNN的anchor box思想。即预先设置好位置，然后通过预测该框的偏移来预测位置。（详见优化思路）</p>
-<h2 id="优化思路"><a href="#优化思路" class="headerlink" title="优化思路"></a>优化思路</h2><h3 id="锚框（anchor-box）"><a href="#锚框（anchor-box）" class="headerlink" title="锚框（anchor  box）"></a>锚框（anchor  box）</h3><p>anchor box思想是Faster RCNN提出的（它改变了one-stage）。anchor box，顾名思义，锚框，像锚一些其基准的作用。</p>
-<p>在anchor box提出之前，目标检测大多都是直接预测坐标的，这有很多缺点，比如不稳定、受到感受野限制等等。新的方法是首先在一张图片上铺满不同的锚框（主要是长宽比和大小不同）。</p>
-<p>计算所有 anchor box 和 物体gt_box的 IoU。这样每一个anchor box的所负责预测类别便是与它IoU最大的那个gt_box。（附：当IoU小于某个阈值便作为负样本/背景样本）。</p>
-<p>这样对物体的类别预测便是对anchor box类别的预测，对物体的位置的预测便是对anchor box位置的偏移的预测（对数偏移），其转换方法(YOLO v2)：</p>
-<p><img src="%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567323883396.png" alt="1567323883396"></p>
-<p>然而锚框也有很大缺点：</p>
+<p>&#x9488;&#x5BF9;&#x5982;&#x4E0A;&#x95EE;&#x9898;&#xFF0C;&#x6709;&#x5F88;&#x591A;&#x5DE7;&#x5999;&#x7684;&#x65B9;&#x6CD5;&#x88AB;&#x63D0;&#x51FA;&#x3002;&#x8FD9;&#x91CC;&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E00;&#x4E0B;SSD&#x548C;YOLO v2&#x7684;anchor&#x601D;&#x60F3;&#x3002;&#x5177;&#x4F53;&#x53C2;&#x89C1;&#x4F18;&#x5316;&#x601D;&#x8DEF;&#x3002;</p>
+<p>SSD&#x9488;&#x5BF9;&#x4E0D;&#x540C;&#x5C3A;&#x5EA6;&#x7684;&#x7269;&#x4F53;&#xFF0C;&#x4F7F;&#x7528;&#x6700;&#x540E;&#x4E94;&#x4E2A;&#x7279;&#x5F81;&#x56FE;&#x6765;&#x9884;&#x6D4B;&#x3002;&#x8D8A;&#x6DF1;&#x5904;&#x7684;&#x7279;&#x5F81;&#x56FE;&#x7684;&#x611F;&#x53D7;&#x91CE;&#x8D8A;&#x5927;&#xFF0C;&#x53EF;&#x4EE5;&#x8D1F;&#x8D23;&#x9884;&#x6D4B;&#x66F4;&#x5927;&#x7684;&#x7269;&#x4F53;&#xFF0C;&#x53CD;&#x4E4B;&#x53EF;&#x4EE5;&#x9884;&#x6D4B;&#x66F4;&#x5C0F;&#x7684;&#x7269;&#x4F53;&#x3002;</p>
+<p>YOLO v2&#x5219;&#x501F;&#x7528;&#x4E86;Faster RCNN&#x7684;anchor box&#x601D;&#x60F3;&#x3002;&#x5373;&#x9884;&#x5148;&#x8BBE;&#x7F6E;&#x597D;&#x4F4D;&#x7F6E;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x9884;&#x6D4B;&#x8BE5;&#x6846;&#x7684;&#x504F;&#x79FB;&#x6765;&#x9884;&#x6D4B;&#x4F4D;&#x7F6E;&#x3002;&#xFF08;&#x8BE6;&#x89C1;&#x4F18;&#x5316;&#x601D;&#x8DEF;&#xFF09;</p>
+<h2 id="&#x4F18;&#x5316;&#x601D;&#x8DEF;"><a href="#&#x4F18;&#x5316;&#x601D;&#x8DEF;" class="headerlink" title="&#x4F18;&#x5316;&#x601D;&#x8DEF;"></a>&#x4F18;&#x5316;&#x601D;&#x8DEF;</h2><h3 id="&#x951A;&#x6846;&#xFF08;anchor-box&#xFF09;"><a href="#&#x951A;&#x6846;&#xFF08;anchor-box&#xFF09;" class="headerlink" title="&#x951A;&#x6846;&#xFF08;anchor  box&#xFF09;"></a>&#x951A;&#x6846;&#xFF08;anchor  box&#xFF09;</h3><p>anchor box&#x601D;&#x60F3;&#x662F;Faster RCNN&#x63D0;&#x51FA;&#x7684;&#xFF08;&#x5B83;&#x6539;&#x53D8;&#x4E86;one-stage&#xFF09;&#x3002;anchor box&#xFF0C;&#x987E;&#x540D;&#x601D;&#x4E49;&#xFF0C;&#x951A;&#x6846;&#xFF0C;&#x50CF;&#x951A;&#x4E00;&#x4E9B;&#x5176;&#x57FA;&#x51C6;&#x7684;&#x4F5C;&#x7528;&#x3002;</p>
+<p>&#x5728;anchor box&#x63D0;&#x51FA;&#x4E4B;&#x524D;&#xFF0C;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x5927;&#x591A;&#x90FD;&#x662F;&#x76F4;&#x63A5;&#x9884;&#x6D4B;&#x5750;&#x6807;&#x7684;&#xFF0C;&#x8FD9;&#x6709;&#x5F88;&#x591A;&#x7F3A;&#x70B9;&#xFF0C;&#x6BD4;&#x5982;&#x4E0D;&#x7A33;&#x5B9A;&#x3001;&#x53D7;&#x5230;&#x611F;&#x53D7;&#x91CE;&#x9650;&#x5236;&#x7B49;&#x7B49;&#x3002;&#x65B0;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x9996;&#x5148;&#x5728;&#x4E00;&#x5F20;&#x56FE;&#x7247;&#x4E0A;&#x94FA;&#x6EE1;&#x4E0D;&#x540C;&#x7684;&#x951A;&#x6846;&#xFF08;&#x4E3B;&#x8981;&#x662F;&#x957F;&#x5BBD;&#x6BD4;&#x548C;&#x5927;&#x5C0F;&#x4E0D;&#x540C;&#xFF09;&#x3002;</p>
+<p>&#x8BA1;&#x7B97;&#x6240;&#x6709; anchor box &#x548C; &#x7269;&#x4F53;gt_box&#x7684; IoU&#x3002;&#x8FD9;&#x6837;&#x6BCF;&#x4E00;&#x4E2A;anchor box&#x7684;&#x6240;&#x8D1F;&#x8D23;&#x9884;&#x6D4B;&#x7C7B;&#x522B;&#x4FBF;&#x662F;&#x4E0E;&#x5B83;IoU&#x6700;&#x5927;&#x7684;&#x90A3;&#x4E2A;gt_box&#x3002;&#xFF08;&#x9644;&#xFF1A;&#x5F53;IoU&#x5C0F;&#x4E8E;&#x67D0;&#x4E2A;&#x9608;&#x503C;&#x4FBF;&#x4F5C;&#x4E3A;&#x8D1F;&#x6837;&#x672C;/&#x80CC;&#x666F;&#x6837;&#x672C;&#xFF09;&#x3002;</p>
+<p>&#x8FD9;&#x6837;&#x5BF9;&#x7269;&#x4F53;&#x7684;&#x7C7B;&#x522B;&#x9884;&#x6D4B;&#x4FBF;&#x662F;&#x5BF9;anchor box&#x7C7B;&#x522B;&#x7684;&#x9884;&#x6D4B;&#xFF0C;&#x5BF9;&#x7269;&#x4F53;&#x7684;&#x4F4D;&#x7F6E;&#x7684;&#x9884;&#x6D4B;&#x4FBF;&#x662F;&#x5BF9;anchor box&#x4F4D;&#x7F6E;&#x7684;&#x504F;&#x79FB;&#x7684;&#x9884;&#x6D4B;&#xFF08;&#x5BF9;&#x6570;&#x504F;&#x79FB;&#xFF09;&#xFF0C;&#x5176;&#x8F6C;&#x6362;&#x65B9;&#x6CD5;(YOLO v2)&#xFF1A;</p>
+<p><img src="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/1567323883396.png" alt="1567323883396"></p>
+<p>&#x7136;&#x800C;&#x951A;&#x6846;&#x4E5F;&#x6709;&#x5F88;&#x5927;&#x7F3A;&#x70B9;&#xFF1A;</p>
 <ul>
-<li>大量的锚框加剧了不平衡现象</li>
-<li>锚框的长宽比需要手动设计</li>
-<li>网络中预测物体的感受野 与 实际物体的 不匹配现象（位置不匹配）：在网络中，anchor box通过对数偏移预测实际物体位置，然而网络中的感受野没有变化。</li>
+<li>&#x5927;&#x91CF;&#x7684;&#x951A;&#x6846;&#x52A0;&#x5267;&#x4E86;&#x4E0D;&#x5E73;&#x8861;&#x73B0;&#x8C61;</li>
+<li>&#x951A;&#x6846;&#x7684;&#x957F;&#x5BBD;&#x6BD4;&#x9700;&#x8981;&#x624B;&#x52A8;&#x8BBE;&#x8BA1;</li>
+<li>&#x7F51;&#x7EDC;&#x4E2D;&#x9884;&#x6D4B;&#x7269;&#x4F53;&#x7684;&#x611F;&#x53D7;&#x91CE; &#x4E0E; &#x5B9E;&#x9645;&#x7269;&#x4F53;&#x7684; &#x4E0D;&#x5339;&#x914D;&#x73B0;&#x8C61;&#xFF08;&#x4F4D;&#x7F6E;&#x4E0D;&#x5339;&#x914D;&#xFF09;&#xFF1A;&#x5728;&#x7F51;&#x7EDC;&#x4E2D;&#xFF0C;anchor box&#x901A;&#x8FC7;&#x5BF9;&#x6570;&#x504F;&#x79FB;&#x9884;&#x6D4B;&#x5B9E;&#x9645;&#x7269;&#x4F53;&#x4F4D;&#x7F6E;&#xFF0C;&#x7136;&#x800C;&#x7F51;&#x7EDC;&#x4E2D;&#x7684;&#x611F;&#x53D7;&#x91CE;&#x6CA1;&#x6709;&#x53D8;&#x5316;&#x3002;</li>
 </ul>
-<h3 id="多尺度"><a href="#多尺度" class="headerlink" title="多尺度"></a>多尺度</h3><p>影响目标检测性能的有两个问题：</p>
+<h3 id="&#x591A;&#x5C3A;&#x5EA6;"><a href="#&#x591A;&#x5C3A;&#x5EA6;" class="headerlink" title="&#x591A;&#x5C3A;&#x5EA6;"></a>&#x591A;&#x5C3A;&#x5EA6;</h3><p>&#x5F71;&#x54CD;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x6027;&#x80FD;&#x7684;&#x6709;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;</p>
 <ol>
-<li>位置不匹配：物体的实际位置 和 对于感受野的不匹配</li>
-<li>尺度不匹配：小感受野预测大物体 或 大感受野预测小物体</li>
+<li>&#x4F4D;&#x7F6E;&#x4E0D;&#x5339;&#x914D;&#xFF1A;&#x7269;&#x4F53;&#x7684;&#x5B9E;&#x9645;&#x4F4D;&#x7F6E; &#x548C; &#x5BF9;&#x4E8E;&#x611F;&#x53D7;&#x91CE;&#x7684;&#x4E0D;&#x5339;&#x914D;</li>
+<li>&#x5C3A;&#x5EA6;&#x4E0D;&#x5339;&#x914D;&#xFF1A;&#x5C0F;&#x611F;&#x53D7;&#x91CE;&#x9884;&#x6D4B;&#x5927;&#x7269;&#x4F53; &#x6216; &#x5927;&#x611F;&#x53D7;&#x91CE;&#x9884;&#x6D4B;&#x5C0F;&#x7269;&#x4F53;</li>
 </ol>
-<p>所以很多方法被提出来解决尺度不匹配问题。如下图所示：</p>
-<p><img src="%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567324588539.png" alt="1567324588539"></p>
+<p>&#x6240;&#x4EE5;&#x5F88;&#x591A;&#x65B9;&#x6CD5;&#x88AB;&#x63D0;&#x51FA;&#x6765;&#x89E3;&#x51B3;&#x5C3A;&#x5EA6;&#x4E0D;&#x5339;&#x914D;&#x95EE;&#x9898;&#x3002;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
+<p><img src="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/1567324588539.png" alt="1567324588539"></p>
 <ul>
-<li>（a）是图片金子塔，将图片放缩成不同尺度来预测不同大小的物体，然而它有很多问题</li>
-<li>（b）是老的目标检测网络用的backbone，只用最后一层来预测。尺度不匹配问题很严重</li>
-<li>（c）是SSD提出的网络模型，使用最后几层不同尺度的特征图来预测物体，理论上小特征图的感受野大可以预测大物体，大特征图的感受野小，可以预测小物体。然而它有一个问题就是上层特征图可能对于信息的提取不充分。</li>
-<li>（d）是特征金子塔，将深层特征图（语义信息充分，但缺乏空间信息）和浅层特征（空间信息充分，缺乏语义信息）融合。并将融合后的多尺度特征图预测物体。</li>
+<li>&#xFF08;a&#xFF09;&#x662F;&#x56FE;&#x7247;&#x91D1;&#x5B50;&#x5854;&#xFF0C;&#x5C06;&#x56FE;&#x7247;&#x653E;&#x7F29;&#x6210;&#x4E0D;&#x540C;&#x5C3A;&#x5EA6;&#x6765;&#x9884;&#x6D4B;&#x4E0D;&#x540C;&#x5927;&#x5C0F;&#x7684;&#x7269;&#x4F53;&#xFF0C;&#x7136;&#x800C;&#x5B83;&#x6709;&#x5F88;&#x591A;&#x95EE;&#x9898;</li>
+<li>&#xFF08;b&#xFF09;&#x662F;&#x8001;&#x7684;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x7F51;&#x7EDC;&#x7528;&#x7684;backbone&#xFF0C;&#x53EA;&#x7528;&#x6700;&#x540E;&#x4E00;&#x5C42;&#x6765;&#x9884;&#x6D4B;&#x3002;&#x5C3A;&#x5EA6;&#x4E0D;&#x5339;&#x914D;&#x95EE;&#x9898;&#x5F88;&#x4E25;&#x91CD;</li>
+<li>&#xFF08;c&#xFF09;&#x662F;SSD&#x63D0;&#x51FA;&#x7684;&#x7F51;&#x7EDC;&#x6A21;&#x578B;&#xFF0C;&#x4F7F;&#x7528;&#x6700;&#x540E;&#x51E0;&#x5C42;&#x4E0D;&#x540C;&#x5C3A;&#x5EA6;&#x7684;&#x7279;&#x5F81;&#x56FE;&#x6765;&#x9884;&#x6D4B;&#x7269;&#x4F53;&#xFF0C;&#x7406;&#x8BBA;&#x4E0A;&#x5C0F;&#x7279;&#x5F81;&#x56FE;&#x7684;&#x611F;&#x53D7;&#x91CE;&#x5927;&#x53EF;&#x4EE5;&#x9884;&#x6D4B;&#x5927;&#x7269;&#x4F53;&#xFF0C;&#x5927;&#x7279;&#x5F81;&#x56FE;&#x7684;&#x611F;&#x53D7;&#x91CE;&#x5C0F;&#xFF0C;&#x53EF;&#x4EE5;&#x9884;&#x6D4B;&#x5C0F;&#x7269;&#x4F53;&#x3002;&#x7136;&#x800C;&#x5B83;&#x6709;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x5C31;&#x662F;&#x4E0A;&#x5C42;&#x7279;&#x5F81;&#x56FE;&#x53EF;&#x80FD;&#x5BF9;&#x4E8E;&#x4FE1;&#x606F;&#x7684;&#x63D0;&#x53D6;&#x4E0D;&#x5145;&#x5206;&#x3002;</li>
+<li>&#xFF08;d&#xFF09;&#x662F;&#x7279;&#x5F81;&#x91D1;&#x5B50;&#x5854;&#xFF0C;&#x5C06;&#x6DF1;&#x5C42;&#x7279;&#x5F81;&#x56FE;&#xFF08;&#x8BED;&#x4E49;&#x4FE1;&#x606F;&#x5145;&#x5206;&#xFF0C;&#x4F46;&#x7F3A;&#x4E4F;&#x7A7A;&#x95F4;&#x4FE1;&#x606F;&#xFF09;&#x548C;&#x6D45;&#x5C42;&#x7279;&#x5F81;&#xFF08;&#x7A7A;&#x95F4;&#x4FE1;&#x606F;&#x5145;&#x5206;&#xFF0C;&#x7F3A;&#x4E4F;&#x8BED;&#x4E49;&#x4FE1;&#x606F;&#xFF09;&#x878D;&#x5408;&#x3002;&#x5E76;&#x5C06;&#x878D;&#x5408;&#x540E;&#x7684;&#x591A;&#x5C3A;&#x5EA6;&#x7279;&#x5F81;&#x56FE;&#x9884;&#x6D4B;&#x7269;&#x4F53;&#x3002;</li>
 </ul>
-<p>特征金子塔对于尺度不匹配问题有很好的解决。</p>
-<h3 id="不平衡"><a href="#不平衡" class="headerlink" title="不平衡"></a>不平衡</h3><p>在目标检测中，样本主要分为入下几类：</p>
+<p>&#x7279;&#x5F81;&#x91D1;&#x5B50;&#x5854;&#x5BF9;&#x4E8E;&#x5C3A;&#x5EA6;&#x4E0D;&#x5339;&#x914D;&#x95EE;&#x9898;&#x6709;&#x5F88;&#x597D;&#x7684;&#x89E3;&#x51B3;&#x3002;</p>
+<h3 id="&#x4E0D;&#x5E73;&#x8861;"><a href="#&#x4E0D;&#x5E73;&#x8861;" class="headerlink" title="&#x4E0D;&#x5E73;&#x8861;"></a>&#x4E0D;&#x5E73;&#x8861;</h3><p>&#x5728;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x4E2D;&#xFF0C;&#x6837;&#x672C;&#x4E3B;&#x8981;&#x5206;&#x4E3A;&#x5165;&#x4E0B;&#x51E0;&#x7C7B;&#xFF1A;</p>
 <ul>
-<li>正/负 样本：正样本就是目标物体，负样本即背景物体</li>
-<li>难/易 分样本：易分样本就是容易正确分类的样本，难分样本就是难以正确分类的样本</li>
+<li>&#x6B63;/&#x8D1F; &#x6837;&#x672C;&#xFF1A;&#x6B63;&#x6837;&#x672C;&#x5C31;&#x662F;&#x76EE;&#x6807;&#x7269;&#x4F53;&#xFF0C;&#x8D1F;&#x6837;&#x672C;&#x5373;&#x80CC;&#x666F;&#x7269;&#x4F53;</li>
+<li>&#x96BE;/&#x6613; &#x5206;&#x6837;&#x672C;&#xFF1A;&#x6613;&#x5206;&#x6837;&#x672C;&#x5C31;&#x662F;&#x5BB9;&#x6613;&#x6B63;&#x786E;&#x5206;&#x7C7B;&#x7684;&#x6837;&#x672C;&#xFF0C;&#x96BE;&#x5206;&#x6837;&#x672C;&#x5C31;&#x662F;&#x96BE;&#x4EE5;&#x6B63;&#x786E;&#x5206;&#x7C7B;&#x7684;&#x6837;&#x672C;</li>
 </ul>
-<p>不平衡问题也分为两类：</p>
+<p>&#x4E0D;&#x5E73;&#x8861;&#x95EE;&#x9898;&#x4E5F;&#x5206;&#x4E3A;&#x4E24;&#x7C7B;&#xFF1A;</p>
 <ul>
-<li>正负样本不平衡：在训练集中，负样本占总体的比例很高。所以损失函数由负样本主导，不能很好对正样本进行优化。</li>
-<li>难易样本不平衡：在训练集中，易分类样本远大于难分类样本，这些简单样本对损失函数和梯度的贡献很大，使得在迭代时不能够很好的优化。</li>
+<li>&#x6B63;&#x8D1F;&#x6837;&#x672C;&#x4E0D;&#x5E73;&#x8861;&#xFF1A;&#x5728;&#x8BAD;&#x7EC3;&#x96C6;&#x4E2D;&#xFF0C;&#x8D1F;&#x6837;&#x672C;&#x5360;&#x603B;&#x4F53;&#x7684;&#x6BD4;&#x4F8B;&#x5F88;&#x9AD8;&#x3002;&#x6240;&#x4EE5;&#x635F;&#x5931;&#x51FD;&#x6570;&#x7531;&#x8D1F;&#x6837;&#x672C;&#x4E3B;&#x5BFC;&#xFF0C;&#x4E0D;&#x80FD;&#x5F88;&#x597D;&#x5BF9;&#x6B63;&#x6837;&#x672C;&#x8FDB;&#x884C;&#x4F18;&#x5316;&#x3002;</li>
+<li>&#x96BE;&#x6613;&#x6837;&#x672C;&#x4E0D;&#x5E73;&#x8861;&#xFF1A;&#x5728;&#x8BAD;&#x7EC3;&#x96C6;&#x4E2D;&#xFF0C;&#x6613;&#x5206;&#x7C7B;&#x6837;&#x672C;&#x8FDC;&#x5927;&#x4E8E;&#x96BE;&#x5206;&#x7C7B;&#x6837;&#x672C;&#xFF0C;&#x8FD9;&#x4E9B;&#x7B80;&#x5355;&#x6837;&#x672C;&#x5BF9;&#x635F;&#x5931;&#x51FD;&#x6570;&#x548C;&#x68AF;&#x5EA6;&#x7684;&#x8D21;&#x732E;&#x5F88;&#x5927;&#xFF0C;&#x4F7F;&#x5F97;&#x5728;&#x8FED;&#x4EE3;&#x65F6;&#x4E0D;&#x80FD;&#x591F;&#x5F88;&#x597D;&#x7684;&#x4F18;&#x5316;&#x3002;</li>
 </ul>
-<p>解决不平衡由很多方法，类似OHEM等，这里主要介绍何凯明提出的Focal loss：</p>
-<p>传统的交叉熵的公式如下（二分类）：<br>$$<br>CE(p,y) =<br>\left{<br>\begin{array}{}<br>-log(p) \space\space\space\space\space\space\space\space\space\space\space\space if\space y = 1 \<br>-log(1-p) \space\space\space\space\space otherwise<br>\end{array}<br>\right.<br>$$<br>Focal loss的公式如下：<br>$$<br>FL(p)=<br>\left{<br>\begin{array}{}<br>-\alpha(1-p)^\gamma log(p)\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space if\space y = 1\<br>-(1-\alpha)(1-(1-p))^\gamma log(1-p)\space\space\space\space otherwise<br>\end{array}<br>\right.<br>$$<br>这里简化一下得到：<br>$$<br>\left{\begin{array}{}<br>FL(p_t) = -\alpha_t(1-p_t)^\gamma log(p_t)\<br>p_t = (y == 1\space?\space p\space:\space1-p)\<br>\alpha_t = (y == 1\space?\space \alpha\space:\space1-\alpha)\<br>\end{array}\right.<br>$$</p>
-<p>相比于较叉熵，Focal loss加了两个参数：</p>
+<p>&#x89E3;&#x51B3;&#x4E0D;&#x5E73;&#x8861;&#x7531;&#x5F88;&#x591A;&#x65B9;&#x6CD5;&#xFF0C;&#x7C7B;&#x4F3C;OHEM&#x7B49;&#xFF0C;&#x8FD9;&#x91CC;&#x4E3B;&#x8981;&#x4ECB;&#x7ECD;&#x4F55;&#x51EF;&#x660E;&#x63D0;&#x51FA;&#x7684;Focal loss&#xFF1A;</p>
+<p>&#x4F20;&#x7EDF;&#x7684;&#x4EA4;&#x53C9;&#x71B5;&#x7684;&#x516C;&#x5F0F;&#x5982;&#x4E0B;&#xFF08;&#x4E8C;&#x5206;&#x7C7B;&#xFF09;&#xFF1A;<br>$$<br>CE(p,y) =<br>\left{<br>\begin{array}{}<br>-log(p) \space\space\space\space\space\space\space\space\space\space\space\space if\space y = 1 \<br>-log(1-p) \space\space\space\space\space otherwise<br>\end{array}<br>\right.<br>$$<br>Focal loss&#x7684;&#x516C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;<br>$$<br>FL(p)=<br>\left{<br>\begin{array}{}<br>-\alpha(1-p)^\gamma log(p)\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space\space if\space y = 1\<br>-(1-\alpha)(1-(1-p))^\gamma log(1-p)\space\space\space\space otherwise<br>\end{array}<br>\right.<br>$$<br>&#x8FD9;&#x91CC;&#x7B80;&#x5316;&#x4E00;&#x4E0B;&#x5F97;&#x5230;&#xFF1A;<br>$$<br>\left{\begin{array}{}<br>FL(p_t) = -\alpha_t(1-p_t)^\gamma log(p_t)\<br>p_t = (y == 1\space?\space p\space:\space1-p)\<br>\alpha_t = (y == 1\space?\space \alpha\space:\space1-\alpha)\<br>\end{array}\right.<br>$$</p>
+<p>&#x76F8;&#x6BD4;&#x4E8E;&#x8F83;&#x53C9;&#x71B5;&#xFF0C;Focal loss&#x52A0;&#x4E86;&#x4E24;&#x4E2A;&#x53C2;&#x6570;&#xFF1A;</p>
 <ul>
-<li>$\alpha$：$\alpha$是用来解决正负样本不平衡，它使得负样本的权重更小，正样本的权重更大</li>
-<li>$(1-p_t)^\gamma$：$(1-p_t)^\gamma$是用来解决难易样本不平衡，$\gamma$是调制系数（一般$\gamma=2$）。当$1-p_t$ 越接近0，即代表该样本被正确分类，此时样本的权重越小。当$1-p_t$越小，说明该样本分类犯得错误越大，此时权重相对来说减小的更少，相当于变相的增加了权重。（$p_t = 0.99$损失小100倍，而$p_t = 0.5$仅缩小4倍）。</li>
+<li>$\alpha$&#xFF1A;$\alpha$&#x662F;&#x7528;&#x6765;&#x89E3;&#x51B3;&#x6B63;&#x8D1F;&#x6837;&#x672C;&#x4E0D;&#x5E73;&#x8861;&#xFF0C;&#x5B83;&#x4F7F;&#x5F97;&#x8D1F;&#x6837;&#x672C;&#x7684;&#x6743;&#x91CD;&#x66F4;&#x5C0F;&#xFF0C;&#x6B63;&#x6837;&#x672C;&#x7684;&#x6743;&#x91CD;&#x66F4;&#x5927;</li>
+<li>$(1-p_t)^\gamma$&#xFF1A;$(1-p_t)^\gamma$&#x662F;&#x7528;&#x6765;&#x89E3;&#x51B3;&#x96BE;&#x6613;&#x6837;&#x672C;&#x4E0D;&#x5E73;&#x8861;&#xFF0C;$\gamma$&#x662F;&#x8C03;&#x5236;&#x7CFB;&#x6570;&#xFF08;&#x4E00;&#x822C;$\gamma=2$&#xFF09;&#x3002;&#x5F53;$1-p_t$ &#x8D8A;&#x63A5;&#x8FD1;0&#xFF0C;&#x5373;&#x4EE3;&#x8868;&#x8BE5;&#x6837;&#x672C;&#x88AB;&#x6B63;&#x786E;&#x5206;&#x7C7B;&#xFF0C;&#x6B64;&#x65F6;&#x6837;&#x672C;&#x7684;&#x6743;&#x91CD;&#x8D8A;&#x5C0F;&#x3002;&#x5F53;$1-p_t$&#x8D8A;&#x5C0F;&#xFF0C;&#x8BF4;&#x660E;&#x8BE5;&#x6837;&#x672C;&#x5206;&#x7C7B;&#x72AF;&#x5F97;&#x9519;&#x8BEF;&#x8D8A;&#x5927;&#xFF0C;&#x6B64;&#x65F6;&#x6743;&#x91CD;&#x76F8;&#x5BF9;&#x6765;&#x8BF4;&#x51CF;&#x5C0F;&#x7684;&#x66F4;&#x5C11;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x53D8;&#x76F8;&#x7684;&#x589E;&#x52A0;&#x4E86;&#x6743;&#x91CD;&#x3002;&#xFF08;$p_t = 0.99$&#x635F;&#x5931;&#x5C0F;100&#x500D;&#xFF0C;&#x800C;$p_t = 0.5$&#x4EC5;&#x7F29;&#x5C0F;4&#x500D;&#xFF09;&#x3002;</li>
 </ul>
-<h3 id="非极大值抑制（NMS）"><a href="#非极大值抑制（NMS）" class="headerlink" title="非极大值抑制（NMS）"></a>非极大值抑制（NMS）</h3><p>对于一个物体，神经网络可能会预测多个框，这些框围绕在gt_box附近。非极大值抑制就是为了抑制那些冗余的框，它的流程如下：</p>
+<h3 id="&#x975E;&#x6781;&#x5927;&#x503C;&#x6291;&#x5236;&#xFF08;NMS&#xFF09;"><a href="#&#x975E;&#x6781;&#x5927;&#x503C;&#x6291;&#x5236;&#xFF08;NMS&#xFF09;" class="headerlink" title="&#x975E;&#x6781;&#x5927;&#x503C;&#x6291;&#x5236;&#xFF08;NMS&#xFF09;"></a>&#x975E;&#x6781;&#x5927;&#x503C;&#x6291;&#x5236;&#xFF08;NMS&#xFF09;</h3><p>&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x7269;&#x4F53;&#xFF0C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53EF;&#x80FD;&#x4F1A;&#x9884;&#x6D4B;&#x591A;&#x4E2A;&#x6846;&#xFF0C;&#x8FD9;&#x4E9B;&#x6846;&#x56F4;&#x7ED5;&#x5728;gt_box&#x9644;&#x8FD1;&#x3002;&#x975E;&#x6781;&#x5927;&#x503C;&#x6291;&#x5236;&#x5C31;&#x662F;&#x4E3A;&#x4E86;&#x6291;&#x5236;&#x90A3;&#x4E9B;&#x5197;&#x4F59;&#x7684;&#x6846;&#xFF0C;&#x5B83;&#x7684;&#x6D41;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
 <ul>
-<li>将所有框的得分排序，选中最高分对应的框</li>
-<li>遍历其余的框，如果和当前最高分框的重叠面积(IOU)大于一定阈值，我们就将框删除</li>
-<li>从未处理的框中继续选一个得分最高的，重复上述过程，直到最后一个框。</li>
+<li>&#x5C06;&#x6240;&#x6709;&#x6846;&#x7684;&#x5F97;&#x5206;&#x6392;&#x5E8F;&#xFF0C;&#x9009;&#x4E2D;&#x6700;&#x9AD8;&#x5206;&#x5BF9;&#x5E94;&#x7684;&#x6846;</li>
+<li>&#x904D;&#x5386;&#x5176;&#x4F59;&#x7684;&#x6846;&#xFF0C;&#x5982;&#x679C;&#x548C;&#x5F53;&#x524D;&#x6700;&#x9AD8;&#x5206;&#x6846;&#x7684;&#x91CD;&#x53E0;&#x9762;&#x79EF;(IOU)&#x5927;&#x4E8E;&#x4E00;&#x5B9A;&#x9608;&#x503C;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x5C06;&#x6846;&#x5220;&#x9664;</li>
+<li>&#x4ECE;&#x672A;&#x5904;&#x7406;&#x7684;&#x6846;&#x4E2D;&#x7EE7;&#x7EED;&#x9009;&#x4E00;&#x4E2A;&#x5F97;&#x5206;&#x6700;&#x9AD8;&#x7684;&#xFF0C;&#x91CD;&#x590D;&#x4E0A;&#x8FF0;&#x8FC7;&#x7A0B;&#xFF0C;&#x76F4;&#x5230;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x6846;&#x3002;</li>
 </ul>
-<h2 id="经典模型"><a href="#经典模型" class="headerlink" title="经典模型"></a>经典模型</h2><h3 id="YOLO-v3"><a href="#YOLO-v3" class="headerlink" title="YOLO v3"></a>YOLO v3</h3><p>YOLO v3的网络结构如下：</p>
-<p><img src="%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567501439402.png" alt="1567501439402"></p>
-<p>其中DBL就是基本卷积结构（conv+BN+leaky），resn是一个残差结构，concat是一个拼接操作。</p>
-<p>其中YOLO v3是多尺度的输出，有y1、y2、y3三个输出，如此可以有效缓解尺度不匹配的现象。</p>
-<p>YOLO v3借用了anchor box思想。每个anchor box预测输出为【x,y,w,h,o】.</p>
-<p>其损失函数是二元分类的交叉熵。</p>
-<h3 id="Faster-RCNN"><a href="#Faster-RCNN" class="headerlink" title="Faster RCNN"></a>Faster RCNN</h3><p>Faster RCNN的网络结构如下：</p>
-<p><img src="%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0%5C1567499632449.png" alt="1567499632449"></p>
-<p>其网络主要分为三个部分：</p>
+<h2 id="&#x7ECF;&#x5178;&#x6A21;&#x578B;"><a href="#&#x7ECF;&#x5178;&#x6A21;&#x578B;" class="headerlink" title="&#x7ECF;&#x5178;&#x6A21;&#x578B;"></a>&#x7ECF;&#x5178;&#x6A21;&#x578B;</h2><h3 id="YOLO-v3"><a href="#YOLO-v3" class="headerlink" title="YOLO v3"></a>YOLO v3</h3><p>YOLO v3&#x7684;&#x7F51;&#x7EDC;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/1567501439402.png" alt="1567501439402"></p>
+<p>&#x5176;&#x4E2D;DBL&#x5C31;&#x662F;&#x57FA;&#x672C;&#x5377;&#x79EF;&#x7ED3;&#x6784;&#xFF08;conv+BN+leaky&#xFF09;&#xFF0C;resn&#x662F;&#x4E00;&#x4E2A;&#x6B8B;&#x5DEE;&#x7ED3;&#x6784;&#xFF0C;concat&#x662F;&#x4E00;&#x4E2A;&#x62FC;&#x63A5;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x5176;&#x4E2D;YOLO v3&#x662F;&#x591A;&#x5C3A;&#x5EA6;&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x6709;y1&#x3001;y2&#x3001;y3&#x4E09;&#x4E2A;&#x8F93;&#x51FA;&#xFF0C;&#x5982;&#x6B64;&#x53EF;&#x4EE5;&#x6709;&#x6548;&#x7F13;&#x89E3;&#x5C3A;&#x5EA6;&#x4E0D;&#x5339;&#x914D;&#x7684;&#x73B0;&#x8C61;&#x3002;</p>
+<p>YOLO v3&#x501F;&#x7528;&#x4E86;anchor box&#x601D;&#x60F3;&#x3002;&#x6BCF;&#x4E2A;anchor box&#x9884;&#x6D4B;&#x8F93;&#x51FA;&#x4E3A;&#x3010;x,y,w,h,o&#x3011;.</p>
+<p>&#x5176;&#x635F;&#x5931;&#x51FD;&#x6570;&#x662F;&#x4E8C;&#x5143;&#x5206;&#x7C7B;&#x7684;&#x4EA4;&#x53C9;&#x71B5;&#x3002;</p>
+<h3 id="Faster-RCNN"><a href="#Faster-RCNN" class="headerlink" title="Faster RCNN"></a>Faster RCNN</h3><p>Faster RCNN&#x7684;&#x7F51;&#x7EDC;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/1567499632449.png" alt="1567499632449"></p>
+<p>&#x5176;&#x7F51;&#x7EDC;&#x4E3B;&#x8981;&#x5206;&#x4E3A;&#x4E09;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;</p>
 <ul>
-<li>backbone：输入图片提取特征图</li>
-<li>RPN：输入特征到RPN网络，对anchor进行二分类，其中正类就是有物体的，负类就是不含物体的。除了分类外，还对anchor进行第一次的位置回归，利用对数偏移调整anchor的位置。其中位置的损失函数是smooth L1，分类损失是交叉熵。</li>
-<li>分类网络：将anchor按照RPN 网络的得分进行排序，剔除边界anchor、长宽过小的anchor，并进行NMS得到ROI。再通过ROI pooling输入分类回归网络，对ROI进行分类和第二次回归。</li>
+<li>backbone&#xFF1A;&#x8F93;&#x5165;&#x56FE;&#x7247;&#x63D0;&#x53D6;&#x7279;&#x5F81;&#x56FE;</li>
+<li>RPN&#xFF1A;&#x8F93;&#x5165;&#x7279;&#x5F81;&#x5230;RPN&#x7F51;&#x7EDC;&#xFF0C;&#x5BF9;anchor&#x8FDB;&#x884C;&#x4E8C;&#x5206;&#x7C7B;&#xFF0C;&#x5176;&#x4E2D;&#x6B63;&#x7C7B;&#x5C31;&#x662F;&#x6709;&#x7269;&#x4F53;&#x7684;&#xFF0C;&#x8D1F;&#x7C7B;&#x5C31;&#x662F;&#x4E0D;&#x542B;&#x7269;&#x4F53;&#x7684;&#x3002;&#x9664;&#x4E86;&#x5206;&#x7C7B;&#x5916;&#xFF0C;&#x8FD8;&#x5BF9;anchor&#x8FDB;&#x884C;&#x7B2C;&#x4E00;&#x6B21;&#x7684;&#x4F4D;&#x7F6E;&#x56DE;&#x5F52;&#xFF0C;&#x5229;&#x7528;&#x5BF9;&#x6570;&#x504F;&#x79FB;&#x8C03;&#x6574;anchor&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x5176;&#x4E2D;&#x4F4D;&#x7F6E;&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;&#x662F;smooth L1&#xFF0C;&#x5206;&#x7C7B;&#x635F;&#x5931;&#x662F;&#x4EA4;&#x53C9;&#x71B5;&#x3002;</li>
+<li>&#x5206;&#x7C7B;&#x7F51;&#x7EDC;&#xFF1A;&#x5C06;anchor&#x6309;&#x7167;RPN &#x7F51;&#x7EDC;&#x7684;&#x5F97;&#x5206;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#xFF0C;&#x5254;&#x9664;&#x8FB9;&#x754C;anchor&#x3001;&#x957F;&#x5BBD;&#x8FC7;&#x5C0F;&#x7684;anchor&#xFF0C;&#x5E76;&#x8FDB;&#x884C;NMS&#x5F97;&#x5230;ROI&#x3002;&#x518D;&#x901A;&#x8FC7;ROI pooling&#x8F93;&#x5165;&#x5206;&#x7C7B;&#x56DE;&#x5F52;&#x7F51;&#x7EDC;&#xFF0C;&#x5BF9;ROI&#x8FDB;&#x884C;&#x5206;&#x7C7B;&#x548C;&#x7B2C;&#x4E8C;&#x6B21;&#x56DE;&#x5F52;&#x3002;</li>
 </ul>
-<p>smooth L1 loss的定义如下：<br>$$<br>smooth_{L1} =<br>\left{\begin{array}{}<br>0.5x^2\space\space\space\space\space\space\space\space if|x| &lt; 1\<br>|x|-0.5\space\space\space otherwise<br>\end{array}\right.<br>$$<br>其中x是预测框于gt_box之间的损失，其梯度为：<br>$$<br>smooth_{L1} =<br>\left{\begin{array}{}<br>x\space\space\space\space\space\space\space\space if|x| &lt; 1\<br>\pm1 \space\space\space\space\space otherwise<br>\end{array}\right.<br>$$<br>其好处是限制了梯度：</p>
+<p>smooth L1 loss&#x7684;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;<br>$$<br>smooth_{L1} =<br>\left{\begin{array}{}<br>0.5x^2\space\space\space\space\space\space\space\space if|x| &lt; 1\<br>|x|-0.5\space\space\space otherwise<br>\end{array}\right.<br>$$<br>&#x5176;&#x4E2D;x&#x662F;&#x9884;&#x6D4B;&#x6846;&#x4E8E;gt_box&#x4E4B;&#x95F4;&#x7684;&#x635F;&#x5931;&#xFF0C;&#x5176;&#x68AF;&#x5EA6;&#x4E3A;&#xFF1A;<br>$$<br>smooth_{L1} =<br>\left{\begin{array}{}<br>x\space\space\space\space\space\space\space\space if|x| &lt; 1\<br>\pm1 \space\space\space\space\space otherwise<br>\end{array}\right.<br>$$<br>&#x5176;&#x597D;&#x5904;&#x662F;&#x9650;&#x5236;&#x4E86;&#x68AF;&#x5EA6;&#xFF1A;</p>
 <ul>
-<li>当预测框与 ground truth 差别过大时，截断了梯度，使得梯度值不至于过大</li>
-<li>当预测框与 ground truth 差别很小时，梯度值足够小</li>
+<li>&#x5F53;&#x9884;&#x6D4B;&#x6846;&#x4E0E; ground truth &#x5DEE;&#x522B;&#x8FC7;&#x5927;&#x65F6;&#xFF0C;&#x622A;&#x65AD;&#x4E86;&#x68AF;&#x5EA6;&#xFF0C;&#x4F7F;&#x5F97;&#x68AF;&#x5EA6;&#x503C;&#x4E0D;&#x81F3;&#x4E8E;&#x8FC7;&#x5927;</li>
+<li>&#x5F53;&#x9884;&#x6D4B;&#x6846;&#x4E0E; ground truth &#x5DEE;&#x522B;&#x5F88;&#x5C0F;&#x65F6;&#xFF0C;&#x68AF;&#x5EA6;&#x503C;&#x8DB3;&#x591F;&#x5C0F;</li>
 </ul>
-<h2 id="一些新的趋势（2018-2019）"><a href="#一些新的趋势（2018-2019）" class="headerlink" title="一些新的趋势（2018~2019）"></a>一些新的趋势（2018~2019）</h2><h3 id="anchor-free"><a href="#anchor-free" class="headerlink" title="anchor free"></a>anchor free</h3><p>技术的发展总是螺旋的。2017年，Faster RCNN提出的anchor机制以燎原之势占领了所有的目标检测的模型。而如今anchor free又成了新的研究热点。</p>
-<p>anchor free的模型主要是通过特征点来确定预测box的。在corner-net中，作者提出通过检测一个物体的左上角和右下角来达到确定位置的效果。还有一些其他的例如预测中心点、四周点等等。这些预测特征点的方法和姿势检测，分割等领域相结合，成为了顶会的新宠儿。</p>
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>Recent Advances in Deep Learning for Object Detection</p>
+<h2 id="&#x4E00;&#x4E9B;&#x65B0;&#x7684;&#x8D8B;&#x52BF;&#xFF08;2018-2019&#xFF09;"><a href="#&#x4E00;&#x4E9B;&#x65B0;&#x7684;&#x8D8B;&#x52BF;&#xFF08;2018-2019&#xFF09;" class="headerlink" title="&#x4E00;&#x4E9B;&#x65B0;&#x7684;&#x8D8B;&#x52BF;&#xFF08;2018~2019&#xFF09;"></a>&#x4E00;&#x4E9B;&#x65B0;&#x7684;&#x8D8B;&#x52BF;&#xFF08;2018~2019&#xFF09;</h2><h3 id="anchor-free"><a href="#anchor-free" class="headerlink" title="anchor free"></a>anchor free</h3><p>&#x6280;&#x672F;&#x7684;&#x53D1;&#x5C55;&#x603B;&#x662F;&#x87BA;&#x65CB;&#x7684;&#x3002;2017&#x5E74;&#xFF0C;Faster RCNN&#x63D0;&#x51FA;&#x7684;anchor&#x673A;&#x5236;&#x4EE5;&#x71CE;&#x539F;&#x4E4B;&#x52BF;&#x5360;&#x9886;&#x4E86;&#x6240;&#x6709;&#x7684;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#x7684;&#x6A21;&#x578B;&#x3002;&#x800C;&#x5982;&#x4ECA;anchor free&#x53C8;&#x6210;&#x4E86;&#x65B0;&#x7684;&#x7814;&#x7A76;&#x70ED;&#x70B9;&#x3002;</p>
+<p>anchor free&#x7684;&#x6A21;&#x578B;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;&#x7279;&#x5F81;&#x70B9;&#x6765;&#x786E;&#x5B9A;&#x9884;&#x6D4B;box&#x7684;&#x3002;&#x5728;corner-net&#x4E2D;&#xFF0C;&#x4F5C;&#x8005;&#x63D0;&#x51FA;&#x901A;&#x8FC7;&#x68C0;&#x6D4B;&#x4E00;&#x4E2A;&#x7269;&#x4F53;&#x7684;&#x5DE6;&#x4E0A;&#x89D2;&#x548C;&#x53F3;&#x4E0B;&#x89D2;&#x6765;&#x8FBE;&#x5230;&#x786E;&#x5B9A;&#x4F4D;&#x7F6E;&#x7684;&#x6548;&#x679C;&#x3002;&#x8FD8;&#x6709;&#x4E00;&#x4E9B;&#x5176;&#x4ED6;&#x7684;&#x4F8B;&#x5982;&#x9884;&#x6D4B;&#x4E2D;&#x5FC3;&#x70B9;&#x3001;&#x56DB;&#x5468;&#x70B9;&#x7B49;&#x7B49;&#x3002;&#x8FD9;&#x4E9B;&#x9884;&#x6D4B;&#x7279;&#x5F81;&#x70B9;&#x7684;&#x65B9;&#x6CD5;&#x548C;&#x59FF;&#x52BF;&#x68C0;&#x6D4B;&#xFF0C;&#x5206;&#x5272;&#x7B49;&#x9886;&#x57DF;&#x76F8;&#x7ED3;&#x5408;&#xFF0C;&#x6210;&#x4E3A;&#x4E86;&#x9876;&#x4F1A;&#x7684;&#x65B0;&#x5BA0;&#x513F;&#x3002;</p>
+<h2 id="&#x53C2;&#x8003;&#x6587;&#x732E;"><a href="#&#x53C2;&#x8003;&#x6587;&#x732E;" class="headerlink" title="&#x53C2;&#x8003;&#x6587;&#x732E;"></a>&#x53C2;&#x8003;&#x6587;&#x732E;</h2><p>Recent Advances in Deep Learning for Object Detection</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/" data-id="ck21ppygr000jk4qnfg6h9c28" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/" data-id="ck2af54rk000jd4qnfu0e9ldd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -262,19 +262,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          卷积神经网络及其结构
+          神经网络与优化器
         
       </div>
     </a>
   
   
-    <a href="/2018/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">神经网络与优化器</div>
+      <div class="article-nav-title">关于局部最优解和全局最优解的dp问题</div>
     </a>
   
 </nav>
@@ -319,7 +319,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
     </div>
   </div>
 
@@ -330,10 +330,6 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2019/10/22/hello-world/">Hello World</a>
-          </li>
         
           <li>
             <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
@@ -349,6 +345,10 @@
         
           <li>
             <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/">卷积神经网络及其结构</a>
           </li>
         
       </ul>

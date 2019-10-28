@@ -7,13 +7,13 @@
   
   <title>关于局部最优解和全局最优解的dp问题 | Autumn-Cat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天刷leetcode时遇到一个dp问题，然后却无法完美的找出递推关系式（附：以后要多做，以期能够熟练的掌握dp）题目如下：Maximum Subarray  Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and">
+  <meta name="description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x5237;leetcode&amp;#x65F6;&amp;#x9047;&amp;#x5230;&amp;#x4E00;&amp;#x4E2A;dp&amp;#x95EE;&amp;#x9898;&amp;#xFF0C;&amp;#x7136;&amp;#x540E;&amp;#x5374;&amp;#x65E0;&amp;#x6CD5;&amp;#x5B8C;&amp;#x7F8E;&amp;#x7684;&amp;#x627E;&amp;#x51FA;&amp;#x9012;&amp;#x63A8;&amp;#x517">
 <meta name="keywords" content="dp,leetcode总结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于局部最优解和全局最优解的dp问题">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;07&#x2F;29&#x2F;%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98&#x2F;index.html">
 <meta property="og:site_name" content="Autumn-Cat">
-<meta property="og:description" content="今天刷leetcode时遇到一个dp问题，然后却无法完美的找出递推关系式（附：以后要多做，以期能够熟练的掌握dp）题目如下：Maximum Subarray  Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and">
+<meta property="og:description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x5237;leetcode&amp;#x65F6;&amp;#x9047;&amp;#x5230;&amp;#x4E00;&amp;#x4E2A;dp&amp;#x95EE;&amp;#x9898;&amp;#xFF0C;&amp;#x7136;&amp;#x540E;&amp;#x5374;&amp;#x65E0;&amp;#x6CD5;&amp;#x5B8C;&amp;#x7F8E;&amp;#x7684;&amp;#x627E;&amp;#x51FA;&amp;#x9012;&amp;#x63A8;&amp;#x517">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-10-22T08:42:46.353Z">
 <meta name="twitter:card" content="summary">
@@ -89,41 +89,41 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天刷leetcode时遇到一个dp问题，然后却无法完美的找出递推关系式（附：以后要多做，以期能够熟练的掌握dp）<br>题目如下：Maximum Subarray</p>
+        <p>&#x4ECA;&#x5929;&#x5237;leetcode&#x65F6;&#x9047;&#x5230;&#x4E00;&#x4E2A;dp&#x95EE;&#x9898;&#xFF0C;&#x7136;&#x540E;&#x5374;&#x65E0;&#x6CD5;&#x5B8C;&#x7F8E;&#x7684;&#x627E;&#x51FA;&#x9012;&#x63A8;&#x5173;&#x7CFB;&#x5F0F;&#xFF08;&#x9644;&#xFF1A;&#x4EE5;&#x540E;&#x8981;&#x591A;&#x505A;&#xFF0C;&#x4EE5;&#x671F;&#x80FD;&#x591F;&#x719F;&#x7EC3;&#x7684;&#x638C;&#x63E1;dp&#xFF09;<br>&#x9898;&#x76EE;&#x5982;&#x4E0B;&#xFF1A;Maximum Subarray</p>
 <blockquote>
 <p>Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
 </blockquote>
-<p>在我想维护一个dp数组来找到结果时却没有思路，无奈只好求助于Google，幸而学到了一点东西</p>
-<h1 id="全局最优解和局部最优解"><a href="#全局最优解和局部最优解" class="headerlink" title="全局最优解和局部最优解"></a>全局最优解和局部最优解</h1><p>在这里，我们需要维护两个变量，一个是全局最优global，就是到当前元素为止最优的解是，一个是局部最优，就是必须包含当前元素的最优的解local。</p>
-<p>在这道题当中，我们知道nums[0]~nums[i-1]的最大和，如何求出到nums[i]的最大和呢？这里可以分为两种情况</p>
+<p>&#x5728;&#x6211;&#x60F3;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;dp&#x6570;&#x7EC4;&#x6765;&#x627E;&#x5230;&#x7ED3;&#x679C;&#x65F6;&#x5374;&#x6CA1;&#x6709;&#x601D;&#x8DEF;&#xFF0C;&#x65E0;&#x5948;&#x53EA;&#x597D;&#x6C42;&#x52A9;&#x4E8E;Google&#xFF0C;&#x5E78;&#x800C;&#x5B66;&#x5230;&#x4E86;&#x4E00;&#x70B9;&#x4E1C;&#x897F;</p>
+<h1 id="&#x5168;&#x5C40;&#x6700;&#x4F18;&#x89E3;&#x548C;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x89E3;"><a href="#&#x5168;&#x5C40;&#x6700;&#x4F18;&#x89E3;&#x548C;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x89E3;" class="headerlink" title="&#x5168;&#x5C40;&#x6700;&#x4F18;&#x89E3;&#x548C;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x89E3;"></a>&#x5168;&#x5C40;&#x6700;&#x4F18;&#x89E3;&#x548C;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x89E3;</h1><p>&#x5728;&#x8FD9;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7EF4;&#x62A4;&#x4E24;&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x5168;&#x5C40;&#x6700;&#x4F18;global&#xFF0C;&#x5C31;&#x662F;&#x5230;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x4E3A;&#x6B62;&#x6700;&#x4F18;&#x7684;&#x89E3;&#x662F;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#xFF0C;&#x5C31;&#x662F;&#x5FC5;&#x987B;&#x5305;&#x542B;&#x5F53;&#x524D;&#x5143;&#x7D20;&#x7684;&#x6700;&#x4F18;&#x7684;&#x89E3;local&#x3002;</p>
+<p>&#x5728;&#x8FD9;&#x9053;&#x9898;&#x5F53;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;nums[0]~nums[i-1]&#x7684;&#x6700;&#x5927;&#x548C;&#xFF0C;&#x5982;&#x4F55;&#x6C42;&#x51FA;&#x5230;nums[i]&#x7684;&#x6700;&#x5927;&#x548C;&#x5462;&#xFF1F;&#x8FD9;&#x91CC;&#x53EF;&#x4EE5;&#x5206;&#x4E3A;&#x4E24;&#x79CD;&#x60C5;&#x51B5;</p>
 <ul>
-<li>在nums[i]的最大和中不包含nums[i],那么global[i] = global[i-1]</li>
-<li>在nums[i]的最大和中不包含nums[i],那么global[i] = local[i] = nums[i]+local[i-1]</li>
+<li>&#x5728;nums[i]&#x7684;&#x6700;&#x5927;&#x548C;&#x4E2D;&#x4E0D;&#x5305;&#x542B;nums[i],&#x90A3;&#x4E48;global[i] = global[i-1]</li>
+<li>&#x5728;nums[i]&#x7684;&#x6700;&#x5927;&#x548C;&#x4E2D;&#x4E0D;&#x5305;&#x542B;nums[i],&#x90A3;&#x4E48;global[i] = local[i] = nums[i]+local[i-1]</li>
 </ul>
-<p>由上述两种情况便可以推出来递推式：</p>
+<p>&#x7531;&#x4E0A;&#x8FF0;&#x4E24;&#x79CD;&#x60C5;&#x51B5;&#x4FBF;&#x53EF;&#x4EE5;&#x63A8;&#x51FA;&#x6765;&#x9012;&#x63A8;&#x5F0F;&#xFF1A;</p>
 <ul>
 <li>local[i+1]=max(A[i], local[i]+A[i])</li>
 <li>global[i+1]=max(local[i+1],global[i])</li>
 </ul>
-<p>由此便可以得到代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSubArray</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        length = len(nums)</span><br><span class="line">        local_num = nums[<span class="number">0</span>]</span><br><span class="line">        global_num = nums[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,length):</span><br><span class="line">            local_num = max(nums[i],nums[i]+local_num)</span><br><span class="line">            global_num = max(local_num,global_num)</span><br><span class="line">        print(global_num)</span><br></pre></td></tr></table></figure>
+<p>&#x7531;&#x6B64;&#x4FBF;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x4EE3;&#x7801;&#xFF1A;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSubArray</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        length = len(nums)</span><br><span class="line">        local_num = nums[<span class="number">0</span>]</span><br><span class="line">        global_num = nums[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,length):</span><br><span class="line">            local_num = max(nums[i],nums[i]+local_num)</span><br><span class="line">            global_num = max(local_num,global_num)</span><br><span class="line">        print(global_num)</span><br></pre></td></tr></table></figure>
 
-<h1 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h1><p>动态规划的局部变量和全局变量问题本质上就是就是，以数组为例：当数组向前推进，引入新的元素，原有的解会可能会因为新的元素发生变化。而局部变量就是包含新加入的元素的解。</p>
-<p>一个新的变种问题：买卖股票问题</p>
+<h1 id="&#x7406;&#x89E3;"><a href="#&#x7406;&#x89E3;" class="headerlink" title="&#x7406;&#x89E3;"></a>&#x7406;&#x89E3;</h1><p>&#x52A8;&#x6001;&#x89C4;&#x5212;&#x7684;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x548C;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x95EE;&#x9898;&#x672C;&#x8D28;&#x4E0A;&#x5C31;&#x662F;&#x5C31;&#x662F;&#xFF0C;&#x4EE5;&#x6570;&#x7EC4;&#x4E3A;&#x4F8B;&#xFF1A;&#x5F53;&#x6570;&#x7EC4;&#x5411;&#x524D;&#x63A8;&#x8FDB;&#xFF0C;&#x5F15;&#x5165;&#x65B0;&#x7684;&#x5143;&#x7D20;&#xFF0C;&#x539F;&#x6709;&#x7684;&#x89E3;&#x4F1A;&#x53EF;&#x80FD;&#x4F1A;&#x56E0;&#x4E3A;&#x65B0;&#x7684;&#x5143;&#x7D20;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x3002;&#x800C;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x5C31;&#x662F;&#x5305;&#x542B;&#x65B0;&#x52A0;&#x5165;&#x7684;&#x5143;&#x7D20;&#x7684;&#x89E3;&#x3002;</p>
+<p>&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x53D8;&#x79CD;&#x95EE;&#x9898;&#xFF1A;&#x4E70;&#x5356;&#x80A1;&#x7968;&#x95EE;&#x9898;</p>
 <blockquote>
-<p>在一个数组中，第i个元素表示第i天的股价。你可以买卖股票，求出最大利润</p>
+<p>&#x5728;&#x4E00;&#x4E2A;&#x6570;&#x7EC4;&#x4E2D;&#xFF0C;&#x7B2C;i&#x4E2A;&#x5143;&#x7D20;&#x8868;&#x793A;&#x7B2C;i&#x5929;&#x7684;&#x80A1;&#x4EF7;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4E70;&#x5356;&#x80A1;&#x7968;&#xFF0C;&#x6C42;&#x51FA;&#x6700;&#x5927;&#x5229;&#x6DA6;</p>
 </blockquote>
-<p>这实际上就是一个需要用到局部变量和全局变量的问题。局部变量表示在今天卖出的最佳交易,即在今天卖出，在之前最小的数时买入。<br>递推式子：</p>
+<p>&#x8FD9;&#x5B9E;&#x9645;&#x4E0A;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x9700;&#x8981;&#x7528;&#x5230;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x548C;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x7684;&#x95EE;&#x9898;&#x3002;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x8868;&#x793A;&#x5728;&#x4ECA;&#x5929;&#x5356;&#x51FA;&#x7684;&#x6700;&#x4F73;&#x4EA4;&#x6613;,&#x5373;&#x5728;&#x4ECA;&#x5929;&#x5356;&#x51FA;&#xFF0C;&#x5728;&#x4E4B;&#x524D;&#x6700;&#x5C0F;&#x7684;&#x6570;&#x65F6;&#x4E70;&#x5165;&#x3002;<br>&#x9012;&#x63A8;&#x5F0F;&#x5B50;&#xFF1A;</p>
 <ul>
 <li>local[i] = max(local[i-1]-nums[i-1]+nums[i],0) </li>
 <li>global[i] = max(global[i-1],local[i])</li>
 </ul>
-<p>由此便可以得出代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span><span class="params">(self, prices)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type prices: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        local = <span class="number">0</span></span><br><span class="line">        _global = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(prices)):</span><br><span class="line">            local = max(local+prices[i]-prices[i<span class="number">-1</span>],<span class="number">0</span>)</span><br><span class="line">            _global = max(_global,local)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> _global</span><br></pre></td></tr></table></figure>
+<p>&#x7531;&#x6B64;&#x4FBF;&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#x4EE3;&#x7801;&#xFF1A;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span><span class="params">(self, prices)</span>:</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type prices: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        local = <span class="number">0</span></span><br><span class="line">        _global = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(prices)):</span><br><span class="line">            local = max(local+prices[i]-prices[i<span class="number">-1</span>],<span class="number">0</span>)</span><br><span class="line">            _global = max(_global,local)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> _global</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/" data-id="ck21ppygl0008k4qnd7wg2pao" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/" data-id="ck2af54r9000cd4qn3ui249os" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li></ul>
@@ -134,11 +134,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          神经网络与优化器
+          Batch Normlization 、Layer Normlization、Group Normlization
         
       </div>
     </a>
@@ -191,7 +191,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
     </div>
   </div>
 
@@ -202,10 +202,6 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2019/10/22/hello-world/">Hello World</a>
-          </li>
         
           <li>
             <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
@@ -221,6 +217,10 @@
         
           <li>
             <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/">卷积神经网络及其结构</a>
           </li>
         
       </ul>

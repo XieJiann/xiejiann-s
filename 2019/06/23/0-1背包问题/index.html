@@ -7,13 +7,13 @@
   
   <title>0-1背包问题 | Autumn-Cat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0-1 背包问题问题简述有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。 例子数据如下  贪婪算法反例如下  动态规划初始思路定义一个子问题P(i,w)：在前i个物体（物体按照体积排序）挑选重量不超过W的物体，使得总价值最大，记为m(i,w)。 现在只考虑第i个物体，则可能有两种情况  选第i个物体，则问题变为P(i-1,w)">
+  <meta name="description" content="0-1 &amp;#x80CC;&amp;#x5305;&amp;#x95EE;&amp;#x9898;&amp;#x95EE;&amp;#x9898;&amp;#x7B80;&amp;#x8FF0;&amp;#x6709;N&amp;#x4EF6;&amp;#x7269;&amp;#x54C1;&amp;#x548C;&amp;#x4E00;&amp;#x4E2A;&amp;#x5BB9;&amp;#x91CF;&amp;#x4E3A;V&amp;#x7684;&amp;#x80CC;&amp;#x5305;&amp;#x3002;&amp;#x7B2C;i&amp;#x4EF6;&amp;">
 <meta name="keywords" content="dp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="0-1背包问题">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;23&#x2F;0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98&#x2F;index.html">
 <meta property="og:site_name" content="Autumn-Cat">
-<meta property="og:description" content="0-1 背包问题问题简述有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。 例子数据如下  贪婪算法反例如下  动态规划初始思路定义一个子问题P(i,w)：在前i个物体（物体按照体积排序）挑选重量不超过W的物体，使得总价值最大，记为m(i,w)。 现在只考虑第i个物体，则可能有两种情况  选第i个物体，则问题变为P(i-1,w)">
+<meta property="og:description" content="0-1 &amp;#x80CC;&amp;#x5305;&amp;#x95EE;&amp;#x9898;&amp;#x95EE;&amp;#x9898;&amp;#x7B80;&amp;#x8FF0;&amp;#x6709;N&amp;#x4EF6;&amp;#x7269;&amp;#x54C1;&amp;#x548C;&amp;#x4E00;&amp;#x4E2A;&amp;#x5BB9;&amp;#x91CF;&amp;#x4E3A;V&amp;#x7684;&amp;#x80CC;&amp;#x5305;&amp;#x3002;&amp;#x7B2C;i&amp;#x4EF6;&amp;">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;pic1.zhimg.com&#x2F;80&#x2F;v2-85236598e4e35b7efa3ea3f69a5ca8ec_hd.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;pic1.zhimg.com&#x2F;80&#x2F;v2-a5b61fdcb98cf9653effba39ba9a4ccc_hd.jpg">
@@ -95,45 +95,45 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="0-1-背包问题"><a href="#0-1-背包问题" class="headerlink" title="0-1 背包问题"></a>0-1 背包问题</h1><h2 id="问题简述"><a href="#问题简述" class="headerlink" title="问题简述"></a>问题简述</h2><p>有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。</p>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>数据如下</p>
+        <h1 id="0-1-&#x80CC;&#x5305;&#x95EE;&#x9898;"><a href="#0-1-&#x80CC;&#x5305;&#x95EE;&#x9898;" class="headerlink" title="0-1 &#x80CC;&#x5305;&#x95EE;&#x9898;"></a>0-1 &#x80CC;&#x5305;&#x95EE;&#x9898;</h1><h2 id="&#x95EE;&#x9898;&#x7B80;&#x8FF0;"><a href="#&#x95EE;&#x9898;&#x7B80;&#x8FF0;" class="headerlink" title="&#x95EE;&#x9898;&#x7B80;&#x8FF0;"></a>&#x95EE;&#x9898;&#x7B80;&#x8FF0;</h2><p>&#x6709;N&#x4EF6;&#x7269;&#x54C1;&#x548C;&#x4E00;&#x4E2A;&#x5BB9;&#x91CF;&#x4E3A;V&#x7684;&#x80CC;&#x5305;&#x3002;&#x7B2C;i&#x4EF6;&#x7269;&#x54C1;&#x7684;&#x8D39;&#x7528;&#x662F;c[i]&#xFF0C;&#x4EF7;&#x503C;&#x662F;w[i]&#x3002;&#x6C42;&#x89E3;&#x5C06;&#x54EA;&#x4E9B;&#x7269;&#x54C1;&#x88C5;&#x5165;&#x80CC;&#x5305;&#x53EF;&#x4F7F;&#x4EF7;&#x503C;&#x603B;&#x548C;&#x6700;&#x5927;&#x3002;</p>
+<h3 id="&#x4F8B;&#x5B50;"><a href="#&#x4F8B;&#x5B50;" class="headerlink" title="&#x4F8B;&#x5B50;"></a>&#x4F8B;&#x5B50;</h3><p>&#x6570;&#x636E;&#x5982;&#x4E0B;</p>
 <p><img src="https://pic1.zhimg.com/80/v2-85236598e4e35b7efa3ea3f69a5ca8ec_hd.jpg" alt="img"></p>
-<h2 id="贪婪算法"><a href="#贪婪算法" class="headerlink" title="贪婪算法"></a>贪婪算法</h2><p>反例如下</p>
+<h2 id="&#x8D2A;&#x5A6A;&#x7B97;&#x6CD5;"><a href="#&#x8D2A;&#x5A6A;&#x7B97;&#x6CD5;" class="headerlink" title="&#x8D2A;&#x5A6A;&#x7B97;&#x6CD5;"></a>&#x8D2A;&#x5A6A;&#x7B97;&#x6CD5;</h2><p>&#x53CD;&#x4F8B;&#x5982;&#x4E0B;</p>
 <p><img src="https://pic1.zhimg.com/80/v2-a5b61fdcb98cf9653effba39ba9a4ccc_hd.jpg" alt="img"></p>
-<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><h3 id="初始思路"><a href="#初始思路" class="headerlink" title="初始思路"></a>初始思路</h3><p>定义一个子问题P(i,w)：在前i个物体（物体按照体积排序）挑选重量不超过W的物体，使得总价值最大，记为m(i,w)。</p>
-<p>现在只考虑第i个物体，则可能有两种情况</p>
+<h2 id="&#x52A8;&#x6001;&#x89C4;&#x5212;"><a href="#&#x52A8;&#x6001;&#x89C4;&#x5212;" class="headerlink" title="&#x52A8;&#x6001;&#x89C4;&#x5212;"></a>&#x52A8;&#x6001;&#x89C4;&#x5212;</h2><h3 id="&#x521D;&#x59CB;&#x601D;&#x8DEF;"><a href="#&#x521D;&#x59CB;&#x601D;&#x8DEF;" class="headerlink" title="&#x521D;&#x59CB;&#x601D;&#x8DEF;"></a>&#x521D;&#x59CB;&#x601D;&#x8DEF;</h3><p>&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x5B50;&#x95EE;&#x9898;P(i,w)&#xFF1A;&#x5728;&#x524D;i&#x4E2A;&#x7269;&#x4F53;&#xFF08;&#x7269;&#x4F53;&#x6309;&#x7167;&#x4F53;&#x79EF;&#x6392;&#x5E8F;&#xFF09;&#x6311;&#x9009;&#x91CD;&#x91CF;&#x4E0D;&#x8D85;&#x8FC7;W&#x7684;&#x7269;&#x4F53;&#xFF0C;&#x4F7F;&#x5F97;&#x603B;&#x4EF7;&#x503C;&#x6700;&#x5927;&#xFF0C;&#x8BB0;&#x4E3A;m(i,w)&#x3002;</p>
+<p>&#x73B0;&#x5728;&#x53EA;&#x8003;&#x8651;&#x7B2C;i&#x4E2A;&#x7269;&#x4F53;&#xFF0C;&#x5219;&#x53EF;&#x80FD;&#x6709;&#x4E24;&#x79CD;&#x60C5;&#x51B5;</p>
 <ul>
-<li><p>选第i个物体，则问题变为P(i-1,w)</p>
+<li><p>&#x9009;&#x7B2C;i&#x4E2A;&#x7269;&#x4F53;&#xFF0C;&#x5219;&#x95EE;&#x9898;&#x53D8;&#x4E3A;P(i-1,w)</p>
 </li>
-<li><p>不选第i个问题，则问题变为P(i-1.W-wi)</p>
+<li><p>&#x4E0D;&#x9009;&#x7B2C;i&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x5219;&#x95EE;&#x9898;&#x53D8;&#x4E3A;P(i-1.W-wi)</p>
 </li>
 </ul>
-<p>即递推公式为：<br>$$<br>  m(i,w) = max{m(i-1,W),(m(i-1,W-wi)+vi)}<br>$$<br>  如图所示：<br>  <img src="https://pic1.zhimg.com/80/v2-1d8090c991ca13cee3cb43c027b72304_hd.jpg" alt="img"></p>
-<p>则按照上例，结果为：<br><img src="https://pic1.zhimg.com/80/v2-b24e97b8043a02c12313c3143e4dca20_hd.jpg" alt="img"></p>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>考虑到上述表格，我们可以发现表格一些关键点特别重要，即新选了物体进入背包的关键点。</p>
-<p>例如下图边缘处节点，之后都是边缘处节点的重复</p>
+<p>&#x5373;&#x9012;&#x63A8;&#x516C;&#x5F0F;&#x4E3A;&#xFF1A;<br>$$<br>  m(i,w) = max{m(i-1,W),(m(i-1,W-wi)+vi)}<br>$$<br>  &#x5982;&#x56FE;&#x6240;&#x793A;&#xFF1A;<br>  <img src="https://pic1.zhimg.com/80/v2-1d8090c991ca13cee3cb43c027b72304_hd.jpg" alt="img"></p>
+<p>&#x5219;&#x6309;&#x7167;&#x4E0A;&#x4F8B;&#xFF0C;&#x7ED3;&#x679C;&#x4E3A;&#xFF1A;<br><img src="https://pic1.zhimg.com/80/v2-b24e97b8043a02c12313c3143e4dca20_hd.jpg" alt="img"></p>
+<h3 id="&#x4F18;&#x5316;"><a href="#&#x4F18;&#x5316;" class="headerlink" title="&#x4F18;&#x5316;"></a>&#x4F18;&#x5316;</h3><p>&#x8003;&#x8651;&#x5230;&#x4E0A;&#x8FF0;&#x8868;&#x683C;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#x8868;&#x683C;&#x4E00;&#x4E9B;&#x5173;&#x952E;&#x70B9;&#x7279;&#x522B;&#x91CD;&#x8981;&#xFF0C;&#x5373;&#x65B0;&#x9009;&#x4E86;&#x7269;&#x4F53;&#x8FDB;&#x5165;&#x80CC;&#x5305;&#x7684;&#x5173;&#x952E;&#x70B9;&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#x4E0B;&#x56FE;&#x8FB9;&#x7F18;&#x5904;&#x8282;&#x70B9;&#xFF0C;&#x4E4B;&#x540E;&#x90FD;&#x662F;&#x8FB9;&#x7F18;&#x5904;&#x8282;&#x70B9;&#x7684;&#x91CD;&#x590D;</p>
 <p><img src="https://pic1.zhimg.com/80/v2-29d1a004c395ebe53e4161dad64a785c_hd.jpg" alt="img"></p>
-<p>由此我们得到新的递推公式：<br>$$<br>dp(W) = max{dp(W),dp(W-wi)+vi}<br>$$</p>
-<h3 id="初始化细节"><a href="#初始化细节" class="headerlink" title="初始化细节"></a>初始化细节</h3><p>常见的0-1背包问题可能又分两种</p>
+<p>&#x7531;&#x6B64;&#x6211;&#x4EEC;&#x5F97;&#x5230;&#x65B0;&#x7684;&#x9012;&#x63A8;&#x516C;&#x5F0F;&#xFF1A;<br>$$<br>dp(W) = max{dp(W),dp(W-wi)+vi}<br>$$</p>
+<h3 id="&#x521D;&#x59CB;&#x5316;&#x7EC6;&#x8282;"><a href="#&#x521D;&#x59CB;&#x5316;&#x7EC6;&#x8282;" class="headerlink" title="&#x521D;&#x59CB;&#x5316;&#x7EC6;&#x8282;"></a>&#x521D;&#x59CB;&#x5316;&#x7EC6;&#x8282;</h3><p>&#x5E38;&#x89C1;&#x7684;0-1&#x80CC;&#x5305;&#x95EE;&#x9898;&#x53EF;&#x80FD;&#x53C8;&#x5206;&#x4E24;&#x79CD;</p>
 <ul>
-<li><p>要求背包必须装满</p>
+<li><p>&#x8981;&#x6C42;&#x80CC;&#x5305;&#x5FC5;&#x987B;&#x88C5;&#x6EE1;</p>
 </li>
-<li><p>不一定背包必须装满</p>
+<li><p>&#x4E0D;&#x4E00;&#x5B9A;&#x80CC;&#x5305;&#x5FC5;&#x987B;&#x88C5;&#x6EE1;</p>
 </li>
 </ul>
-<p>对于这两种，分别有两种初始化</p>
+<p>&#x5BF9;&#x4E8E;&#x8FD9;&#x4E24;&#x79CD;&#xFF0C;&#x5206;&#x522B;&#x6709;&#x4E24;&#x79CD;&#x521D;&#x59CB;&#x5316;</p>
 <ul>
-<li><p>将dp数组初始化为0</p>
+<li><p>&#x5C06;dp&#x6570;&#x7EC4;&#x521D;&#x59CB;&#x5316;&#x4E3A;0</p>
 </li>
-<li><p>将dp数组初始化为-$\infty$</p>
+<li><p>&#x5C06;dp&#x6570;&#x7EC4;&#x521D;&#x59CB;&#x5316;&#x4E3A;-$\infty$</p>
 </li>
 </ul>
-<p>解释：$-\infty$对空的惩罚更大，所以当初始化为$-\infty$会使得完全装满</p>
-<h2 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h2>
+<p>&#x89E3;&#x91CA;&#xFF1A;$-\infty$&#x5BF9;&#x7A7A;&#x7684;&#x60E9;&#x7F5A;&#x66F4;&#x5927;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x521D;&#x59CB;&#x5316;&#x4E3A;$-\infty$&#x4F1A;&#x4F7F;&#x5F97;&#x5B8C;&#x5168;&#x88C5;&#x6EE1;</p>
+<h2 id="&#x53C2;&#x8003;&#x535A;&#x5BA2;"><a href="#&#x53C2;&#x8003;&#x535A;&#x5BA2;" class="headerlink" title="&#x53C2;&#x8003;&#x535A;&#x5BA2;"></a>&#x53C2;&#x8003;&#x535A;&#x5BA2;</h2>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" data-id="ck21ppyg60000k4qngod5379n" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" data-id="ck2af54pw0000d4qnb7akdtoy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li></ul>
@@ -143,15 +143,6 @@
   
     
 <nav id="article-nav">
-  
-    <a href="/2019/10/22/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Hello World
-        
-      </div>
-    </a>
   
   
     <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/" id="article-nav-older" class="article-nav-link-wrap">
@@ -201,7 +192,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
     </div>
   </div>
 
@@ -212,10 +203,6 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2019/10/22/hello-world/">Hello World</a>
-          </li>
         
           <li>
             <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
@@ -231,6 +218,10 @@
         
           <li>
             <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/">卷积神经网络及其结构</a>
           </li>
         
       </ul>
