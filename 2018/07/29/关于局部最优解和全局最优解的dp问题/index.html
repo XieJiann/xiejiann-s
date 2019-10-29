@@ -1,96 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>关于局部最优解和全局最优解的dp问题 | Autumn-Cat</title><meta name="description" content="关于局部最优解和全局最优解的dp问题"><meta name="keywords" content="dp,leetcode总结"><meta name="author" content="Autumn-Cat"><meta name="copyright" content="Autumn-Cat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="http://yoursite.com/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="关于局部最优解和全局最优解的dp问题"><meta name="twitter:description" content="关于局部最优解和全局最优解的dp问题"><meta name="twitter:image" content="https://i0.hippopx.com/photos/703/467/694/kingfisher-bird-wildlife-macro-thumb.jpg"><meta property="og:type" content="article"><meta property="og:title" content="关于局部最优解和全局最优解的dp问题"><meta property="og:url" content="http://yoursite.com/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/"><meta property="og:site_name" content="Autumn-Cat"><meta property="og:description" content="关于局部最优解和全局最优解的dp问题"><meta property="og:image" content="https://i0.hippopx.com/photos/703/467/694/kingfisher-bird-wildlife-macro-thumb.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="卷积神经网络及其结构" href="http://yoursite.com/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/"><link rel="next" title="动态规划及其两种方法" href="http://yoursite.com/2018/07/26/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%8F%8A%E5%85%B6%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'false',
+  highlight_lang: 'true',
+  highlight_shrink: 'false',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  copyright: undefined,
+  copy_copyright_js: false
   
-
-  
-  <title>关于局部最优解和全局最优解的dp问题 | Autumn-Cat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x5237;leetcode&amp;#x65F6;&amp;#x9047;&amp;#x5230;&amp;#x4E00;&amp;#x4E2A;dp&amp;#x95EE;&amp;#x9898;&amp;#xFF0C;&amp;#x7136;&amp;#x540E;&amp;#x5374;&amp;#x65E0;&amp;#x6CD5;&amp;#x5B8C;&amp;#x7F8E;&amp;#x7684;&amp;#x627E;&amp;#x51FA;&amp;#x9012;&amp;#x63A8;&amp;#x517">
-<meta name="keywords" content="dp,leetcode总结">
-<meta property="og:type" content="article">
-<meta property="og:title" content="关于局部最优解和全局最优解的dp问题">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;07&#x2F;29&#x2F;%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98&#x2F;index.html">
-<meta property="og:site_name" content="Autumn-Cat">
-<meta property="og:description" content="&amp;#x4ECA;&amp;#x5929;&amp;#x5237;leetcode&amp;#x65F6;&amp;#x9047;&amp;#x5230;&amp;#x4E00;&amp;#x4E2A;dp&amp;#x95EE;&amp;#x9898;&amp;#xFF0C;&amp;#x7136;&amp;#x540E;&amp;#x5374;&amp;#x65E0;&amp;#x6CD5;&amp;#x5B8C;&amp;#x7F8E;&amp;#x7684;&amp;#x627E;&amp;#x51FA;&amp;#x9012;&amp;#x63A8;&amp;#x517">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-22T08:42:46.353Z">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Autumn-Cat</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-关于局部最优解和全局最优解的dp问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2018-07-29T01:32:28.000Z" itemprop="datePublished">2018-07-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      关于局部最优解和全局最优解的dp问题
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&#x4ECA;&#x5929;&#x5237;leetcode&#x65F6;&#x9047;&#x5230;&#x4E00;&#x4E2A;dp&#x95EE;&#x9898;&#xFF0C;&#x7136;&#x540E;&#x5374;&#x65E0;&#x6CD5;&#x5B8C;&#x7F8E;&#x7684;&#x627E;&#x51FA;&#x9012;&#x63A8;&#x5173;&#x7CFB;&#x5F0F;&#xFF08;&#x9644;&#xFF1A;&#x4EE5;&#x540E;&#x8981;&#x591A;&#x505A;&#xFF0C;&#x4EE5;&#x671F;&#x80FD;&#x591F;&#x719F;&#x7EC3;&#x7684;&#x638C;&#x63E1;dp&#xFF09;<br>&#x9898;&#x76EE;&#x5982;&#x4E0B;&#xFF1A;Maximum Subarray</p>
-<blockquote>
+}</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div id="header"> <div id="page-header"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Autumn-Cat</a></span><i class="fa fa-bars fa-fw toggle-menu pull-right close" aria-hidden="true"></i><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right" id="search_button"></span></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="lozad avatar_img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'"></div><div class="mobile_post_data"><div class="mobile_data_item is_center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">9</div></a></div></div><div class="mobile_data_item is_center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">6</div></a></div></div><div class="mobile_data_item is_center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><script>document.body.addEventListener('touchstart', function(){ });</script></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#全局最优解和局部最优解"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">全局最优解和局部最优解</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#理解"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">理解</span></a></li></ol></div></div><div id="body-wrap"><div id="web_bg"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#全局最优解和局部最优解"><span class="toc-number">1.</span> <span class="toc-text">全局最优解和局部最优解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#理解"><span class="toc-number">2.</span> <span class="toc-text">理解</span></a></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i0.hippopx.com/photos/703/467/694/kingfisher-bird-wildlife-macro-thumb.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">关于局部最优解和全局最优解的dp问题</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2018-07-29<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-10-22</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></span><div class="post-meta-wordcount"><span>阅读量: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><p>&#x4ECA;&#x5929;&#x5237;leetcode&#x65F6;&#x9047;&#x5230;&#x4E00;&#x4E2A;dp&#x95EE;&#x9898;&#xFF0C;&#x7136;&#x540E;&#x5374;&#x65E0;&#x6CD5;&#x5B8C;&#x7F8E;&#x7684;&#x627E;&#x51FA;&#x9012;&#x63A8;&#x5173;&#x7CFB;&#x5F0F;&#xFF08;&#x9644;&#xFF1A;&#x4EE5;&#x540E;&#x8981;&#x591A;&#x505A;&#xFF0C;&#x4EE5;&#x671F;&#x80FD;&#x591F;&#x719F;&#x7EC3;&#x7684;&#x638C;&#x63E1;dp&#xFF09;<br>&#x9898;&#x76EE;&#x5982;&#x4E0B;&#xFF1A;Maximum Subarray</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><blockquote>
 <p>Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
 </blockquote>
 <p>&#x5728;&#x6211;&#x60F3;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;dp&#x6570;&#x7EC4;&#x6765;&#x627E;&#x5230;&#x7ED3;&#x679C;&#x65F6;&#x5374;&#x6CA1;&#x6709;&#x601D;&#x8DEF;&#xFF0C;&#x65E0;&#x5948;&#x53EA;&#x597D;&#x6C42;&#x52A9;&#x4E8E;Google&#xFF0C;&#x5E78;&#x800C;&#x5B66;&#x5230;&#x4E86;&#x4E00;&#x70B9;&#x4E1C;&#x897F;</p>
@@ -119,148 +50,47 @@
 <li>global[i] = max(global[i-1],local[i])</li>
 </ul>
 <p>&#x7531;&#x6B64;&#x4FBF;&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#x4EE3;&#x7801;&#xFF1A;</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span><span class="params">(self, prices)</span>:</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type prices: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        local = <span class="number">0</span></span><br><span class="line">        _global = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(prices)):</span><br><span class="line">            local = max(local+prices[i]-prices[i<span class="number">-1</span>],<span class="number">0</span>)</span><br><span class="line">            _global = max(_global,local)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> _global</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/" data-id="ck2af54r9000cd4qn3ui249os" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li></ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span><span class="params">(self, prices)</span>:</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type prices: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        local = <span class="number">0</span></span><br><span class="line">        _global = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(prices)):</span><br><span class="line">            local = max(local+prices[i]-prices[i<span class="number">-1</span>],<span class="number">0</span>)</span><br><span class="line">            _global = max(_global,local)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> _global</span><br></pre></td></tr></table></figure></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined" target="_blank" rel="noopener">Autumn-Cat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/">http://yoursite.com/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com">Autumn-Cat</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/dp/">dp    </a><a class="post-meta__tags" href="/tags/leetcode%E6%80%BB%E7%BB%93/">leetcode总结    </a></div><div class="post_share"><div class="social-share" data-image="https://i0.hippopx.com/photos/703/467/694/kingfisher-bird-wildlife-macro-thumb.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/"><img class="prev_cover lozad" data-src="https://i0.hippopx.com/photos/345/1000/15/delicate-arch-night-stars-landscape-thumb.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>卷积神经网络及其结构</span></div></a></div><div class="next-post pull-right"><a href="/2018/07/26/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%8F%8A%E5%85%B6%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/"><img class="next_cover lozad" data-src="https://i0.hippopx.com/photos/856/151/610/panorama-sunrise-dawn-bled-preview.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>动态规划及其两种方法</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2018/07/26/动态规划及其两种方法/" title="动态规划及其两种方法"><img class="relatedPosts_cover lozad"data-src="https://i0.hippopx.com/photos/856/151/610/panorama-sunrise-dawn-bled-preview.jpg"><div class="relatedPosts_title">动态规划及其两种方法</div></a></div><div class="relatedPosts_item"><a href="/2019/06/23/0-1背包问题/" title="0-1背包问题"><img class="relatedPosts_cover lozad"data-src="https://i0.hippopx.com/photos/919/940/898/forest-fog-hirsch-wild-boars-thumb.jpg"><div class="relatedPosts_title">0-1背包问题</div></a></div></div><div class="clear_both"></div></div></div></div><footer style="background-image: url(https://i0.hippopx.com/photos/703/467/694/kingfisher-bird-wildlife-macro-thumb.jpg)"><div id="footer"><div class="copyright">&copy;2018 - 2019 By Autumn-Cat</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">简</a><i class="nightshift fa fa-moon-o" id="nightshift" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
 
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Batch Normlization 、Layer Normlization、Group Normlization
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/07/26/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%8F%8A%E5%85%B6%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">动态规划及其两种方法</div>
-    </a>
-  
-</nav>
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
 
-  
-</article>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/">卷积神经网络及其结构</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 Autumn-Cat<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

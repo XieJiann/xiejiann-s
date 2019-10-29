@@ -1,106 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>卷积神经网络及其结构 | Autumn-Cat</title><meta name="description" content="卷积神经网络及其结构"><meta name="keywords" content=""><meta name="author" content="Autumn-Cat"><meta name="copyright" content="Autumn-Cat"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="http://yoursite.com/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="卷积神经网络及其结构"><meta name="twitter:description" content="卷积神经网络及其结构"><meta name="twitter:image" content="https://i0.hippopx.com/photos/345/1000/15/delicate-arch-night-stars-landscape-thumb.jpg"><meta property="og:type" content="article"><meta property="og:title" content="卷积神经网络及其结构"><meta property="og:url" content="http://yoursite.com/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/"><meta property="og:site_name" content="Autumn-Cat"><meta property="og:description" content="卷积神经网络及其结构"><meta property="og:image" content="https://i0.hippopx.com/photos/345/1000/15/delicate-arch-night-stars-landscape-thumb.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="prev" title="目标检测简单综述" href="http://yoursite.com/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/"><link rel="next" title="关于局部最优解和全局最优解的dp问题" href="http://yoursite.com/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  highlight_copy: 'false',
+  highlight_lang: 'true',
+  highlight_shrink: 'false',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  copyright: undefined,
+  copy_copyright_js: false
   
-
-  
-  <title>卷积神经网络及其结构 | Autumn-Cat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;#x5377;&amp;#x79EF;&amp;#x795E;&amp;#x7ECF;&amp;#x7F51;&amp;#x7EDC;&amp;#x53CA;&amp;#x5176;&amp;#x7ED3;&amp;#x6784;&amp;#x5377;&amp;#x79EF;&amp;#x5168;&amp;#x8FDE;&amp;#x63A5;&amp;#x795E;&amp;#x7ECF;&amp;#x7F51;&amp;#x7EDC;&amp;#x6709;&amp;#x4E00;&amp;#x4E2A;&amp;#x6700;&amp;#x5927;&amp;#x7684;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="卷积神经网络及其结构">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;index.html">
-<meta property="og:site_name" content="Autumn-Cat">
-<meta property="og:description" content="&amp;#x5377;&amp;#x79EF;&amp;#x795E;&amp;#x7ECF;&amp;#x7F51;&amp;#x7EDC;&amp;#x53CA;&amp;#x5176;&amp;#x7ED3;&amp;#x6784;&amp;#x5377;&amp;#x79EF;&amp;#x5168;&amp;#x8FDE;&amp;#x63A5;&amp;#x795E;&amp;#x7ECF;&amp;#x7F51;&amp;#x7EDC;&amp;#x6709;&amp;#x4E00;&amp;#x4E2A;&amp;#x6700;&amp;#x5927;&amp;#x7684;">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;1566892088518.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;1566893766501.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;1567063624101.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;1567064251681.png">
-<meta property="og:updated_time" content="2019-10-22T09:02:41.103Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2018&#x2F;09&#x2F;30&#x2F;%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84&#x2F;1566892088518.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Autumn-Cat" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Autumn-Cat</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-卷积神经网络及其结构" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/" class="article-date">
-  <time datetime="2018-09-30T03:28:43.000Z" itemprop="datePublished">2018-09-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      卷积神经网络及其结构
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53CA;&#x5176;&#x7ED3;&#x6784;"><a href="#&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53CA;&#x5176;&#x7ED3;&#x6784;" class="headerlink" title="&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53CA;&#x5176;&#x7ED3;&#x6784;"></a>&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53CA;&#x5176;&#x7ED3;&#x6784;</h1><h2 id="&#x5377;&#x79EF;"><a href="#&#x5377;&#x79EF;" class="headerlink" title="&#x5377;&#x79EF;"></a>&#x5377;&#x79EF;</h2><p>&#x5168;&#x8FDE;&#x63A5;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6709;&#x4E00;&#x4E2A;&#x6700;&#x5927;&#x7684;&#x7F3A;&#x70B9;&#xFF0C;&#x5C31;&#x662F;&#x5B83;&#x9700;&#x8981;&#x5927;&#x91CF;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A; $n1$ &#x4E2A;&#x503C;&#x8F93;&#x5165; $n2$ &#x4E2A;&#x503C;&#x8F93;&#x51FA;&#x7684;&#x4E00;&#x5C42;&#x7F51;&#x7EDC;&#xFF0C;&#x5B83;&#x9700;&#x8981;&#x7684;&#x53C2;&#x6570;&#x91CF;&#x662F;$n1*n2$&#xFF0C;&#x5927;&#x91CF;&#x7684;&#x53C2;&#x6570;&#x4F7F;&#x5F97;&#x6A21;&#x578B;&#x53D8;&#x5F97;&#x66F4;&#x590D;&#x6742;&#xFF0C;&#x4E5F;&#x66F4;&#x96BE;&#x8BAD;&#x7EC3; &#x3002;</p>
-<p>&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x5229;&#x7528;&#x6743;&#x503C;&#x5171;&#x4EAB;&#x6765;&#x89E3;&#x51B3;&#x53C2;&#x6570;&#x8FC7;&#x591A;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;&#x5377;&#x79EF;&#x5C31;&#x662F;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x4E8C;&#x7EF4;&#x5377;&#x79EF;&#x6838;&#x6765;&#x5377;&#x79EF;&#x6574;&#x4E2A;&#x8F93;&#x5165;&#x77E9;&#x9635;&#x3002;&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x7684;&#x8FC7;&#x7A0B;&#x8FD9;&#x91CC;&#x4E0D;&#x518D;&#x8D58;&#x8FF0;&#xFF08;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x5176;&#x4ED6;&#x535A;&#x5BA2;&#x6216;&#x8005;CS231N&#x6216;&#x662F;&#x53C2;&#x8003;&#x6587;&#x732E;&#x3010;1&#x3011;&#xFF09;&#x3002;&#x8FD9;&#x91CC;&#x8BA8;&#x8BBA;&#x4E00;&#x4E9B;&#x66F4;&#x7EC6;&#x8282;&#x7684;&#x4E1C;&#x897F;&#x3002;</p>
+}</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div id="header"> <div id="page-header"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Autumn-Cat</a></span><i class="fa fa-bars fa-fw toggle-menu pull-right close" aria-hidden="true"></i><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right" id="search_button"></span></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="lozad avatar_img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'"></div><div class="mobile_post_data"><div class="mobile_data_item is_center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">9</div></a></div></div><div class="mobile_data_item is_center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">6</div></a></div></div><div class="mobile_data_item is_center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><script>document.body.addEventListener('touchstart', function(){ });</script></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#卷积神经网络及其结构"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">卷积神经网络及其结构</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#卷积"><span class="toc_mobile_items-number">1.1.</span> <span class="toc_mobile_items-text">卷积</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#输入输出尺寸"><span class="toc_mobile_items-number">1.1.1.</span> <span class="toc_mobile_items-text">输入输出尺寸</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#实现卷积"><span class="toc_mobile_items-number">1.1.2.</span> <span class="toc_mobile_items-text">实现卷积</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#一些卷积的变种："><span class="toc_mobile_items-number">1.1.3.</span> <span class="toc_mobile_items-text">一些卷积的变种：</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#反卷积"><span class="toc_mobile_items-number">1.1.4.</span> <span class="toc_mobile_items-text">反卷积</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#池化"><span class="toc_mobile_items-number">1.2.</span> <span class="toc_mobile_items-text">池化</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#批量归一化"><span class="toc_mobile_items-number">1.3.</span> <span class="toc_mobile_items-text">批量归一化</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#Internal-Covariate-Shift"><span class="toc_mobile_items-number">1.3.1.</span> <span class="toc_mobile_items-text">Internal Covariate Shift</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#Batch-Normalization"><span class="toc_mobile_items-number">1.3.2.</span> <span class="toc_mobile_items-text">Batch Normalization</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#训练与测试的BN"><span class="toc_mobile_items-number">1.3.3.</span> <span class="toc_mobile_items-text">训练与测试的BN</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#训练trick"><span class="toc_mobile_items-number">1.4.</span> <span class="toc_mobile_items-text">训练trick</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#Data-Augmentation"><span class="toc_mobile_items-number">1.4.1.</span> <span class="toc_mobile_items-text">Data Augmentation</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#防止过拟合"><span class="toc_mobile_items-number">1.4.2.</span> <span class="toc_mobile_items-text">防止过拟合</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#初始化"><span class="toc_mobile_items-number">1.4.3.</span> <span class="toc_mobile_items-text">初始化</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#参考文献"><span class="toc_mobile_items-number">1.5.</span> <span class="toc_mobile_items-text">参考文献</span></a></li></ol></li></ol></div></div><div id="body-wrap"><div id="web_bg"></div><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#卷积神经网络及其结构"><span class="toc-number">1.</span> <span class="toc-text">卷积神经网络及其结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#卷积"><span class="toc-number">1.1.</span> <span class="toc-text">卷积</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#输入输出尺寸"><span class="toc-number">1.1.1.</span> <span class="toc-text">输入输出尺寸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现卷积"><span class="toc-number">1.1.2.</span> <span class="toc-text">实现卷积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一些卷积的变种："><span class="toc-number">1.1.3.</span> <span class="toc-text">一些卷积的变种：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反卷积"><span class="toc-number">1.1.4.</span> <span class="toc-text">反卷积</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#池化"><span class="toc-number">1.2.</span> <span class="toc-text">池化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#批量归一化"><span class="toc-number">1.3.</span> <span class="toc-text">批量归一化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Internal-Covariate-Shift"><span class="toc-number">1.3.1.</span> <span class="toc-text">Internal Covariate Shift</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Batch-Normalization"><span class="toc-number">1.3.2.</span> <span class="toc-text">Batch Normalization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#训练与测试的BN"><span class="toc-number">1.3.3.</span> <span class="toc-text">训练与测试的BN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#训练trick"><span class="toc-number">1.4.</span> <span class="toc-text">训练trick</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Data-Augmentation"><span class="toc-number">1.4.1.</span> <span class="toc-text">Data Augmentation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防止过拟合"><span class="toc-number">1.4.2.</span> <span class="toc-text">防止过拟合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化"><span class="toc-number">1.4.3.</span> <span class="toc-text">初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">1.5.</span> <span class="toc-text">参考文献</span></a></li></ol></li></ol></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://i0.hippopx.com/photos/345/1000/15/delicate-arch-night-stars-landscape-thumb.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">卷积神经网络及其结构</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2018-09-30<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-10-28</time><span class="post-meta__separator mobile_hidden">|</span><span class="mobile_hidden"><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></span><div class="post-meta-wordcount"><span>阅读量: </span><span id="busuanzi_value_page_pv"></span></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53CA;&#x5176;&#x7ED3;&#x6784;"><a href="#&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53CA;&#x5176;&#x7ED3;&#x6784;" class="headerlink" title="&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53CA;&#x5176;&#x7ED3;&#x6784;"></a>&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53CA;&#x5176;&#x7ED3;&#x6784;</h1><h2 id="&#x5377;&#x79EF;"><a href="#&#x5377;&#x79EF;" class="headerlink" title="&#x5377;&#x79EF;"></a>&#x5377;&#x79EF;</h2><p>&#x5168;&#x8FDE;&#x63A5;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6709;&#x4E00;&#x4E2A;&#x6700;&#x5927;&#x7684;&#x7F3A;&#x70B9;&#xFF0C;&#x5C31;&#x662F;&#x5B83;&#x9700;&#x8981;&#x5927;&#x91CF;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A; $n1$ &#x4E2A;&#x503C;&#x8F93;&#x5165; $n2$ &#x4E2A;&#x503C;&#x8F93;&#x51FA;&#x7684;&#x4E00;&#x5C42;&#x7F51;&#x7EDC;&#xFF0C;&#x5B83;&#x9700;&#x8981;&#x7684;&#x53C2;&#x6570;&#x91CF;&#x662F;$n1*n2$&#xFF0C;&#x5927;&#x91CF;&#x7684;&#x53C2;&#x6570;&#x4F7F;&#x5F97;&#x6A21;&#x578B;&#x53D8;&#x5F97;&#x66F4;&#x590D;&#x6742;&#xFF0C;&#x4E5F;&#x66F4;&#x96BE;&#x8BAD;&#x7EC3; &#x3002;</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x5229;&#x7528;&#x6743;&#x503C;&#x5171;&#x4EAB;&#x6765;&#x89E3;&#x51B3;&#x53C2;&#x6570;&#x8FC7;&#x591A;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;&#x5377;&#x79EF;&#x5C31;&#x662F;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x4E8C;&#x7EF4;&#x5377;&#x79EF;&#x6838;&#x6765;&#x5377;&#x79EF;&#x6574;&#x4E2A;&#x8F93;&#x5165;&#x77E9;&#x9635;&#x3002;&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x7684;&#x8FC7;&#x7A0B;&#x8FD9;&#x91CC;&#x4E0D;&#x518D;&#x8D58;&#x8FF0;&#xFF08;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x5176;&#x4ED6;&#x535A;&#x5BA2;&#x6216;&#x8005;CS231N&#x6216;&#x662F;&#x53C2;&#x8003;&#x6587;&#x732E;&#x3010;1&#x3011;&#xFF09;&#x3002;&#x8FD9;&#x91CC;&#x8BA8;&#x8BBA;&#x4E00;&#x4E9B;&#x66F4;&#x7EC6;&#x8282;&#x7684;&#x4E1C;&#x897F;&#x3002;</p>
 <h3 id="&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x5C3A;&#x5BF8;"><a href="#&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x5C3A;&#x5BF8;" class="headerlink" title="&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x5C3A;&#x5BF8;"></a>&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x5C3A;&#x5BF8;</h3><p>&#x5BF9;&#x4E8E;&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x95EE;&#x9898;&#x662F;&#x5DF2;&#x77E5;&#x8F93;&#x5165;&#x5C3A;&#x5BF8;&#x4E3A;$n<em>n$ &#xFF0C;&#x5377;&#x79EF;&#x6838;&#x7684;&#x5C3A;&#x5BF8;&#x4E3A; $k</em>k$ &#xFF0C;&#x5377;&#x79EF;&#x6B65;&#x5E45;&#x4E3A;$stride$&#xFF0C;&#x90A3;&#x4E48;&#x8F93;&#x51FA;&#x7684;&#x5C3A;&#x5BF8;&#x662F;&#x591A;&#x5C11;&#xFF1F;</p>
 <p>&#x8FD9;&#x91CC;&#x6211;&#x7684;&#x601D;&#x8DEF;&#x5C06;&#x5377;&#x79EF;&#x6838;&#x7684;&#x6700;&#x5DE6;&#x8FB9;&#x7684;&#x6570;&#x4F5C;&#x4E3A;&#x54E8;&#x5175;&#xFF0C;&#x90A3;&#x4E48;&#x5728;&#x521D;&#x59CB;&#x60C5;&#x51B5;&#x8FD9;&#x4E2A;&#x54E8;&#x5175;&#x7684;&#x7D22;&#x5F15;&#x4E3A;$k$&#xFF0C;&#x6BCF;&#x4E00;&#x6B21;&#x5377;&#x79EF;&#xFF0C;&#x54E8;&#x5175;&#x7684;&#x7D22;&#x5F15;&#x52A0;$stride$&#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x5982;&#x4E0B;&#x516C;&#x5F0F;&#xFF1A;<br>$$<br>k+cnt<em>stride &lt; n<br>$$<br>&#x5373;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x6700;&#x5927;&#x7684;&#x5377;&#x79EF;&#x6B21;&#x6570;&#xFF1A;<br>$$<br>cnt = \frac{n-k}{stride}<br>$$<br>&#x5728;&#x5377;&#x79EF;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E3A;&#x4E86;&#x4F7F;&#x5F97;&#x56FE;&#x7247;&#x5C3A;&#x5BF8;&#x5927;&#x5C0F;&#x4E0D;&#x53D8;&#x7B49;&#x539F;&#x56E0;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x5728;&#x56FE;&#x50CF;&#x7684;&#x5468;&#x56F4;&#x586B;&#x5145;0&#xFF0C;&#x8FD9;&#x4E2A;&#x5C31;&#x662F;padding&#x64CD;&#x4F5C;&#x3002;&#x5728;padding&#x4E4B;&#x540E;&#xFF0C;&#x8F93;&#x5165;&#x7684;&#x5C3A;&#x5BF8;&#x5C31;&#x53D8;&#x6210;&#x4E86;$n+2</em>padding$&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x5377;&#x79EF;&#x6B21;&#x6570;&#x4E3A;&#xFF1A;<br>$$<br>cnt = \frac{n-k+2*padding}{stride}<br>$$</p>
 <p>&#x5219;&#x52A0;&#x4E0A;&#x6700;&#x5F00;&#x59CB;&#x7684;&#x4E00;&#x6B21;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x8F93;&#x51FA;&#x7684;&#x5C3A;&#x5BF8;&#x4E3A;&#xFF1A;$(cnt+1)*(cnt+1)$&#x3002;</p>
 <p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x8981;&#x4F7F;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x5C3A;&#x5BF8;&#x4E00;&#x81F4;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;:<br>$$<br>padding = \frac{(n-1)*stride - n + k}{2}<br>$$<br> &#x5BF9;&#x4E8E;&#x5E38;&#x89C1;&#x7684;&#x6B65;&#x5E45;1&#x7684;&#x5377;&#x79EF;&#x800C;&#x8A00;&#xFF1A;<br>$$<br>padding = \frac{k-1}{2}<br>$$</p>
 <h3 id="&#x5B9E;&#x73B0;&#x5377;&#x79EF;"><a href="#&#x5B9E;&#x73B0;&#x5377;&#x79EF;" class="headerlink" title="&#x5B9E;&#x73B0;&#x5377;&#x79EF;"></a>&#x5B9E;&#x73B0;&#x5377;&#x79EF;</h3><p>&#x5728;Pytorch&#x7B49;&#x6846;&#x67B6;&#x4E2D;&#xFF0C;&#x5377;&#x79EF;&#x662F;&#x901A;&#x8FC7;&#x77E9;&#x9635;&#x4E58;&#x6CD5;&#x5B9E;&#x73B0;&#x7684;&#xFF1A;</p>
-<p><img src="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/1566892088518.png" alt="1566892088518"></p>
+<p><img alt="1566892088518" data-src="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/66892088518.png" class="lozad"></p>
 <ul>
 <li>input&#x8F6C;&#x6210;input matrix&#xFF08;img2col&#xFF09;&#xFF1A;&#x6309;&#x7167;&#x5377;&#x79EF;&#x6838;&#x7684;&#x5377;&#x79EF;&#x987A;&#x5E8F;&#xFF0C;&#x5C06;&#x88AB;&#x5377;&#x79EF;&#x7684;&#x90E8;&#x5206;&#x62C9;&#x957F;&#x4F5C;&#x4E3A;&#x884C;&#xFF0C;&#x8FD9;&#x6837;&#x4E00;&#x884C;&#x884C;&#x7EC4;&#x6210;input matrix</li>
 <li>kernel&#x8F6C;&#x6210;kernel matrix&#xFF08;sum&#xFF09;&#xFF1A;&#x5C06;kernel&#x62C9;&#x957F;&#x4F5C;&#x4E3A;&#x5217;&#xFF0C;&#x548C;&#x5BF9;&#x5E94;input matrix&#x7684;&#x884C;&#x76F8;&#x4E58;</li>
@@ -109,7 +36,7 @@
 <h3 id="&#x4E00;&#x4E9B;&#x5377;&#x79EF;&#x7684;&#x53D8;&#x79CD;&#xFF1A;"><a href="#&#x4E00;&#x4E9B;&#x5377;&#x79EF;&#x7684;&#x53D8;&#x79CD;&#xFF1A;" class="headerlink" title="&#x4E00;&#x4E9B;&#x5377;&#x79EF;&#x7684;&#x53D8;&#x79CD;&#xFF1A;"></a>&#x4E00;&#x4E9B;&#x5377;&#x79EF;&#x7684;&#x53D8;&#x79CD;&#xFF1A;</h3><ol>
 <li>&#x7A7A;&#x6D1E;&#x5377;&#x79EF;&#xFF1A;&#x5B83;&#x53EF;&#x4EE5;&#x4F7F;&#x5F97;&#x53C2;&#x6570;&#x76F8;&#x540C;&#x65F6;&#xFF0C;&#x611F;&#x53D7;&#x91CE;&#x66F4;&#x5927;&#x3002;&#x4F46;&#x662F;&#x7C92;&#x5EA6;&#x4E5F;&#x66F4;&#x52A0;&#x7C97;&#x7CD9;&#x3002;</li>
 </ol>
-<p><img src="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/1566893766501.png" alt="1566893766501"></p>
+<p><img alt="1566893766501" data-src="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/66893766501.png" class="lozad"></p>
 <ol start="2">
 <li><p>&#x4E00;&#x6A2A;&#x4E00;&#x7AD6;&#x5377;&#x79EF;&#xFF08;&#xFF1F;&#xFF1F;&#xFF1F;&#xFF09;&#xFF1A;&#x5C06;$k<em>k$&#x7684;&#x5377;&#x79EF;&#x6838;&#xFF0C;&#x53D8;&#x6210;&#x4E24;&#x4E2A;$(k</em>1)(1*k)$&#x7684;&#x5377;&#x79EF;&#x6838;&#x3002;&#x8FD9;&#x6837;&#x4F7F;&#x5F97;&#x53C2;&#x6570;&#x66F4;&#x5C0F;</p>
 </li>
@@ -119,13 +46,13 @@
 <li><p>&#x5E76;&#x884C;&#x5377;&#x79EF;&#x7ED3;&#x6784;&#xFF1A;&#x591A;&#x4E2A;&#x5377;&#x79EF;&#x5C42;&#x5E76;&#x5217;&#xFF0C;&#x5E76;&#x628A;&#x5B83;&#x4EEC;&#x7684;&#x7ED3;&#x679C;&#x62FC;&#x63A5;&#x8F93;&#x51FA;(google inception&#x7ED3;&#x6784;)</p>
 </li>
 <li><p>&#x6B8B;&#x5DEE;&#x94FE;&#x63A5;&#xFF1A;&#x6B8B;&#x5DEE;&#x94FE;&#x63A5;&#x5728;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x7684;&#x65F6;&#x5019;&#x591A;&#x52A0;&#x4E86;&#x4E00;&#x4E2A;&#x4F20;&#x64AD;&#x901A;&#x9053;&#xFF08;&#x5728;&#x94FE;&#x5F0F;&#x6CD5;&#x5219;&#x9879;&#x4E2D;&#x52A0;&#x4E0A;&#x6052;&#x7B49;&#x9879;1&#xFF09;&#xFF1B;&#x53EF;&#x4EE5;&#x73AF;&#x5883;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#x95EE;&#x9898;&#xFF0C;&#x4F7F;&#x5F97;&#x6DF1;&#x5C42;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684;&#x8BAD;&#x7EC3;&#x66F4;&#x6709;&#x6548;&#x3002;&#x53E6;&#x4E00;&#x79CD;&#x601D;&#x8003;&#x5C31;&#x662F;&#x6B8B;&#x5DEE;&#x5C42;&#x4F7F;&#x5F97;&#x6DF1;&#x5C42;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53EF;&#x4EE5;&#x9000;&#x5316;&#x6210;&#x6D45;&#x5C42;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF0C;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x5C06;&#x591A;&#x79CD;&#x5C42;&#x6B21;&#x7684;&#x795E;&#x7ECF;&#x7EC4;&#x5408;&#x8D77;&#x6765;&#xFF0C;&#x5F62;&#x6210;&#x4E86;&#x4E00;&#x79CD;boostting&#x3002;</p>
-<p><img src="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/1567063624101.png" alt="1567063624101"></p>
+<p><img alt="1567063624101" data-src="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/67063624101.png" class="lozad"></p>
 </li>
 </ol>
 <h3 id="&#x53CD;&#x5377;&#x79EF;"><a href="#&#x53CD;&#x5377;&#x79EF;" class="headerlink" title="&#x53CD;&#x5377;&#x79EF;"></a>&#x53CD;&#x5377;&#x79EF;</h3><p>&#x53CD;&#x5377;&#x79EF;&#x662F;&#x4E00;&#x79CD;&#x4E0A;&#x91C7;&#x6837;&#x7684;&#x65B9;&#x5F0F;&#xFF08;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x4E5F;&#x662F;&#x5229;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x4F20;&#x64AD;&#x68AF;&#x5EA6;&#x7684;&#xFF09;&#x3002;</p>
 <p>&#x5377;&#x79EF;&#x7684;&#x8FC7;&#x7A0B;&#x5C31;&#x662F;&#x56FE;&#x50CF;&#x4E2D;&#x5BF9;&#x5E94;&#x5757;&#xFF08;&#x6309;&#x4E00;&#x5B9A;&#x6B65;&#x5E45;&#x9009;&#x53D6;&#xFF09;&#x548C; filter &#x5BF9;&#x5E94;&#x5143;&#x7D20;&#x76F8;&#x4E58;&#x5E76;&#x6C42;&#x548C;&#xFF08;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7F29;&#x5C0F;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x5373;&#x5C06;&#x5BF9;&#x5E94;&#x5757;&#x7684;&#x591A;&#x4E2A;&#x503C;&#x52A0;&#x6743;&#x4E3A;&#x4E00;&#x4E2A;&#x503C;&#xFF09;</p>
 <p>&#x53CD;&#x5377;&#x79EF;&#x548C;&#x5377;&#x79EF;&#x76F8;&#x53CD;&#xFF0C;&#x5B83;&#x5C06;&#x56FE;&#x7247;&#x7684;&#x4E00;&#x4E2A;&#x503C;&#x548C; filter &#x76F8;&#x4E58;&#xFF0C;&#x6309;&#x4E00;&#x5B9A;&#x6B65;&#x5E45;&#x7EC4;&#x5408;&#x6210;&#x65B0;&#x7684;&#x7279;&#x5F81;&#x56FE;&#x3002;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
-<p><img src="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/1567064251681.png" alt="1567064251681"></p>
+<p><img alt="1567064251681" data-src="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/67064251681.png" class="lozad"></p>
 <h2 id="&#x6C60;&#x5316;"><a href="#&#x6C60;&#x5316;" class="headerlink" title="&#x6C60;&#x5316;"></a>&#x6C60;&#x5316;</h2><p>&#x6C60;&#x5316;&#x5206;&#x4E3A;&#x5E73;&#x5747;&#x6C60;&#x5316;&#x548C;&#x6700;&#x5927;&#x6C60;&#x5316;&#xFF0C;&#x6C60;&#x5316;&#x7684;&#x64CD;&#x4F5C;&#x662F;&#x5F88;&#x7B80;&#x5355;&#x7684;&#x3002;&#xFF08;&#x6B64;&#x5904;&#x7565;&#xFF09;</p>
 <p>&#x6C60;&#x5316;&#x7684;&#x4F5C;&#x7528;&#x5982;&#x4E0B;&#xFF1A;</p>
 <ul>
@@ -181,146 +108,47 @@
 </ul>
 <h2 id="&#x53C2;&#x8003;&#x6587;&#x732E;"><a href="#&#x53C2;&#x8003;&#x6587;&#x732E;" class="headerlink" title="&#x53C2;&#x8003;&#x6587;&#x732E;"></a>&#x53C2;&#x8003;&#x6587;&#x732E;</h2><p>&#x3010;1&#x3011;A guide to convolution arithmetic for deep learning</p>
 <p>&#x3010;2&#x3011;<a href="https://arxiv.org/abs/1502.03167" target="_blank" rel="noopener">&#x300A;Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift&#x300B;</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined" target="_blank" rel="noopener">Autumn-Cat</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/">http://yoursite.com/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com">Autumn-Cat</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i0.hippopx.com/photos/345/1000/15/delicate-arch-night-stars-landscape-thumb.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-left"><a href="/2018/09/30/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E7%AE%80%E5%8D%95%E7%BB%BC%E8%BF%B0/"><img class="prev_cover lozad" data-src="https://i0.hippopx.com/photos/919/940/898/forest-fog-hirsch-wild-boars-thumb.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>目标检测简单综述</span></div></a></div><div class="next-post pull-right"><a href="/2018/07/29/%E5%85%B3%E4%BA%8E%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3%E5%92%8C%E5%85%A8%E5%B1%80%E6%9C%80%E4%BC%98%E8%A7%A3%E7%9A%84dp%E9%97%AE%E9%A2%98/"><img class="next_cover lozad" data-src="https://i0.hippopx.com/photos/703/467/694/kingfisher-bird-wildlife-macro-thumb.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>关于局部最优解和全局最优解的dp问题</span></div></a></div></nav></div></div><footer style="background-image: url(https://i0.hippopx.com/photos/345/1000/15/delicate-arch-night-stars-landscape-thumb.jpg)"><div id="footer"><div class="copyright">&copy;2018 - 2019 By Autumn-Cat</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换">简</a><i class="nightshift fa fa-moon-o" id="nightshift" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="/js/nightshift.js"></script><script src="/js/tw_cn.js"></script><script>translateInitilization()
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/" data-id="ck2af54rd000dd4qn7s70fdgm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2018/09/30/Batch%20Normalization/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Batch Normlization
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/09/30/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E4%BC%98%E5%8C%96%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">神经网络与优化器</div>
-    </a>
-  
-</nav>
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
 
-  
-</article>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/" rel="tag">cv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dp/" rel="tag">dp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode%E6%80%BB%E7%BB%93/" rel="tag">leetcode总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag">神经网络</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/cv/" style="font-size: 10px;">cv</a> <a href="/tags/dp/" style="font-size: 20px;">dp</a> <a href="/tags/leetcode%E6%80%BB%E7%BB%93/" style="font-size: 15px;">leetcode总结</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">神经网络</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/06/23/0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">0-1背包问题</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/20/ubuntu18-04-cuda-cudnn-Anaconda-%E4%B8%80%E4%B8%AA%E4%BA%BA%E5%B7%A5%E6%99%BA%E9%9A%9C%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/">ubuntu18.04----cuda,cudnn,Anaconda,一个人工智障的自我修养</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/19/ubuntu18-04-%E5%9F%BA%E6%9C%AC%E5%AE%89%E8%A3%85%E4%B8%8E%E7%BE%8E%E5%8C%96/">ubuntu18.04----基本配置与美化</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/30/Batch%20Normalization/">Batch Normlization</a>
-          </li>
-        
-          <li>
-            <a href="/2018/09/30/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8A%E5%85%B6%E7%BB%93%E6%9E%84/">卷积神经网络及其结构</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 Autumn-Cat<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
-</html>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>
