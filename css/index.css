@@ -35,7 +35,7 @@ body {
   background-color: transparent;
 }
 #web_bg {
-  background: rgba(0,153,255,0.22);
+  background: #93b5cf;
   height: 100%;
   width: 100%;
   -webkit-background-size: cover;
