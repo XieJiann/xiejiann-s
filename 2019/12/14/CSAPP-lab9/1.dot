@@ -1,0 +1,15 @@
+//```dot
+//digraph g{
+//FG -> ST[label="ctrl-z"]
+//ST -> FG[label="fg command"]
+//ST -> BG[label="bg command"]
+//BG -> FG[label="fg command"]
+//}
+//```
+```dot
+digraph g {
+    a->b;
+    b->c;
+    c->a;
+}
+```
